@@ -94,7 +94,9 @@ Everything else in the reference configuration is unchanged (`config/instance-gr
 
 **Evidence**
 - Failed launch: `aws emr describe-cluster --cluster-id j-06143052K1KL7TE7PUW2` (state `TERMINATED_WITH_ERRORS`,
-  code `VALIDATION_ERROR`). Saved as `evidence/failed_launch_j-06143052K1KL7TE7PUW2.json`.
+  code `VALIDATION_ERROR`). **To do in the next lab session:** save it as
+  `evidence/failed_launch_j-06143052K1KL7TE7PUW2.json`. EMR keeps terminated-cluster records for about
+  2 months. The lab credentials had already expired on 2026-10-28, so it could not be saved then.
 - Working cluster: `evidence/cluster_j-05901481MKGA6MF7D2EE_20261028-134828.json`, `evidence/cluster_verify_20261028T060200Z.txt`.
 
 **Draft email to the teaching team**
