@@ -320,7 +320,7 @@ def main():
     forms = Counter(r["form"] for r in recs)
     years = Counter(r["filing_date"][:4] for r in recs)
     summary = [
-        f"generated_at_utc={utc_now()}",
+        f"run_started_utc={utc_now()}",  # set before downloads; finished time appended below
         f"inventory_file={os.path.basename(inv['path'])} bytes={inv['bytes']} sha256={inv['sha256']}",
         f"inventory_rows={len(recs)}",
         f"distinct_ciks={len({r['cik'] for r in recs})}",
@@ -393,6 +393,7 @@ def main():
         ]
     else:
         summary.append("mode=dry-run (no downloads)")
+    summary.append(f"run_finished_utc={utc_now()}")
 
     with open(os.path.join(man_dir, "sec_acquisition_summary.txt"), "w", encoding="utf-8") as f:
         f.write("\n".join(summary) + "\n")
