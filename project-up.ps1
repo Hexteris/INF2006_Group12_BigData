@@ -23,7 +23,7 @@
     After login:  bash ~/<repo>/scripts/cluster/verify_cluster.sh      (writes evidence)
     JupyterHub:   https://localhost:9443   (default user jovyan / password jupyter)
     YARN UI:      http://localhost:8088
-    Teardown:     .\lab-down.ps1 -ClusterId (Get-Content .project-cluster-id)
+    Teardown:     .\project-down.ps1
 #>
 
 param(
@@ -143,6 +143,6 @@ if ($LASTEXITCODE -ne 0 -and $auth -notmatch "InvalidPermission.Duplicate") {
 Write-Host ""
 Write-Host "JupyterHub: https://localhost:9443 (jovyan / jupyter; accept the self-signed cert)" -ForegroundColor Cyan
 Write-Host "YARN UI:    http://localhost:8088" -ForegroundColor Cyan
-Write-Host "Teardown:   .\lab-down.ps1 -ClusterId $ClusterId" -ForegroundColor DarkGray
+Write-Host "Teardown:   .\project-down.ps1" -ForegroundColor DarkGray
 Write-Host ""
 ssh -i $PemFile -o ServerAliveInterval=60 -L 9443:localhost:9443 -L 8088:localhost:8088 "hadoop@$dns"

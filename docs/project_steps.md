@@ -21,7 +21,7 @@ You need the price CSV URL and the SEC inventory (.xlsx) URL from the course pag
 
 **Step 0.4. Write `project-up.ps1` that launches the exact reference cluster:** emr-7.10.0, 1 primary + 2 core m5.xlarge, 200 GiB gp3 (3000 IOPS, 125 MiB/s) per core node, `dfs.replication=2`, 2 executors × 2 cores × 6 GiB, 2 GiB overhead, 2 GiB driver, dynamic allocation off. Applications: Hadoop, Hive, Spark, JupyterHub (or Livy for EMR Studio). Set `--log-uri s3://<bucket>/emr-logs/`.
 **Why:**
-- `lab-up.ps1` does not set this config.
+- The lab launcher (`lab-up.ps1`, since removed) did not set this config.
 - A script, plus a `configurations.json` stored in the ZIP, is reproducible evidence for Appendix A. Console clicks are not.
 - The submission needs an exported **.ipynb**. Zeppelin exports `.zpln`, so the notebook has to run in JupyterHub or EMR Studio.
 - The log URI keeps YARN and step logs in S3 after the cluster is terminated.
@@ -60,7 +60,7 @@ Layout:
 - Re-checking the checksum after the copy proves that HDFS holds the same bytes that were acquired.
 - The spec times work from "raw staged in HDFS" and reports S3-to-HDFS copy time separately, so record the copy time here.
 
-**Step 1.6. Run the read-only profiling notebook** (`notebooks/task1_profile_raw.py`). It measures:
+**Step 1.6. Run the read-only profiling notebook** (`notebooks/INF2006_G12_task1.ipynb`). It measures:
 - physical lines vs parsed rows and malformed rows
 - nulls per column
 - exact and key duplicates, plus conflicting duplicates

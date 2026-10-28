@@ -1,4 +1,0 @@
-source=prices version=v1_2013-2017 acq=2026-10-28 put_seconds=3 readback_seconds=2
-files=1 mismatches=0
-29580549  59161098  /corpus/raw/prices/v1_2013-2017/acq_2026-10-28
-replication=2 file=all_stocks_5yr.csv
