@@ -16,7 +16,7 @@
         {
           "VolumeSpecification": {
             "VolumeType": "gp3",
-            "SizeInGB": 200,
+            "SizeInGB": 100,
             "Iops": 3000,
             "Throughput": 125
           },

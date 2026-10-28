@@ -5,7 +5,8 @@
 
     Reference config (project spec, "Cloud resource constraints"):
       emr-7.10.0; 1 primary + 2 core m5.xlarge; no task nodes, no autoscaling
-      one 200 GiB gp3 volume per core node, 3000 IOPS, 125 MiB/s   (config/instance-groups.json)
+      one 100 GiB gp3 volume per core node, 3000 IOPS, 125 MiB/s   (config/instance-groups.json)
+      DEVIATION: spec says 200 GiB; Learner Lab policy denies EBS volumes > ~100 GiB (tested 2026-10-28)
       dfs.replication=2; Spark 2 executors x 2 cores x 6g, 2g overhead,
       2g driver, dynamic allocation off                              (config/emr-configurations.json)
       Apps: Hadoop, Hive, Spark, Livy, JupyterHub (JupyterHub's PySpark kernel runs through Livy)
@@ -78,7 +79,7 @@ if (-not $ClusterId) {
     [IO.File]::WriteAllText($cfgFile, (ConvertTo-Json -InputObject $cfg -Depth 10))   # UTF-8, no BOM
 
     $apps = @("Name=Hadoop", "Name=Hive", "Name=Spark", "Name=Livy", "Name=JupyterHub")
-    Write-Host "Launching '$Name' ($Release; 1 primary + 2 core m5.xlarge; 200 GiB gp3 per core)..." -ForegroundColor Cyan
+    Write-Host "Launching '$Name' ($Release; 1 primary + 2 core m5.xlarge; 100 GiB gp3 per core)..." -ForegroundColor Cyan
     $ClusterId = aws emr create-cluster `
         --name $Name `
         --release-label $Release `
