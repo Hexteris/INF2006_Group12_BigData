@@ -1,0 +1,48 @@
+input=all_stocks_5yr.csv sha256=6aea253cd19de60b568143991aaf1fa482456565c389205658d236e595e716cf rows=619040
+
+# Rows with a null open/high/low
+  BHF    2017-07-26  open='' high='' low='' close=69.0842 volume=3
+  DHR    2015-07-17  open='' high='88.76' low='88.24' close=88.72 volume=2056819
+  DHR    2016-01-12  open='' high='' low='' close=88.55 volume=0
+  ES     2015-07-17  open='' high='48.49' low='47.85' close=47.92 volume=1246786
+  FTV    2016-07-01  open='' high='' low='' close=49.54 volume=0
+  O      2015-07-17  open='' high='47.31' low='46.83' close=46.99 volume=1229513
+  O      2016-01-12  open='' high='' low='' close=52.43 volume=0
+  REGN   2015-06-09  open='' high='' low='' close=526.09 volume=12135
+  UA     2016-04-07  open='' high='' low='' close=41.56 volume=0
+  VRTX   2015-05-12  open='' high='' low='' close=124.08 volume=569747
+  WRK    2015-06-26  open='' high='' low='' close=61.9 volume=100
+
+# Rows violating low <= open/close <= high
+  AOS    2014-05-19  high_lt_low          o=23.89 h=23.595 l=23.85 c=24.445
+  BBY    2016-03-14  close_outside_range  o=33.55 h=33.75 l=33.08 c=32.72
+  CHD    2014-05-19  open_outside_range   o=18.77 h=33.9525 l=33.695 c=33.895
+  CHK    2014-06-30  close_outside_range  o=30.43 h=31.1 l=30.37 c=29.39
+  DHR    2014-11-06  open_outside_range   o=78.47 h=81.305 l=80.49 c=81.26
+  IP     2014-07-01  close_outside_range  o=50.85 h=51.07 l=50.57 c=50.09
+  LNT    2016-05-19  close_outside_range  o=35.19 h=35.785 l=35.085 c=17.87
+  O      2014-08-27  close_outside_range  o=44.675 h=44.7 l=44.66 c=44.5272
+  O      2014-11-06  open_outside_range   o=44.74 h=47.57 l=46.73 c=46.86
+  SPG    2014-05-28  close_outside_range  o=176.23 h=176.6 l=174.5 c=165.42
+  UA     2016-06-10  close_outside_range  o=35.75 h=36.41 l=35.7 c=35.54
+  WRK    2016-05-13  close_outside_range  o=42.45 h=42.89 l=41.82 c=38.39
+
+# Zero-volume rows
+  DHR    2016-01-12
+  FTV    2016-07-01
+  O      2016-01-12
+  UA     2016-04-07
+
+# Day-over-day close moves > 50% (split, spin-off, data error or genuine)
+  AMD    2016-04-21 -> 2016-04-22  close 2.62 -> 3.99  ratio=1.523
+  DISCA  2014-08-06 -> 2014-08-07  close 83.02 -> 40.975  ratio=0.494
+  DISCK  2014-08-06 -> 2014-08-07  close 81.22 -> 39.78  ratio=0.490
+  EBAY   2015-07-17 -> 2015-07-20  close 66.29 -> 28.57  ratio=0.431
+  LNT    2016-05-19 -> 2016-05-20  close 17.87 -> 35.91  ratio=2.010
+  NI     2015-07-01 -> 2015-07-02  close 45.45 -> 16.99  ratio=0.374
+  VRTX   2013-04-18 -> 2013-04-19  close 52.87 -> 85.6  ratio=1.619
+
+# Reconciliation to the spec's accepted-bar count
+  rows_on_or_before_2017-12-29=605910
+  of which flagged (null field, OHLC inconsistency or zero volume)=23
+  remaining=605887   (spec: 605,887 accepted bars)

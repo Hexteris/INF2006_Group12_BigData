@@ -56,3 +56,66 @@ each of 10 companies, a model would have almost no SEC-informed rows to learn fr
   - prices `all_stocks_5yr.csv` (`6aea253c…`)
   - `company_tickers.json` (`6f9cc450…`)
 - Run on EMR cluster `j-05901481MKGA6MF7D2EE` at 2026-10-28T06:10:28Z.
+
+---
+
+## D2. Core-node storage: 100 GiB gp3 instead of 200 GiB (2026-10-28)
+
+**Problem.** The reference configuration asks for one 200 GiB gp3 data volume per core node.
+The first launch with it, `j-06143052K1KL7TE7PUW2`, failed within a minute with
+"Service role EMR_DefaultRole has insufficient EC2 permissions".
+
+**Cause, found in CloudTrail.** EMR's `RunInstances` calls were denied on `volume/*`
+"with an explicit deny in a service control policy", which is an AWS Academy organisation rule that no
+role or script setting can override. `ec2 run-instances --dry-run` tests from the lab role showed:
+- gp3 volumes up to **101 GiB** are allowed; 102 GiB and above are denied.
+- gp3 vs gp2 and the IOPS/throughput settings make no difference.
+- Two 100 GiB volumes on one instance are allowed.
+
+The dry runs used the `voclabs` role rather than `EMR_DefaultRole`. The successful relaunch with
+100 GiB volumes confirms the limit applies to EMR.
+
+**Decision.** One **100 GiB** gp3 volume per core node, keeping the reference 3,000 IOPS and 125 MiB/s.
+Everything else in the reference configuration is unchanged (`config/instance-groups.json`).
+
+**Why this is acceptable**
+- **Speed is unchanged.** gp3 baseline performance (3,000 IOPS, 125 MiB/s) does not depend on volume
+  size, so timing comparisons stay valid. Only capacity changes.
+- **Capacity is sufficient.** HDFS has 188.87 GB configured (`evidence/cluster_verify_20261028T060200Z.txt`).
+  The raw corpus uses 5.62 GB at replication 2, about 3%. The estimated peak with prepared tables, shuffle
+  space and 3 timing repetitions × 2 configurations is about 20–25 GB. Measured peak use goes in report section 6.
+- **Rejected alternative: two 100 GiB volumes per node.** This restores 200 GiB of capacity, but HDFS
+  spreads data across both disks, giving each node about 6,000 IOPS and 250 MiB/s. That doubles the
+  reference disk speed and changes the reference configuration more than this decision does.
+- **Rejected alternative: a separate paid AWS account** with exactly 200 GiB, as the prof's Q&A allows.
+  This is kept as a fallback if the teaching team asks for exact 200 GiB volumes.
+
+**Status.** Pending teaching-team confirmation (draft email below).
+
+**Evidence**
+- Failed launch: `aws emr describe-cluster --cluster-id j-06143052K1KL7TE7PUW2` (state `TERMINATED_WITH_ERRORS`,
+  code `VALIDATION_ERROR`). Saved as `evidence/failed_launch_j-06143052K1KL7TE7PUW2.json`.
+- Working cluster: `evidence/cluster_j-05901481MKGA6MF7D2EE_20261028-134828.json`, `evidence/cluster_verify_20261028T060200Z.txt`.
+
+**Draft email to the teaching team**
+
+> Subject: INF2006 Group 12 – AWS Academy limit on 200 GiB worker volumes
+>
+> Hi Prof,
+>
+> When we launched the reference configuration in AWS Academy (emr-7.10.0, 1 primary + 2 core
+> m5.xlarge, one 200 GiB gp3 volume per core node), the cluster failed with "Service role
+> EMR_DefaultRole has insufficient EC2 permissions". CloudTrail shows RunInstances denied on
+> volume/* by an AWS Academy service control policy. Dry-run tests in our account showed that gp3
+> volumes up to 101 GiB are allowed and 102 GiB and above are denied.
+>
+> We are using one 100 GiB gp3 volume per core node, at the reference 3,000 IOPS and 125 MiB/s.
+> gp3 performance does not depend on size, so only capacity changes. HDFS shows 188.87 GB
+> configured. Our raw corpus uses 5.6 GB at replication 2, and we estimate a peak of about
+> 20–25 GB. We will report measured peak use.
+>
+> Is this acceptable for the assessed runs, or should we use a separate AWS account to get exactly
+> 200 GiB?
+>
+> Thank you,
+> Daniel Tay (2501690), on behalf of Group 12

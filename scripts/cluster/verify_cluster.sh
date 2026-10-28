@@ -27,7 +27,7 @@ check() {  # name, expected, actual
   check "spark.executor.memory"    6g "$(getp spark.executor.memory)"
   check "spark.executor.memoryOverhead" 2g "$(getp spark.executor.memoryOverhead)"
   check "spark.driver.memory"      2g "$(getp spark.driver.memory)"
-  echo "== datanode capacity (expect ~200 GiB configured per node)"
+  echo "== datanode capacity (expect ~94 GiB configured per node: 100 GiB gp3 volume, see docs/decisions.md D2)"
   hdfs dfsadmin -report 2>/dev/null | grep -E '^(Name|Hostname|Configured Capacity|DFS Remaining):'
   echo "== yarn nodes"
   yarn node -list -all 2>/dev/null
