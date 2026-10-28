@@ -1,0 +1,4 @@
+source=sec_inventory version=v1 acq=2026-10-28 put_seconds=2 readback_seconds=2
+files=1 mismatches=0
+51751  103502  /corpus/raw/sec_inventory/v1/acq_2026-10-28
+replication=2 file=SEC_Filing_Inventory.csv

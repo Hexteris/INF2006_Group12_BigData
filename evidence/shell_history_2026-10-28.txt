@@ -1,0 +1,66 @@
+    1  11;rgb:2121/1d1d/2525
+    2  export B=inf2006-g12-2501690 ACQ=2026-10-28          # same values as the laptop
+    3  sudo mkdir -p /mnt/g12 && sudo chown hadoop:hadoop /mnt/g12
+    4  export R=/mnt/g12/raw S=/mnt/g12/stage M=/mnt/g12/raw/_manifests/acquisition_manifest.csv
+    5  export SEC_USER_AGENT="Daniel Tay 2501690@sit.singaporetech.edu.sg"
+    6  df -h /mnt                                            # need >= 15 GB free
+    7  bash scripts/cluster/verify_cluster.sh $B
+    8  python3 scripts/acquire/acquire_url.py --github-pin --csv-stats --key-col Name --date-col date   --url https://raw.githubusercontent.com/plotly/datasets/master/all_stocks_5yr.csv   --source prices --version v1_2013-2017 --out-dir $R/prices --manifest $M
+    9  python3 scripts/acquire/acquire_url.py --url https://www.sec.gov/files/company_tickers.json   --source sec_company_tickers --version current --out-dir $R/sec_ref --manifest $M
+   10  export INV=$R/sec_inventory/SEC_Filing_Inventory.csv
+   11  aws s3 cp --recursive s3://$B/raw/acq_$ACQ/sec_inventory/ $R/sec_inventory/
+   12  (cd $R/sec_inventory && sha256sum -c inventory_sha256_laptop.txt)       # expect: SEC_Filing_Inventory.csv: OK
+   13  python3 scripts/acquire/acquire_sec_filings.py --inventory $INV --out $R/sec_edgar --dry-run
+   14  python3 scripts/acquire/acquire_sec_filings.py --inventory $INV --out $R/sec_edgar --limit 20
+   15  head -c 300 $R/sec_edgar/filings/$(ls $R/sec_edgar/filings | head -1); echo
+   16  python3 scripts/acquire/acquire_sec_filings.py --inventory $INV --out $R/sec_edgar
+   17  cat $R/sec_edgar/_manifests/sec_acquisition_summary.txt
+   18  python3 scripts/acquire/check_sec_price_overlap.py --inventory $INV   --prices $R/prices/all_stocks_5yr.csv --tickers $R/sec_ref/company_tickers.json --out $R/_manifests/overlap
+   19  aws s3 cp --recursive $R s3://$B/raw/acq_$ACQ/
+   20  aws s3 ls --recursive --summarize s3://$B/raw/acq_$ACQ/ | tail -2      # about 2.8 GB
+   21  aws s3 cp --recursive s3://$B/raw/acq_$ACQ/ $S/
+   22  mkdir -p $S/sec_inventory_man && mv $S/sec_inventory/inventory_sha256_laptop.txt $S/sec_inventory_man/
+   23  stage() {  # stage <source> <version> <local_dir> [local_manifest_dir]
+  local src=$1 ver=$2 dir=$3 man=${4:-};   local raw=/corpus/raw/$src/$ver/acq_$ACQ mdir=/corpus/raw/_manifests/$src/$ver/acq_$ACQ;   local work=/mnt/g12/staging/$src rec=/mnt/g12/staging/$src/staging_record.csv;   hdfs dfs -test -d "$raw" && { echo "STOP: $raw already exists (raw is immutable)"; return 1; };   find "$dir" -name '*.part' | grep -q . && { echo "STOP: partial downloads in $dir"; return 1; };   rm -rf "$work"; mkdir -p "$work";   hdfs dfs -mkdir -p "$(dirname "$raw")" "$mdir";   local t0=$(date +%s);   hdfs dfs -D dfs.replication=2 -put "$dir" "$raw" || return 1;   local t1=$(date +%s);   hdfs dfs -get "$raw" "$work/readback" || return 1;   local t2=$(date +%s);   echo "staged_at_utc,host,local_file,hdfs_path,local_bytes,hdfs_bytes,local_sha256,hdfs_sha256,match" > "$rec";   (cd "$dir" && find . -type f -printf '%P\n' | sort) | while read -r f; do     lb=$(stat -c %s "$dir/$f"); lsum=$(sha256sum "$dir/$f" | cut -d' ' -f1);     hb=$(stat -c %s "$work/readback/$f" 2>/dev/null || echo 0);     hsum=$(sha256sum "$work/readback/$f" 2>/dev/null | cut -d' ' -f1);     [[ "$lb" == "$hb" && "$lsum" == "$hsum" ]] && m=yes || m=NO;     echo "$(date -u +%FT%TZ),$(hostname),$f,$raw/$f,$lb,$hb,$lsum,$hsum,$m" >> "$rec";   done;   { echo "source=$src version=$ver acq=$ACQ put_seconds=$((t1-t0)) readback_seconds=$((t2-t1))";     echo "files=$(( $(wc -l < "$rec") - 1 )) mismatches=$(grep -c ',NO$' "$rec")";     hdfs dfs -du -s "$raw";     hdfs dfs -stat 'replication=%r file=%n' "$raw/$(sed -n 2p "$rec" | cut -d, -f3)";   } | tee "$work/staging_summary.txt";   [[ -n "$man" ]] && hdfs dfs -D dfs.replication=2 -put "$man"/* "$mdir/";   hdfs dfs -D dfs.replication=2 -put "$rec" "$work/staging_summary.txt" "$mdir/";   rm -rf "$work/readback";   grep -q ',NO$' "$rec" && { echo "MISMATCH - see $rec"; return 1; };   echo "OK: $raw verified -> manifests in $mdir"; }
+   24  ls
+   25  stage() {  # stage <source> <version> <local_dir> [local_manifest_dir]
+  local src=$1 ver=$2 dir=$3 man=${4:-};   local raw=/corpus/raw/$src/$ver/acq_$ACQ mdir=/corpus/raw/_manifests/$src/$ver/acq_$ACQ;   local work=/mnt/g12/staging/$src rec=/mnt/g12/staging/$src/staging_record.csv;   hdfs dfs -test -d "$raw" && { echo "STOP: $raw already exists (raw is immutable)"; return 1; };   find "$dir" -name '*.part' | grep -q . && { echo "STOP: partial downloads in $dir"; return 1; };   rm -rf "$work"; mkdir -p "$work";   hdfs dfs -mkdir -p "$(dirname "$raw")" "$mdir";   local t0=$(date +%s);   hdfs dfs -D dfs.replication=2 -put "$dir" "$raw" || return 1;   local t1=$(date +%s);   hdfs dfs -get "$raw" "$work/readback" || return 1;   local t2=$(date +%s);   echo "staged_at_utc,host,local_file,hdfs_path,local_bytes,hdfs_bytes,local_sha256,hdfs_sha256,match" > "$rec";   (cd "$dir" && find . -type f -printf '%P\n' | sort) | while read -r f; do     lb=$(stat -c %s "$dir/$f"); lsum=$(sha256sum "$dir/$f" | cut -d' ' -f1);     hb=$(stat -c %s "$work/readback/$f" 2>/dev/null || echo 0);     hsum=$(sha256sum "$work/readback/$f" 2>/dev/null | cut -d' ' -f1);     [[ "$lb" == "$hb" && "$lsum" == "$hsum" ]] && m=yes || m=NO;     echo "$(date -u +%FT%TZ),$(hostname),$f,$raw/$f,$lb,$hb,$lsum,$hsum,$m" >> "$rec";   done;   { echo "source=$src version=$ver acq=$ACQ put_seconds=$((t1-t0)) readback_seconds=$((t2-t1))";     echo "files=$(( $(wc -l < "$rec") - 1 )) mismatches=$(grep -c ',NO$' "$rec")";     hdfs dfs -du -s "$raw";     hdfs dfs -stat 'replication=%r file=%n' "$raw/$(sed -n 2p "$rec" | cut -d, -f3)";   } | tee "$work/staging_summary.txt";   [[ -n "$man" ]] && hdfs dfs -D dfs.replication=2 -put "$man"/* "$mdir/";   hdfs dfs -D dfs.replication=2 -put "$rec" "$work/staging_summary.txt" "$mdir/";   rm -rf "$work/readback";   grep -q ',NO$' "$rec" && { echo "MISMATCH - see $rec"; return 1; };   echo "OK: $raw verified -> manifests in $mdir"; }
+   26  stage prices              v1_2013-2017 $S/prices            $S/_manifests
+   27  stage sec_company_tickers current      $S/sec_ref
+   28  stage sec_inventory       v1           $S/sec_inventory     $S/sec_inventory_man
+   29  stage sec_edgar           v1           $S/sec_edgar/filings $S/sec_edgar/_manifests
+   30  hdfs dfs -du -s -h /corpus/raw/*/*/*
+   31  python3 - <<'EOF' | tee /mnt/g12/staging/acq_vs_hdfs.txt
+import csv, glob
+S = "/mnt/g12/stage"
+acq = {}
+for m in (f"{S}/_manifests/acquisition_manifest.csv", f"{S}/sec_edgar/_manifests/sec_download_manifest.csv"):
+    for r in csv.DictReader(open(m, encoding="utf-8")):
+        if r["status"] == "ok":
+            acq[r["local_file"]] = r["sha256"]
+for line in open(f"{S}/sec_inventory_man/inventory_sha256_laptop.txt"):
+    h, f = line.split(None, 1); acq[f.strip()] = h
+st = {}
+for rec in glob.glob("/mnt/g12/staging/*/staging_record.csv"):
+    for r in csv.DictReader(open(rec, encoding="utf-8")):
+        st[r["local_file"]] = r["hdfs_sha256"]
+ok = [f for f in st if acq.get(f) == st[f]]
+print(f"acquired={len(acq)} staged={len(st)} hdfs_matches_acquisition={len(ok)}")
+print("mismatch_or_missing:", sorted(set(st) - set(ok)) or "none")
+print("acquired_not_staged:", sorted(set(acq) - set(st)) or "none")
+EOF
+
+   32  cat /mnt/g12/stage/sec_edgar/_manifests/sec_acquisition_summary.txt | grep -E 'downloaded_ok|unavailable|bytes_ok'
+   33  hdfs dfs -put /mnt/g12/staging/acq_vs_hdfs.txt /corpus/raw/_manifests/
+   34  aws s3 cp --recursive /mnt/g12/staging s3://$B/evidence/staging_$ACQ/
+   35  sudo -u hdfs hdfs dfs -mkdir -p /user/jovyan && sudo -u hdfs hdfs dfs -chown jovyan /user/jovyan
+   36  for d in /corpus/raw/_manifests/prices/v1_2013-2017/acq_$ACQ/profile /corpus/raw/_manifests/sec_edgar/v1/acq_$ACQ/profile; do   hdfs dfs -mkdir -p $d && hdfs dfs -chmod 777 $d; done
+   37  hadoop distcp hdfs:///corpus/raw/_manifests s3://$B/hdfs_manifests/acq_$ACQ/
+   38  hdfs dfs -ls -R /corpus/raw > /tmp/hdfs_listing.txt
+   39  aws s3 cp /tmp/hdfs_listing.txt s3://$B/evidence/hdfs_listing_$ACQ.txt
+   40  history > /tmp/shell_history.txt; aws s3 cp /tmp/shell_history.txt s3://$B/evidence/shell_history_$ACQ.txt
+   41  [200~export B=inf2006-g12-2501690 ACQ=2026-10-28
+   42  echo "B=$B ACQ=$ACQ"
+   43  hadoop distcp hdfs:///corpus/raw/_manifests s3://$B/hdfs_manifests/acq_$ACQ/
+   44  history | tail -100
+   45  history > /tmp/shell_history.txt; aws s3 cp /tmp/shell_history.txt s3://inf2006-g12-2501690/evidence/shell_history_2026-10-28.txt

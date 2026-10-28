@@ -1,0 +1,14 @@
+generated_at_utc=2026-10-28T06:10:28Z
+inventory=SEC_Filing_Inventory.csv sha256=3227f5464490a97eb37c97255181adf9f950739e40c661ba4cf1f62ca5f2df9a
+prices=all_stocks_5yr.csv sha256=6aea253cd19de60b568143991aaf1fa482456565c389205658d236e595e716cf price_tickers=505
+company_tickers=company_tickers.json sha256=6f9cc4500a98fb4c048328d7df392ed48c092613ec0c3e93cd6c7a3502886074 ciks=8024
+aliases=none
+inventory_filings=311 inventory_issuers=303
+match_method_counts={'none:cik_not_in_company_tickers': 200, 'none:current_ticker_not_in_prices': 100, 'company_tickers': 11}
+matched_filings=11 matched_issuers=11
+matched_filings_in_price_range=10 issuers_in_price_range=10
+in_range_by_form={'10-Q': 5, '10-K': 5}
+in_range_by_year={'2014': 2, '2015': 5, '2016': 1, '2017': 2}
+multi_ticker_issuers=[]
+decision_rule_result=SEC for Hadoop Streaming + Task 4 analysis only (5-29 issuers)
+limitation=company_tickers.json holds current tickers; renamed/delisted issuers need --aliases

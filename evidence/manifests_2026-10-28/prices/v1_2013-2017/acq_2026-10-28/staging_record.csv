@@ -1,0 +1,2 @@
+staged_at_utc,host,local_file,hdfs_path,local_bytes,hdfs_bytes,local_sha256,hdfs_sha256,match
+2026-10-28T06:21:35Z,ip-172-31-40-243.ec2.internal,all_stocks_5yr.csv,/corpus/raw/prices/v1_2013-2017/acq_2026-10-28/all_stocks_5yr.csv,29580549,29580549,6aea253cd19de60b568143991aaf1fa482456565c389205658d236e595e716cf,6aea253cd19de60b568143991aaf1fa482456565c389205658d236e595e716cf,yes

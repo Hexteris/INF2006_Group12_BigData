@@ -1,0 +1,1 @@
+source_row,cik,issuer,form,filing_date,accession,source_url,final_url,local_file,http_status,content_type,content_length_header,bytes,sha256,retrieved_at_utc,elapsed_s,attempts,status,error,acquired_by_host

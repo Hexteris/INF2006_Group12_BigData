@@ -1,0 +1,2 @@
+staged_at_utc,host,local_file,hdfs_path,local_bytes,hdfs_bytes,local_sha256,hdfs_sha256,match
+2026-10-28T06:21:54Z,ip-172-31-40-243.ec2.internal,company_tickers.json,/corpus/raw/sec_company_tickers/current/acq_2026-10-28/company_tickers.json,798155,798155,6f9cc4500a98fb4c048328d7df392ed48c092613ec0c3e93cd6c7a3502886074,6f9cc4500a98fb4c048328d7df392ed48c092613ec0c3e93cd6c7a3502886074,yes

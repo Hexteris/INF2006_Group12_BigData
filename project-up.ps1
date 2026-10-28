@@ -37,7 +37,10 @@ param(
     [string]$Region      = "us-east-1"
 )
 
-$ErrorActionPreference = "Stop"
+# "Continue", not "Stop": in Windows PowerShell 5.1, "Stop" turns any stderr output from
+# aws.exe (even with 2>$null) into a terminating error. Every aws call below checks
+# $LASTEXITCODE instead, and Get-MyIp still throws on failure.
+$ErrorActionPreference = "Continue"
 Set-Location -Path $PSScriptRoot
 New-Item -ItemType Directory -Force -Path "evidence" | Out-Null
 
@@ -122,8 +125,6 @@ Write-Host "Cluster ready. DNS: $dns  Master SG: $masterSg" -ForegroundColor Gre
 # --- 3. evidence: the cluster's own description of its config ---
 $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 aws emr describe-cluster --cluster-id $ClusterId --region $Region --output json 2>$null | Out-File -Encoding ascii "evidence\cluster_${ClusterId}_$stamp.json"
-aws emr list-instance-groups --cluster-id $ClusterId --region $Region --output json 2>$null | Out-File -Encoding ascii "evidence\instance-groups_${ClusterId}_$stamp.json"
-if ($LASTEXITCODE -ne 0) { Write-Host "  (list-instance-groups not permitted; describe-cluster JSON still saved)" -ForegroundColor Yellow }
 Write-Host "  Saved evidence\cluster_${ClusterId}_$stamp.json" -ForegroundColor Green
 
 # --- 4. SSH from current IP ---
