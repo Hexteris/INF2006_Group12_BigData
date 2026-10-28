@@ -1,0 +1,31 @@
+verified_at_utc=2026-10-28T06:02:00Z cluster_id=j-05901481MKGA6MF7D2EE release=emr-7.10.0 host=ip-172-31-40-243.ec2.internal
+== checks
+dfs.replication                    expected=2        actual=2        PASS
+live datanodes                     expected=2        actual=2        PASS
+spark.dynamicAllocation.enabled    expected=false    actual=false    PASS
+spark.executor.instances           expected=2        actual=2        PASS
+spark.executor.cores               expected=2        actual=2        PASS
+spark.executor.memory              expected=6g       actual=6g       PASS
+spark.executor.memoryOverhead      expected=2g       actual=2g       PASS
+spark.driver.memory                expected=2g       actual=2g       PASS
+== datanode capacity (expect ~200 GiB configured per node)
+Configured Capacity: 202800848896 (188.87 GB)
+DFS Remaining: 201485750272 (187.65 GB)
+Name: 172.31.34.140:9866 (ip-172-31-34-140.ec2.internal)
+Hostname: ip-172-31-34-140.ec2.internal
+Configured Capacity: 101400424448 (94.44 GB)
+DFS Remaining: 100742873088 (93.82 GB)
+Name: 172.31.45.93:9866 (ip-172-31-45-93.ec2.internal)
+Hostname: ip-172-31-45-93.ec2.internal
+Configured Capacity: 101400424448 (94.44 GB)
+DFS Remaining: 100742877184 (93.82 GB)
+== yarn nodes
+Total Nodes:2
+         Node-Id	     Node-State	Node-Http-Address	Number-of-Running-Containers
+ip-172-31-45-93.ec2.internal:8041	        RUNNING	ip-172-31-45-93.ec2.internal:8042	                           0
+ip-172-31-34-140.ec2.internal:8041	        RUNNING	ip-172-31-34-140.ec2.internal:8042	                           0
+== versions
+Hadoop 3.4.1-amzn-2
+Hive 3.1.3-amzn-19
+   /___/ .__/\_,_/_/ /_/\_\   version 3.5.5-amzn-1
+Python 3.9.25
