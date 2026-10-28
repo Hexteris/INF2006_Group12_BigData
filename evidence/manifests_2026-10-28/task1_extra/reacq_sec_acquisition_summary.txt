@@ -1,0 +1,17 @@
+generated_at_utc=2026-10-28T07:27:48Z
+inventory_file=SEC_Filing_Inventory.csv bytes=51751 sha256=3227f5464490a97eb37c97255181adf9f950739e40c661ba4cf1f62ca5f2df9a
+inventory_rows=311
+distinct_ciks=303
+distinct_accessions=311
+distinct_urls=311
+forms={'10-K': 156, '10-Q': 155}
+filings_by_year={'2013': 63, '2014': 62, '2015': 62, '2016': 62, '2017': 62}
+filing_date_range=2013-01-14..2017-12-20
+rows_with_normalisation_notes=0
+inventory_check_failures=0 by_check={}
+download_scope=all distinct urls
+downloaded_ok=311
+unavailable=0
+not_attempted=0
+bytes_ok_total=2777408405
+user_agent_declared=yes rate_limit_rps=4.0

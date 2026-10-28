@@ -1,0 +1,15 @@
+run_started_utc=2026-10-28T07:25:01Z
+filings_checked=311
+starts_with_SEC-DOCUMENT=311 ends_with_/SEC-DOCUMENT=311 header_closed=311
+header_matches_inventory: accession=311 form=311 filing_date=311 cik=311
+public_document_count_matches_blocks=145
+main_document_present=311
+xbrl_instance_EX-101.INS=281 inline_xbrl=1 any_xbrl=282
+accepted_at_or_after_16:00_ET=161
+files_with_uuencoded_binary=292
+files_not_valid_utf8=0
+multi_filer_headers=12
+hdr_form_values={'10-K': 156, '10-Q': 155}
+issue_counts={'doc_count_match': 166, 'no_xbrl': 29}
+files_with_issues_other_than_no_xbrl=166
+run_finished_utc=2026-10-28T07:26:02Z

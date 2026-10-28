@@ -1,0 +1,2 @@
+prices: first=1 second=1 identical_sha256=1 different=0 missing_in_second=0
+sec_edgar: first=311 second=311 identical_sha256=311 different=0 missing_in_second=0
