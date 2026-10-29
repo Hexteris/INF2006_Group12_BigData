@@ -1,0 +1,13 @@
+*.pem
+.aws/
+.lab-cluster-id
+*.xlsx
+*.csv
+!evidence/**/*.csv
+raw/
+sec_edgar/
+*.part
+models/
+__pycache__/
+.ipynb_checkpoints/
+.project-cluster-id
