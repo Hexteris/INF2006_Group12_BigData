@@ -1,7 +1,0 @@
-# Route B bundles (docs/team_corpus_setup.md). One line per file: <name> <Google Drive file ID>
-# The ID is the part after /d/ in the share link. Fill in after uploading to Drive BUNDLES/.
-# prices.tar PASTE_ID
-# reference.tar PASTE_ID
-# sec_edgar.tar PASTE_ID
-# wikinews.tar PASTE_ID
-# gdelt.tar PASTE_ID

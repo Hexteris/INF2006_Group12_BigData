@@ -1,0 +1,6 @@
+# Scripts that run on the EMR (Linux) node must keep LF line endings, even on Windows clones.
+*.sh  text eol=lf
+*.py  text eol=lf
+*.csv text eol=lf
+# PowerShell scripts run on Windows.
+*.ps1 text eol=crlf

@@ -1,13 +1,20 @@
+# keys and credentials
 *.pem
 .aws/
 .lab-cluster-id
+.project-cluster-id
+
+# data (never commit; the corpus comes from Drive)
+raw/
+raw_sample/
+drive_dl/
+sec_edgar/
+*.part
 *.xlsx
 *.csv
 !evidence/**/*.csv
-raw/
-sec_edgar/
-*.part
+
+# local clutter
 models/
 __pycache__/
 .ipynb_checkpoints/
-.project-cluster-id

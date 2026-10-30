@@ -1,55 +1,65 @@
 # INF2006 Group 12: team setup
 
-This branch only sets up your own copy of the project corpus: launch the reference EMR cluster, get the
-data from the team Google Drive, verify it, and stage it into HDFS. Project code lives on `main`.
+This branch gets **your own copy of the bronze corpus** (Task 1 raw data, 1,046 files, 13.08 GB)
+from Daniel's Google Drive into your S3 bucket and your EMR cluster's HDFS. Project code is on `main`.
 
-## 1. Laptop (once)
+Five steps. Each one shows what you should see. If something fails, see `docs/team_corpus_setup.md`.
 
-Install Git, Python 3, the AWS CLI and (recommended) Google Drive for desktop.
+## 1. Download the data from Drive (once)
+
+1. Open the `INF2006_bigdata_project` link Daniel shared (Drive → **Shared with me**).
+2. Right-click `INF2006_bigdata_project` → **Download**. Drive makes several zips of about 2 GB each.
+3. Extract **all** of the zips into one folder: `C:\Dev\drive_dl`.
+   Do not unzip the GDELT `.zip` or Wikinews `.bz2` files inside them.
+
+## 2. Install tools and get this branch (once)
+
+Install [Git](https://git-scm.com/download/win), [Python 3](https://www.python.org/downloads/)
+(tick *Add python.exe to PATH*) and [AWS CLI v2](https://aws.amazon.com/cli/). Then in PowerShell:
 
 ```powershell
-git clone -b team-setup https://github.com/Hexteris/INF2006_Group12_BigData.git g12-setup
-cd g12-setup
+git clone -b team-setup https://github.com/Hexteris/INF2006_Group12_BigData.git C:\Dev\g12-setup
+cd C:\Dev\g12-setup
 ```
 
-## 2. Get and verify the data
+## 3. Verify the data and upload it to S3 (once)
 
-Follow **Route A** in `docs/team_corpus_setup.md` (Drive → laptop → your S3 bucket).
-Expect `OK 1047/1047` and 1,048 objects in `s3://inf2006-g12-<studentID>/raw/`.
+1. Start Learner Lab. Copy **AWS Details → AWS CLI: Show** into `%USERPROFILE%\.aws\credentials`.
+2. Run (use your own student ID):
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File .\setup.ps1 -From C:\Dev\drive_dl -StudentId <studentID>
+   ```
+   Expect `OK 1046/1046`, then `S3 holds 1047 objects`, then `DONE`.
+   The upload is 13 GB. If the lab session ends, paste fresh credentials and run the same command again.
 
-## 3. Launch the cluster (each Learner Lab session)
+## 4. Launch the cluster (every lab session)
 
-1. Start Learner Lab. Paste **AWS Details → AWS CLI: Show** into `%USERPROFILE%\.aws\credentials`.
-2. Download the key from AWS Details as `labsuser.pem` into this folder, then:
+1. AWS Details → **Download PEM**. Save it in `C:\Dev\g12-setup` as `labsuser.pem`, then:
    ```powershell
    icacls labsuser.pem /inheritance:r /grant:r "${env:USERNAME}:(R)"
    ```
-3. Launch (about 15 min; it opens SSH when ready):
+2. Launch (about 15 minutes; it opens an SSH session when ready):
    ```powershell
-   .\project-up.ps1 -Bucket inf2006-g12-<studentID> -KeyName vockey -PemFile labsuser.pem
+   powershell -ExecutionPolicy Bypass -File .\project-up.ps1 -Bucket inf2006-g12-<studentID>
    ```
-   If SSH times out later (your IP changed):
-   `.\project-up.ps1 -ClusterId (Get-Content .project-cluster-id) -KeyName vockey -PemFile labsuser.pem`
 
-## 4. On the primary node
+## 5. Stage the corpus into HDFS (every lab session)
+
+In the SSH session on the primary node:
 
 ```bash
 sudo yum install -y git tmux
 git clone -b team-setup https://github.com/Hexteris/INF2006_Group12_BigData.git ~/g12 && cd ~/g12
 tmux new -s g12
-bash scripts/cluster/verify_cluster.sh                 # expect all PASS
-export B=inf2006-g12-<studentID>
-sudo mkdir -p /mnt/g12 && sudo chown hadoop:hadoop /mnt/g12
-aws s3 sync s3://$B/raw/ /mnt/g12/raw/
-bash scripts/stage/stage_all.sh /mnt/g12/raw            # expect ALL SOURCES STAGED AND VERIFIED
-aws s3 cp --recursive /mnt/g12/staging s3://$B/evidence/staging/
+bash scripts/stage/cluster_setup.sh inf2006-g12-<studentID>
 ```
 
-Route B (Drive straight to the cluster) and a troubleshooting table are in `docs/team_corpus_setup.md`.
+Expect `OK 1046/1046`, `mismatches=0` for each of the 5 sources, then `ALL SOURCES STAGED AND VERIFIED`
+and `PASS`. Takes about 5–10 minutes.
 
-## 5. Finish
+## Finish
 
-`.\project-down.ps1`, then **End Lab**. HDFS is deleted with the cluster; S3 keeps the data, so next
-session repeat only steps 3 and 4.
+Run `powershell -ExecutionPolicy Bypass -File .\project-down.ps1`, then **End Lab**. HDFS is deleted
+with the cluster, but S3 keeps the data: next session, repeat only steps 4 and 5.
 
 Never commit data, keys or credentials (`.gitignore` covers `raw/`, `*.pem`, `.aws/`).

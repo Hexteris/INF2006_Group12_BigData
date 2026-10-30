@@ -13,7 +13,7 @@ sha256. Folder structure in --from does not matter (Drive zips, nested folders a
 Exit code 0 only if every expected file is present and correct. A report is written to
 <RAW>/setup_report.txt. Stdlib only; runs on Windows and EMR.
 
-  python scripts\\stage\\setup_corpus.py --from "G:\\My Drive\\INF2006_bigdata_project" --to raw
+  python scripts\\stage\\setup_corpus.py --from C:\\Dev\\drive_dl --to raw
   python3 scripts/stage/setup_corpus.py --check-only /mnt/g12/raw
 """
 import argparse
@@ -28,9 +28,10 @@ from datetime import datetime, timezone
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 EXPECTED = os.path.join(ROOT, "evidence", "expected_corpus.csv")
 
-# Dev subset for laptops: all small sources, first 20 SEC filings, first GDELT week, smaller Wikinews part.
+# Dev subset for laptops (30 files): prices, inventory, first 20 SEC filings, first GDELT week,
+# smaller Wikinews part.
 SAMPLE = {
-    "prices": None, "sec_inventory": None, "sec_company_tickers": None,
+    "prices": None, "sec_inventory": None,
     "sec_edgar": 20,
     "gdelt": ["2015070%d.export.CSV.zip" % d for d in range(1, 8)],
     "wikinews": ["enwikinews-20261001-pages-meta-history1.xml-p481754p3096188.bz2"],

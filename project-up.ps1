@@ -12,9 +12,12 @@
       Apps: Hadoop, Hive, Spark, Livy, JupyterHub (JupyterHub's PySpark kernel runs through Livy)
 
     Usage:
-        .\project-up.ps1 -Bucket inf2006-g12-2501690                  # launch + connect
-        .\project-up.ps1 -Bucket inf2006-g12-2501690 -Release emr-7.9.0   # fallback release (record as deviation)
-        .\project-up.ps1 -ClusterId j-XXXX                             # reconnect / re-open SSH after IP change
+        powershell -ExecutionPolicy Bypass -File .\project-up.ps1 -Bucket inf2006-g12-<studentID>
+        ... -Bucket inf2006-g12-<studentID> -Release emr-7.9.0      # fallback release (record as deviation)
+        ... -ClusterId (Get-Content .project-cluster-id)            # reconnect / re-open SSH after IP change
+
+    Key: put the Learner Lab key (AWS Details -> Download PEM) in this folder as labsuser.pem
+    (or vockey.pem). It is found automatically; -PemFile overrides. Key pair name: vockey.
 
     -Bucket enables: EMR logs -> s3://<bucket>/emr-logs/ and JupyterHub notebook
     persistence -> s3://<bucket>/jupyter/ (notebooks survive cluster termination).
@@ -32,8 +35,8 @@ param(
     [string]$Bucket,
     [string]$Release     = "emr-7.10.0",
     [int]   $IdleTimeout = 3600,
-    [string]$KeyName     = "vockey2",
-    [string]$PemFile     = "vockey2.pem",
+    [string]$KeyName     = "vockey",
+    [string]$PemFile     = "",
     [string]$Region      = "us-east-1"
 )
 
@@ -43,6 +46,20 @@ param(
 $ErrorActionPreference = "Continue"
 Set-Location -Path $PSScriptRoot
 New-Item -ItemType Directory -Force -Path "evidence" | Out-Null
+
+# --- key file: -PemFile, else labsuser.pem, else vockey.pem in this folder ---
+if (-not $PemFile) {
+    foreach ($cand in @("labsuser.pem", "vockey.pem")) {
+        if (Test-Path (Join-Path $PSScriptRoot $cand)) { $PemFile = $cand; break }
+    }
+}
+if (-not $PemFile -or -not (Test-Path $PemFile)) {
+    Write-Host "Key file not found. In Learner Lab: AWS Details -> Download PEM, save it in" -ForegroundColor Red
+    Write-Host "  $PSScriptRoot  as labsuser.pem, then run:" -ForegroundColor Red
+    Write-Host "  icacls labsuser.pem /inheritance:r /grant:r `"`${env:USERNAME}:(R)`"" -ForegroundColor Red
+    exit 1
+}
+Write-Host "Using key file $PemFile (key pair '$KeyName')" -ForegroundColor DarkGray
 
 function Get-MyIp {
     try { return (Invoke-RestMethod -Uri "https://api.ipify.org").Trim() }

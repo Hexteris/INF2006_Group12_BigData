@@ -15,7 +15,6 @@
 #   bash stage_raw_to_hdfs.sh <source> <version> <acq_date> <local_dir> [local_manifest_dir]
 # As run on 2026-10-28 (S=/mnt/g12/stage, a fresh copy pulled back from S3):
 #   bash stage_raw_to_hdfs.sh prices              v1_2013-2017 2026-10-28 $S/prices            $S/_manifests
-#   bash stage_raw_to_hdfs.sh sec_company_tickers current      2026-10-28 $S/sec_ref
 #   bash stage_raw_to_hdfs.sh sec_inventory       v1           2026-10-28 $S/sec_inventory     $S/sec_inventory_man
 #   bash stage_raw_to_hdfs.sh sec_edgar           v1           2026-10-28 $S/sec_edgar/filings $S/sec_edgar/_manifests
 set -uo pipefail
