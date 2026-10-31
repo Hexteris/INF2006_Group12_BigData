@@ -1,22 +1,18 @@
--- ============================================================
--- Output locations:
+
+-- Output folders:
 -- /corpus/cleaned/prices/
 -- /corpus/rejected/prices/
 -- /corpus/out_of_scope/prices/
 --
--- Raw input is read-only. Original values are preserved in
--- rejected_prices and out_of_scope_prices.
+-- The raw price table is not modified.
+-- Original values are kept for rejected and out-of-scope records.
 --
--- IMPORTANT:
--- First execution requires fresh output locations.
--- These are managed Hive tables; dropping them can delete data.
--- ============================================================
+-- Note: The output folders should be fresh on the first run.
+-- These are managed Hive tables, so dropping them may delete data.
 
 USE g12;
 
--- ------------------------------------------------------------
--- 1. Parse raw strings without modifying the source table
--- ------------------------------------------------------------
+-- 1. Convert the raw string values and check each record
 
 CREATE TEMPORARY VIEW price_validation AS
 SELECT
@@ -83,9 +79,8 @@ FROM (
 ) parsed;
 
 
--- ------------------------------------------------------------
--- 1A. Stop if non-empty source values cannot be parsed.
--- These are unexpected source-data issues, not new reject reasons.
+-- 1A. Check that non-empty values were converted successfully.
+-- Stop the query if any value cannot be parsed.
 
 SELECT assert_true(COUNT(*) = 0)
 FROM price_validation
@@ -98,8 +93,7 @@ WHERE
     OR (COALESCE(TRIM(`volume`), '') <> '' AND volume_value IS NULL);
 
 
--- 2. Create processed output tables.
--- ------------------------------------------------------------
+-- 2. Create the tables for the processed records
 
 CREATE TABLE IF NOT EXISTS g12.cleaned_prices (
     ticker STRING,
@@ -142,9 +136,7 @@ STORED AS PARQUET
 LOCATION '/corpus/out_of_scope/prices/';
 
 
--- ------------------------------------------------------------
--- 3. Store records after 2017-12-29 separately.
--- ------------------------------------------------------------
+-- 3. Keep records after 29 December 2017 separately
 
 INSERT OVERWRITE TABLE g12.out_of_scope_prices
 SELECT
@@ -159,9 +151,7 @@ FROM price_validation
 WHERE trade_date > CAST('2017-12-29' AS DATE);
 
 
--- ------------------------------------------------------------
--- 4. Store invalid in-scope records with their rejection reason
--- ------------------------------------------------------------
+-- 4. Save invalid records and their rejection reasons
 
 INSERT OVERWRITE TABLE g12.rejected_prices
 SELECT
@@ -184,9 +174,7 @@ WHERE (
   AND reject_reason IS NOT NULL;
 
 
--- ------------------------------------------------------------
--- 5. Store accepted records as Parquet n partitioned by year
--- ------------------------------------------------------------
+-- 5. Save valid records in Parquet, partitioned by year
 
 SET hive.exec.dynamic.partition = true;
 SET hive.exec.dynamic.partition.mode = nonstrict;
@@ -207,9 +195,7 @@ WHERE trade_date <= CAST('2017-12-29' AS DATE)
   AND reject_reason IS NULL;
 
 
--- ------------------------------------------------------------
--- 6. Display output counts for verify
--- ------------------------------------------------------------
+-- 6. Check the number of records in each output table
 
 SELECT 'cleaned_prices' AS table_name, COUNT(*) AS row_count
 FROM g12.cleaned_prices;

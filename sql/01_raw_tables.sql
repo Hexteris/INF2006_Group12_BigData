@@ -1,7 +1,10 @@
 
+-- Create the database if it does not already exist
 CREATE DATABASE IF NOT EXISTS g12;
 
 USE g12;
+
+-- Load the raw stock price CSV as an external table. All columns are STRING at this stage because the data will be checked and converted in the cleaning step.
 
 CREATE EXTERNAL TABLE IF NOT EXISTS raw_prices (
     `date`   STRING,

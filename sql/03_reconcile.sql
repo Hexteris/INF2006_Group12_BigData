@@ -1,11 +1,7 @@
 
-
 USE g12;
 
-
--- ------------------------------------------------------------
--- 1. Compare actual table counts against expected counts.
--- ------------------------------------------------------------
+-- 1. Compare the actual row counts with the expected counts
 
 SELECT
     'raw_prices' AS table_name,
@@ -42,9 +38,7 @@ SELECT
 FROM g12.out_of_scope_prices;
 
 
--- ------------------------------------------------------------
--- 2. Verify that every raw row is accounted for.
--- ------------------------------------------------------------
+-- 2. Check that all raw records are accounted for
 
 SELECT
     raw_count,
@@ -83,9 +77,7 @@ CROSS JOIN
      FROM g12.out_of_scope_prices) o;
 
 
--- ------------------------------------------------------------
--- 3. Show rejected records grouped by rejection reason.
--- ------------------------------------------------------------
+-- 3. Count rejected records for each reason
 
 SELECT
     reject_reason,
@@ -95,9 +87,7 @@ GROUP BY reject_reason
 ORDER BY reject_reason;
 
 
--- ------------------------------------------------------------
--- 4. Check cleaned price date range.
--- ------------------------------------------------------------
+-- 4. Check the date range of the cleaned price records
 
 SELECT
     MIN(trade_date) AS earliest_trade_date,
@@ -106,9 +96,7 @@ SELECT
 FROM g12.cleaned_prices;
 
 
--- ------------------------------------------------------------
--- 5. Check out-of-scope date range.
--- ------------------------------------------------------------
+-- 5. Check the date range of records outside the project scope
 
 SELECT
     MIN(CAST(`date` AS DATE)) AS earliest_out_of_scope_date,
