@@ -1,24 +1,17 @@
-
--- Create the database if it does not already exist
 CREATE DATABASE IF NOT EXISTS g12;
-
 USE g12;
 
--- Load the raw stock price CSV as an external table. All columns are STRING at this stage because the data will be checked and converted in the cleaning step.
-
 CREATE EXTERNAL TABLE IF NOT EXISTS raw_prices (
-    `date`   STRING,
-    `open`   STRING,
-    `high`   STRING,
-    `low`    STRING,
-    `close`  STRING,
+    `date` STRING,
+    `open` STRING,
+    `high` STRING,
+    `low` STRING,
+    `close` STRING,
     `volume` STRING,
-    `name`   STRING
+    `name` STRING
 )
 ROW FORMAT DELIMITED
 FIELDS TERMINATED BY ','
 STORED AS TEXTFILE
-LOCATION '/corpus/raw/prices/v1_2013-2017/acq_${hivevar:ACQ}'
-TBLPROPERTIES (
-    'skip.header.line.count' = '1'
-);
+LOCATION '/corpus/raw/prices/v1_2013-2017/acq_2026-11-04'
+TBLPROPERTIES ('skip.header.line.count' = '1');

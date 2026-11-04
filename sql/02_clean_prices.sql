@@ -1,6 +1,5 @@
 USE g12;
 
--- 1. Parse the original string values into their correct data types.
 CREATE VIEW price_parsed AS
 SELECT
     `date`, `open`, `high`, `low`, `close`, `volume`, `name`,
@@ -12,10 +11,8 @@ SELECT
     CAST(TRIM(`volume`) AS BIGINT) AS volume_value
 FROM raw_prices;
 
--- 2. Identify missing, malformed and invalid records.
 CREATE VIEW price_validation AS
-SELECT
-    *,
+SELECT *,
     YEAR(trade_date) AS year,
     CASE
         WHEN COALESCE(TRIM(`date`), '') = ''
@@ -26,40 +23,39 @@ SELECT
           OR COALESCE(TRIM(`volume`), '') = ''
           OR COALESCE(TRIM(`name`), '') = ''
             THEN 'null_field'
-
         WHEN trade_date IS NULL THEN 'invalid_date'
         WHEN open_value IS NULL THEN 'invalid_open'
         WHEN high_value IS NULL THEN 'invalid_high'
         WHEN low_value IS NULL THEN 'invalid_low'
         WHEN close_value IS NULL THEN 'invalid_close'
         WHEN volume_value IS NULL THEN 'invalid_volume'
-
+        WHEN open_value <= 0 OR high_value <= 0
+          OR low_value <= 0 OR close_value <= 0
+            THEN 'non_positive_price'
+        WHEN volume_value <= 0 THEN 'invalid_volume'
         WHEN high_value < low_value THEN 'high_lt_low'
-        WHEN NOT (open_value BETWEEN low_value AND high_value)
+        WHEN open_value < low_value OR open_value > high_value
             THEN 'open_outside_range'
-        WHEN NOT (close_value BETWEEN low_value AND high_value)
+        WHEN close_value < low_value OR close_value > high_value
             THEN 'close_outside_range'
-        WHEN volume_value = 0 THEN 'zero_volume'
-
         ELSE NULL
     END AS reject_reason
 FROM price_parsed;
 
--- 3. Create output tables.
-CREATE TABLE IF NOT EXISTS g12.cleaned_prices (
+CREATE TABLE cleaned_prices (
     ticker STRING,
     trade_date DATE,
-    open DOUBLE,
-    high DOUBLE,
-    low DOUBLE,
-    close DOUBLE,
+    open_price DOUBLE,
+    high_price DOUBLE,
+    low_price DOUBLE,
+    close_price DOUBLE,
     volume BIGINT
 )
 PARTITIONED BY (year INT)
 STORED AS PARQUET
 LOCATION '/corpus/cleaned/prices/';
 
-CREATE TABLE IF NOT EXISTS g12.rejected_prices (
+CREATE TABLE rejected_prices (
     `date` STRING,
     `open` STRING,
     `high` STRING,
@@ -72,7 +68,7 @@ CREATE TABLE IF NOT EXISTS g12.rejected_prices (
 STORED AS PARQUET
 LOCATION '/corpus/rejected/prices/';
 
-CREATE TABLE IF NOT EXISTS g12.out_of_scope_prices (
+CREATE TABLE out_of_scope_prices (
     `date` STRING,
     `open` STRING,
     `high` STRING,
@@ -84,51 +80,34 @@ CREATE TABLE IF NOT EXISTS g12.out_of_scope_prices (
 STORED AS PARQUET
 LOCATION '/corpus/out_of_scope/prices/';
 
--- 4. Keep records after 29 December 2017 separately.
-INSERT OVERWRITE TABLE g12.out_of_scope_prices
-SELECT
-    `date`, `open`, `high`, `low`, `close`, `volume`, `name`
+INSERT OVERWRITE TABLE out_of_scope_prices
+SELECT `date`, `open`, `high`, `low`, `close`, `volume`, `name`
 FROM price_validation
-WHERE trade_date > CAST('2017-12-29' AS DATE);
+WHERE trade_date > CAST('2017-12-31' AS DATE);
 
--- 5. Keep malformed and invalid in-scope records with their reasons.
--- Malformed dates are rejected instead of silently disappearing.
-INSERT OVERWRITE TABLE g12.rejected_prices
-SELECT
-    `date`, `open`, `high`, `low`, `close`, `volume`, `name`,
-    reject_reason
+INSERT OVERWRITE TABLE rejected_prices
+SELECT `date`, `open`, `high`, `low`, `close`, `volume`, `name`, reject_reason
 FROM price_validation
 WHERE reject_reason IS NOT NULL
-  AND (
-      trade_date IS NULL
-      OR trade_date <= CAST('2017-12-29' AS DATE)
-  );
+  AND (trade_date IS NULL OR trade_date <= CAST('2017-12-31' AS DATE));
 
--- 6. Keep valid records up to and including 29 December 2017.
-SET hive.exec.dynamic.partition = true;
-SET hive.exec.dynamic.partition.mode = nonstrict;
+SET hive.exec.dynamic.partition=true;
+SET hive.exec.dynamic.partition.mode=nonstrict;
 
-INSERT OVERWRITE TABLE g12.cleaned_prices
-PARTITION (year)
+INSERT OVERWRITE TABLE cleaned_prices PARTITION (year)
 SELECT
-    name,
-    trade_date,
-    open_value,
-    high_value,
-    low_value,
-    close_value,
-    volume_value,
-    year
+    name, trade_date, open_value, high_value,
+    low_value, close_value, volume_value, year
 FROM price_validation
-WHERE trade_date <= CAST('2017-12-29' AS DATE)
+WHERE trade_date BETWEEN CAST('2013-01-01' AS DATE)
+                     AND CAST('2017-12-31' AS DATE)
   AND reject_reason IS NULL;
 
--- 7. Report output counts.
 SELECT 'cleaned_prices' AS table_name, COUNT(*) AS row_count
-FROM g12.cleaned_prices;
+FROM cleaned_prices;
 
 SELECT 'rejected_prices' AS table_name, COUNT(*) AS row_count
-FROM g12.rejected_prices;
+FROM rejected_prices;
 
 SELECT 'out_of_scope_prices' AS table_name, COUNT(*) AS row_count
-FROM g12.out_of_scope_prices;
+FROM out_of_scope_prices;
