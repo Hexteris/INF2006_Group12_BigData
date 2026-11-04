@@ -1,73 +1,94 @@
-
 # Hive Queries (Owner: B)
 
-These scripts implement Role B's Hive SQL processing.
+These scripts implement Role B's Hive SQL processing for Task 2.
 
-Run the scripts in numeric order after the required input files have been staged in HDFS and the Hadoop Streaming SEC output is available.
+The scope covers:
+- Stock price data
+- GDELT event data
+
+The scripts register raw datasets, perform data cleaning and validation, separate rejected and out-of-scope records, generate chronological datasets and support data quality checks.
 
 ## Execution order
 
 | Script | Purpose | Main output |
 |---|---|---|
-| `01_raw_tables.sql` | Create the raw prices external table | `g12.raw_prices` |
-| `02_clean_prices.sql` | Clean price records and separate rejected/out-of-scope records | `g12.cleaned_prices`, `g12.rejected_prices`, `g12.out_of_scope_prices` |
-| `03_reconcile.sql` | Check row counts and reconciliation | PASS/FAIL reconciliation results |
-| `04_sec_tables.sql` | Create SEC filing tables and link filings to stock prices | `g12.sec_filings`, `g12.sec_price_overlap`, `g12.sec_price_link` |
+| `01_raw_tables.sql` | Register raw stock price data as a Hive external table | `g12.raw_prices` |
+| `02_clean_prices.sql` | Clean and validate stock prices; separate rejected and out-of-scope records | `g12.cleaned_prices`, `g12.rejected_prices`, `g12.out_of_scope_prices` |
+| `03_price_splits.sql` | Create chronological training, validation and testing datasets | `g12.training_prices`, `g12.validation_prices`, `g12.testing_prices` |
+| `04_gdelt_tables.sql` | Register processed GDELT event records as a Hive external table | `g12.raw_gdelt` |
+| `05_clean_gdelt.sql` | Clean GDELT records, separate rejected records and generate daily analytical features | `g12.cleaned_gdelt_events`, `g12.rejected_gdelt`, `g12.daily_gdelt_features` |
+| `06_reconcile_prices.sql` | Verify stock price row counts, rejected records and data reconciliation | PASS/FAIL reconciliation results |
 
-## Required Hive variables
+## Environment and input requirements
 
-### Acquisition date
+### S3 and HDFS structure
 
-`ACQ` identifies the raw price dataset acquisition.
+Follow the Task 1 setup notebook for the required S3 bucket structure, data staging procedures and HDFS corpus directory structure.
 
-Example: `2026-10-28`
+Each team may use its own AWS Learner Lab S3 bucket. The directory structure and HDFS paths should remain consistent across environments. Only the S3 bucket name needs to be changed to match the respective environment.
 
-Used by `01_raw_tables.sql`.
+### Stock price input
 
-### SEC metadata path
+The raw stock price dataset must be staged in HDFS at:
 
-`SEC_PARSED_PATH` is the HDFS directory containing the Hadoop Streaming SEC metadata output in tab-separated format.
+`/corpus/raw/prices/v1_2013-2017/acq_2026-11-04`
 
-Used by `04_sec_tables.sql`.
+This is the input location used by `01_raw_tables.sql`.
 
-### SEC overlap path
+### GDELT input
 
-`SEC_OVERLAP_PATH` is the HDFS directory containing the SEC-to-price overlap CSV, including its header row.
+The GDELT dataset contains daily ZIP archives with 58 tab-separated fields per event record.
 
-Used by `04_sec_tables.sql`.
+The ZIP archives must first be processed and decompressed using Hadoop Streaming.
+
+The resulting tab-separated event records must be available in HDFS at:
+
+`/corpus/processed/gdelt/events/`
+
+This is the input location used by `04_gdelt_tables.sql`.
 
 ## Example execution
 
-Run from the project root, replacing the SEC paths with the actual HDFS locations supplied by the team.
+Run the commands from the project root after staging the required input files in HDFS.
+
+### Stock prices
 
 ```bash
-hive --hivevar ACQ=2026-10-28 -f sql/01_raw_tables.sql
+hive -f sql/01_raw_tables.sql
 
-hive --hivevar ACQ=2026-10-28 -f sql/02_clean_prices.sql
+hive -f sql/02_clean_prices.sql
 
-hive --hivevar ACQ=2026-10-28 -f sql/03_reconcile.sql
+hive -f sql/03_price_splits.sql
 
-hive --hivevar SEC_PARSED_PATH=/corpus/staged/sec_parsed/run_<RUN> \
-  --hivevar SEC_OVERLAP_PATH=/corpus/overlap/sec_price_overlap \
-  -f sql/04_sec_tables.sql
+hive -f sql/06_reconcile_prices.sql
 ```
 
-Replace `<RUN>` and the overlap path with the actual staged HDFS locations. The example paths must be confirmed before execution.
+### GDELT
 
-## Expected reconciliation targets
+GDELT processing must be completed by Hadoop Streaming before executing the Hive scripts.
 
-Refer to `docs/contracts.md` for the proposed record-count targets and reconciliation rules.
+```bash
+hive -f sql/04_gdelt_tables.sql
 
-These are expected targets, not locally verified Hive results.
+hive -f sql/05_clean_gdelt.sql
+```
 
-## Evidence
+Ensure that the GDELT daily feature aggregation uses the record availability date (`DATEADDED`) to prevent future-information leakage.
 
-Save each Hive execution's console output as project evidence. Include the query IDs, execution results and any PASS/FAIL checks.
+## Stock price chronological splits
 
-## Important notes
+The cleaned stock price dataset is divided chronologically:
 
-- Run scripts in numeric order because later scripts depend on earlier tables.
-- The SEC tables depend on the Hadoop Streaming output being available in HDFS.
-- `04_sec_tables.sql` creates `g12.sec_price_link` as a Parquet table.
-- Confirm the actual SEC output schema and HDFS paths with the team before running the SEC script.
-- If an existing table was created with an older schema, check its definition before rerunning `CREATE TABLE IF NOT EXISTS`.
+| Dataset | Date range |
+|---|---|
+| Training | 2013–2015 |
+| Validation | 2016 |
+| Testing | 2017 |
+
+No random shuffling is applied.
+
+## Data validation and reconciliation
+
+The stock price cleaning process separates records into three categories:
+
+- Cleaned records: valid
