@@ -12,6 +12,15 @@ SELECT
         ) AS DATE)
         ELSE NULL
     END AS event_date,
+    CASE
+        WHEN TRIM(DATEADDED) RLIKE '^[0-9]{8}$'
+        THEN CAST(CONCAT(
+            SUBSTR(TRIM(DATEADDED), 1, 4), '-',
+            SUBSTR(TRIM(DATEADDED), 5, 2), '-',
+            SUBSTR(TRIM(DATEADDED), 7, 2)
+        ) AS DATE)
+        ELSE NULL
+    END AS available_date,
     TRIM(EventCode) AS event_code,
     TRIM(EventBaseCode) AS event_base_code,
     TRIM(EventRootCode) AS event_root_code,
@@ -27,7 +36,7 @@ SELECT
     Actor2CountryCode AS actor2_country,
     ActionGeo_CountryCode AS action_country,
     ActionGeo_FullName AS action_location,
-    DATEADDED AS date_added,
+    TRIM(DATEADDED) AS date_added,
     SOURCEURL AS source_url
 FROM raw_gdelt;
 
@@ -48,6 +57,8 @@ SELECT *,
             THEN 'invalid_event_id'
         WHEN event_date IS NULL
             THEN 'invalid_event_date'
+        WHEN available_date IS NULL
+            THEN 'invalid_available_date'
         WHEN event_code IS NULL OR event_code = ''
             THEN 'missing_event_code'
         WHEN duplicate_rank > 1
@@ -59,6 +70,7 @@ FROM gdelt_ranked;
 CREATE TABLE rejected_gdelt (
     event_id STRING,
     event_date DATE,
+    available_date DATE,
     event_code STRING,
     reject_reason STRING
 )
@@ -68,6 +80,7 @@ LOCATION '/corpus/rejected/gdelt/';
 CREATE TABLE cleaned_gdelt_events (
     event_id STRING,
     event_date DATE,
+    available_date DATE,
     event_code STRING,
     event_base_code STRING,
     event_root_code STRING,
@@ -90,14 +103,17 @@ STORED AS PARQUET
 LOCATION '/corpus/cleaned/gdelt/events/';
 
 INSERT OVERWRITE TABLE rejected_gdelt
-SELECT event_id, event_date, event_code, reject_reason
+SELECT
+    event_id, event_date, available_date,
+    event_code, reject_reason
 FROM gdelt_classified
 WHERE reject_reason IS NOT NULL;
 
 INSERT OVERWRITE TABLE cleaned_gdelt_events
 SELECT
-    event_id, event_date, event_code, event_base_code,
-    event_root_code, quad_class, goldstein_scale,
+    event_id, event_date, available_date,
+    event_code, event_base_code, event_root_code,
+    quad_class, goldstein_scale,
     num_mentions, num_sources, num_articles, avg_tone,
     actor1_name, actor1_country, actor2_name,
     actor2_country, action_country, action_location,
@@ -106,7 +122,7 @@ FROM gdelt_classified
 WHERE reject_reason IS NULL;
 
 CREATE TABLE daily_gdelt_features (
-    event_date DATE,
+    available_date DATE,
     event_count BIGINT,
     avg_goldstein DOUBLE,
     avg_tone DOUBLE,
@@ -120,7 +136,7 @@ LOCATION '/corpus/cleaned/gdelt/daily_features/';
 
 INSERT OVERWRITE TABLE daily_gdelt_features
 SELECT
-    event_date,
+    available_date,
     COUNT(*) AS event_count,
     AVG(goldstein_scale) AS avg_goldstein,
     AVG(avg_tone) AS avg_tone,
@@ -129,7 +145,7 @@ SELECT
     SUM(num_articles) AS total_articles,
     COUNT(DISTINCT event_code) AS distinct_event_codes
 FROM cleaned_gdelt_events
-GROUP BY event_date;
+GROUP BY available_date;
 
 SELECT 'cleaned_gdelt_events' AS table_name, COUNT(*) AS row_count
 FROM cleaned_gdelt_events;
