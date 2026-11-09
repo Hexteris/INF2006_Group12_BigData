@@ -1,61 +1,84 @@
 # INF2006 Task 2 – Big Data Pipeline Handover
 
-## 1. Project overview
+## 1. Project Overview
 
-This handover contains the code, SQL scripts, processing logs, and HDFS data backup for the INF2006 Task 2 big data pipeline.
+This repository contains the code, SQL scripts and selected processed datasets for the INF2006 Task 2 big data pipeline.
 
 The pipeline processes two datasets:
 
-- **Stock prices:** historical daily stock prices from the Kaggle `all_stocks_5yr.csv` dataset.
-- **GDELT events:** global news/event records from GDELT 1.0, sampled from selected dates in 2015, 2016, and 2017.
+- **Stock prices:** Historical daily stock prices from the Kaggle `all_stocks_5yr.csv` dataset.
+- **GDELT events:** Global news/event records from GDELT 1.0, sampled from selected dates in 2015, 2016 and 2017. The full GDELT dataset was not used.
 
 The project demonstrates the use of:
 
 - **Hadoop Streaming** for distributed data validation and processing.
-- **HDFS** for storing raw, processed, cleaned, and feature datasets.
-- **Hive** for SQL-based cleaning, validation, aggregation, and data splitting.
+- **HDFS** for storing raw, processed, cleaned and feature datasets.
+- **Hive** for SQL-based cleaning, validation, aggregation and data splitting.
 - **PySpark** for stock feature engineering and model-ready dataset preparation.
 
 The main modelling task is to classify whether a stock's closing price will be higher after the next five trading sessions.
 
----
+## 2. GitHub Repository Structure
 
-## 2. Handover folder structure
-
-The downloaded backup should contain:
+The GitHub repository contains the following selected files and datasets:
 
 ```text
-task2_emr_2026-11-09/
-├── code/
-│   └── task2_complete_code_backup_20261109.tar.gz
-└── corpus/
-    ├── raw/
-    ├── processed/
+INF2006_Group12_BigData/
+├── README (Task 2).md
+└── task2/
     ├── cleaned/
-    ├── rejected/
-    ├── out_of_scope/
-    ├── splits/
-    ├── features/
-    └── other audit/manifests directories
+    │   ├── prices/
+    │   │   ├── year=2013/
+    │   │   ├── year=2014/
+    │   │   ├── year=2015/
+    │   │   ├── year=2016/
+    │   │   └── year=2017/
+    │   └── gdelt/
+    │       └── daily_features/
+    ├── code/
+    │   ├── SQL/
+    │   └── task2_complete_code_backup_20261109.tar.gz
+    └── model_ready_v1/
+        ├── training/
+        ├── validation/
+        └── testing/
 ```
 
-The `code` archive contains the Hadoop Streaming scripts, Hive SQL scripts, PySpark scripts, restoration SQL, batch scripts, and available execution/validation logs.
+### Included in this repository
 
-The `corpus` directory is the HDFS data backup copied from the original EMR cluster. It contains the data required to continue the pipeline without downloading the original datasets again.
+| Directory/file | Description |
+|---|---|
+| `task2/model_ready_v1/` | Final training, validation and testing datasets for stock direction modelling |
+| `task2/cleaned/prices/` | Cleaned historical stock price data |
+| `task2/cleaned/gdelt/daily_features/` | Daily aggregated GDELT news activity features |
+| `task2/code/SQL/` | Hive SQL scripts for data processing and validation |
+| `task2/code/task2_complete_code_backup_20261109.tar.gz` | Complete code archive containing Hadoop Streaming, Hive, PySpark and supporting scripts |
 
-> **Important:** The HDFS backup is a directory tree. When restoring it, preserve the directory structure under `/corpus`.
+The datasets are stored as Parquet files. The `_SUCCESS` files indicate successful Spark output operations.
 
----
+### Not included in this GitHub repository
 
-## 3. Processing workflow
+To keep the repository manageable, the following are not uploaded:
+
+- Original raw stock and GDELT datasets.
+- Processed GDELT event-level records.
+- Rejected GDELT records.
+- Intermediate Hadoop Streaming outputs and full audit directories.
+- The complete HDFS `/corpus` backup.
+
+The complete HDFS backup is stored separately in the S3 location documented in Section 11.
+
+**Important:** The GitHub repository contains the selected datasets needed for the main modelling workflow. It is not a complete replacement for the original HDFS backup.
+
+## 3. Processing Workflow
 
 The pipeline was completed in the following stages.
 
-### Stage 1 – Raw data
+### Stage 1 – Raw Data
 
 - Stock CSV was loaded into HDFS.
-- GDELT ZIP archives were selected, extracted, and prepared for Hadoop Streaming.
-- Raw stock and GDELT data were retained for traceability.
+- GDELT ZIP archives were selected, extracted and prepared for Hadoop Streaming.
+- Raw stock and GDELT data were retained for traceability in the full HDFS backup.
 
 ### Stage 2 – Hadoop Streaming
 
@@ -73,6 +96,7 @@ The pipeline was completed in the following stages.
 ### Stage 3 – Hive SQL
 
 Hive was used to:
+
 - Create external raw-data tables.
 - Clean and type-cast stock and GDELT records.
 - Separate rejected and out-of-scope stock records.
@@ -83,28 +107,27 @@ Hive was used to:
 ### Stage 4 – PySpark
 
 PySpark was used to:
+
 - Combine cleaned stock data with 2018 context records for calculating late-2017 labels.
 - Calculate stock-level features.
 - Generate the five-trading-session direction label.
-- Create training, validation, and testing datasets.
+- Create training, validation and testing datasets.
 - Remove rows with missing model features to produce model-ready data.
 - Validate missing and non-finite feature values.
 
----
+## 4. Main Modelling Dataset
 
-## 4. Main modelling dataset
+**Recommended input for model training:** `task2/model_ready_v1/`
 
-**Recommended input for model training:** `model_ready_v1`
-
-HDFS locations:
+The three datasets are included in this repository:
 
 ```text
-/corpus/features/model_ready_v1/training
-/corpus/features/model_ready_v1/validation
-/corpus/features/model_ready_v1/testing
+task2/model_ready_v1/training/
+task2/model_ready_v1/validation/
+task2/model_ready_v1/testing/
 ```
 
-Dataset statistics:
+### Dataset statistics
 
 | Split | Rows | Date period |
 |---|---:|---|
@@ -113,7 +136,7 @@ Dataset statistics:
 | Testing | 126,001 | 2017 |
 | **Total** | **598,392** | |
 
-Label distribution:
+### Label distribution
 
 | Split | Label 0 | Label 1 |
 |---|---:|---:|
@@ -123,8 +146,8 @@ Label distribution:
 
 ### Label definition
 
-- `label = 1`: closing price after five trading sessions is higher than the current closing price.
-- `label = 0`: closing price after five trading sessions is equal to or lower than the current closing price.
+- `label = 1`: Closing price after five trading sessions is higher than the current closing price.
+- `label = 0`: Closing price after five trading sessions is equal to or lower than the current closing price.
 
 ### Available columns
 
@@ -146,19 +169,11 @@ Label distribution:
 
 The model-ready dataset was validated with no missing or non-finite values in its model feature columns.
 
-The `stock_direction_v1` dataset is also available if the unfiltered feature output is needed:
-
-```text
-/corpus/features/stock_direction_v1/training
-/corpus/features/stock_direction_v1/validation
-/corpus/features/stock_direction_v1/testing
-```
+The original `stock_direction_v1` feature output is retained in the full HDFS backup but is not included in this GitHub repository.
 
 Use `model_ready_v1` for the main modelling workflow because it has already removed rows with missing model features.
 
----
-
-## 5. Chronological split and leakage controls
+## 5. Chronological Split and Leakage Controls
 
 The data was split chronologically, not randomly:
 
@@ -168,28 +183,27 @@ The data was split chronologically, not randomly:
 
 The five-session future target must not cross the training or validation period boundary. Therefore, observations near the end of those periods without a complete five-session outcome within the same period were excluded.
 
-2018 stock records were retained as context only to calculate five-session outcomes for late-2017 test observations. They are not included as prediction rows in the training, validation, or testing datasets.
+2018 stock records were retained as context only to calculate five-session outcomes for late-2017 test observations. They are not included as prediction rows in the training, validation or testing datasets.
 
 For modelling:
+
 - Do not randomly reshuffle observations across the chronological splits.
 - Fit preprocessing and model parameters on training data only.
-- Use validation data for model selection/tuning.
+- Use validation data for model selection and tuning.
 - Keep testing data for final evaluation.
 - Do not use future prices or target-derived fields as input features.
 
----
+## 6. GDELT Data and Limitations
 
-## 6. GDELT data and limitations
-
-HDFS locations:
+The following GDELT daily aggregate dataset is included in this repository:
 
 ```text
-/corpus/cleaned/gdelt/events/
-/corpus/cleaned/gdelt/daily_features/
-/corpus/cleaned/gdelt/rejected/
+task2/cleaned/gdelt/daily_features/
 ```
 
-GDELT processing summary:
+The event-level cleaned and rejected GDELT datasets are retained in the separate full HDFS backup, not uploaded to GitHub.
+
+### GDELT processing summary
 
 | Item | Count |
 |---|---:|
@@ -207,7 +221,7 @@ The pipeline processed these selected date ranges:
 - 2016-01-01 to 2016-01-30: 30 dates.
 - 2017-01-01 to 2017-01-30: 30 dates.
 
-**Important limitations:**
+### Important limitations
 
 1. This is a sample of 150 dates from the original 731 available archives, not complete year-round coverage.
 2. Daily GDELT aggregates represent market-wide/global news activity. They are not company-specific or ticker-specific sentiment/news features.
@@ -215,11 +229,17 @@ The pipeline processed these selected date ranges:
 4. A date absent from the sampled GDELT data means it was not collected in this sample. It must not automatically be interpreted as a date with zero news.
 5. If joining daily GDELT features to stock data, preserve the distinction between collected dates and uncollected dates. Consider an explicit collection-coverage indicator.
 
-The daily feature table contains aggregates such as event count, average Goldstein scale, average tone, total mentions, total sources, total articles, and distinct event codes.
+The daily feature table contains aggregates such as:
 
----
+- Event count.
+- Average Goldstein scale.
+- Average tone.
+- Total mentions.
+- Total sources.
+- Total articles.
+- Distinct event codes.
 
-## 7. Data quality and reconciliation
+## 7. Data Quality and Reconciliation
 
 ### Stock data
 
@@ -250,9 +270,35 @@ Reconciliation:
 
 The Hive validation and reconciliation checks passed on the original pipeline run and were rechecked after restoring the data and Hive table definitions on the replacement EMR cluster.
 
----
+## 8. Using the GitHub Datasets
 
-## 8. Restoring the backup to another EMR cluster
+For the main modelling workflow, the teammate can download or clone this repository and use the Parquet files under:
+
+```text
+task2/model_ready_v1/
+```
+
+The training, validation and testing directories should be read separately to preserve the chronological split.
+
+The cleaned stock price data is available under:
+
+```text
+task2/cleaned/prices/
+```
+
+The daily GDELT features are available under:
+
+```text
+task2/cleaned/gdelt/daily_features/
+```
+
+These datasets can be used for further analysis or feature engineering.
+
+**Note:** The selected GitHub datasets are sufficient to continue the main stock modelling workflow. They are not sufficient by themselves to reconstruct every stage of the original pipeline, because raw data, event-level GDELT records and intermediate outputs are not included.
+
+## 9. Restoring the Full Backup to Another EMR Cluster
+
+The full HDFS backup is stored separately from the GitHub repository.
 
 The backup was created from an EMR cluster using:
 
@@ -280,7 +326,7 @@ After extracting the code archive, locate the SQL file and run it in Hive, for e
 hive -f restore_hive_metadata.sql
 ```
 
-Then verify the tables and counts. Expected counts include:
+Then verify the tables and counts.
 
 | Hive table | Expected rows |
 |---|---:|
@@ -298,21 +344,19 @@ Then verify the tables and counts. Expected counts include:
 
 The price split table counts above are the Hive split counts before PySpark feature engineering and model-feature missing-value filtering. They are therefore different from the final `model_ready_v1` counts.
 
-> Do not assume that copying HDFS files automatically restores Hive tables. HDFS data and Hive metastore metadata are separate.
+**Important:** Copying HDFS files does not automatically restore Hive tables. HDFS data and Hive metastore metadata are separate.
 
----
+## 10. Code Archive Contents
 
-## 9. Code archive contents
-
-The archive `task2_complete_code_backup_20261109.tar.gz` contains the project scripts and supporting materials, including:
+The archive `task2/code/task2_complete_code_backup_20261109.tar.gz` contains the project scripts and supporting materials, including:
 
 - Hadoop Streaming stock scripts.
 - Hadoop Streaming GDELT scripts.
 - GDELT batch preparation and extraction scripts.
-- Hive SQL scripts for raw tables, cleaning, splits, and reconciliation.
+- Hive SQL scripts for raw tables, cleaning, splits and reconciliation.
 - Hive metadata restoration SQL.
-- PySpark scripts for input inspection, feature engineering, validation, model-ready preparation, and non-finite checks.
-- Available batch logs, SQL execution logs, and validation logs.
+- PySpark scripts for input inspection, feature engineering, validation, model-ready preparation and non-finite checks.
+- Available batch logs, SQL execution logs and validation logs.
 
 Extract on the EMR primary node:
 
@@ -323,11 +367,31 @@ tar -xzf task2_complete_code_backup_20261109.tar.gz -C ~/task2_handover_code
 
 Inspect the extracted folders before running scripts. Some scripts assume the original HDFS paths under `/corpus` and the original project directory layout.
 
----
+The individual Hive SQL scripts are also available directly in `task2/code/SQL/`.
 
-## 10. Important notes for the teammate
+## 11. Full Backup Information
 
-- Use `model_ready_v1` as the main dataset for model training.
+- **Backup date:** 9 November 2026.
+- **Code archive:** `task2_complete_code_backup_20261109.tar.gz`.
+- **Original S3 backup prefix:**
+
+```text
+s3://inf2006-big-data-project/backups/task2_emr_2026-11-09/
+```
+
+- **Original local backup folder:**
+
+```text
+task2_emr_2026-11-09/
+```
+
+The full local download was verified as 228 files with a combined size of 5,856,865,199 bytes.
+
+The complete HDFS backup is separate from the selected datasets committed to GitHub. Teammates who need to restore the entire pipeline will require access to the S3 backup and the appropriate AWS permissions.
+
+## 12. Important Notes
+
+- Use `task2/model_ready_v1/` as the main dataset for model training.
 - Keep the train/validation/test split chronological.
 - Treat 2018 data as label-generation context only.
 - GDELT features are global aggregates, not ticker-specific news features.
@@ -335,25 +399,8 @@ Inspect the extracted folders before running scripts. Some scripts assume the or
 - Do not interpret missing GDELT collection dates as zero-news dates.
 - Use `DATEADDED` as the news availability date.
 - Hive metadata must be recreated when using a different EMR cluster.
-- The code archive and HDFS corpus backup are separate: both are needed for a full handover.
-
-## 11. Backup information
-
-- Backup date: **9 November 2026**
-- Code archive: `task2_complete_code_backup_20261109.tar.gz`
-- Original S3 backup prefix:
-
-```text
-s3://inf2006-big-data-project/backups/task2_emr_2026-11-09/
-```
-
-- Local backup folder:
-
-```text
-task2_emr_2026-11-09/
-```
-
-The local download was verified as 228 files with a combined size of 5,856,865,199 bytes.
+- The GitHub repository contains selected processed datasets and code, not the complete HDFS corpus.
+- The separate S3 backup is required to restore the full pipeline from raw data.
 
 ---
 
