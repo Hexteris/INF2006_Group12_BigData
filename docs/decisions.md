@@ -45,8 +45,9 @@ updated the map in between. The EMR run above is the official result.
 
 **Decision.** Under the agreed rule (≥30 matched companies → model features; 5–29 → Streaming and
 analytics only; <5 → drop), 10 companies falls in the 5–29 band. SEC filings are used for
-**Hadoop Streaming document processing and Task 4 analysis, not as model features**. With one filing for
-each of 10 companies, a model would have almost no SEC-informed rows to learn from.
+**Hadoop Streaming document processing only (Task 1 corpus auditing); not as model features**. With one
+filing for each of 10 companies, a model would have almost no SEC-informed rows to learn from.
+Scope later narrowed further — see D3: SEC EDGAR is not used in Task 4 analysis either.
 
 **Evidence**
 - Summary: `evidence/manifests_2026-10-28/prices/v1_2013-2017/acq_2026-10-28/overlap/sec_price_overlap_summary.txt`
@@ -96,4 +97,23 @@ Everything else in the reference configuration is unchanged (`config/instance-gr
 - Failed launch `j-06143052K1KL7TE7PUW2`: state `TERMINATED_WITH_ERRORS`, code `VALIDATION_ERROR`, message
   as quoted above (recorded from `aws emr describe-cluster` and CloudTrail on 2026-10-28; the raw JSON was not saved).
 - Working cluster: `evidence/cluster_j-05901481MKGA6MF7D2EE_20261028-134828.json`, `evidence/cluster_verify_20261028T060200Z.txt`.
+
+---
+
+## D3. Scope narrowed to prices + GDELT; SEC EDGAR dropped from Task 4 (2026-11-11)
+
+**Decision.** Supersedes Step 0.2 in `docs/project_steps.md` ("Agree team scope: prices + SEC EDGAR.
+Skip GDELT and Wikinews."). The team's final scope for Tasks 2–4 is **prices + GDELT only**. SEC EDGAR
+filings remain in the Task 1 raw corpus and Hadoop Streaming audit, but are not used in Task 2 cleaning,
+Task 3 model features, or Task 4 analysis.
+
+**Reason.** D1 found only 11 of 311 SEC filings match a price ticker (10 inside the price date range) —
+too sparse to support a sentiment/news-event business question. GDELT's date-aligned daily event data
+was adopted instead for Task 4's news-vs-price-behaviour question.
+
+**Status.** `docs/project_steps.md` Step 0.2 has not been edited to match; it still states the original
+prices+SEC plan. Flagged for the team to update or annotate.
+
+**Evidence.** D1 above; `README (Task 2).md`; `sql/README.md`; INF2006 Big Data Project_P2_Group12
+(Google Doc), §1–3.
 
