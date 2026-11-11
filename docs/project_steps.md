@@ -13,8 +13,9 @@ You need the price CSV URL and the SEC inventory (.xlsx) URL from the course pag
 - What does "converted into the required output weights" in Task 3.1 mean?
 - Which appendix holds the contributions table? Page 8 says Appendix D and page 11 says Appendix C.
 
-**Step 0.2. Agree team scope: prices + SEC EDGAR. Skip GDELT and Wikinews.**
-**Why:** The SEC inventory is a fixed list with accession numbers, so provenance is easy to prove. It is 2.78 GB, well under the 200 GiB HDFS ceiling. GDELT is 54.71 GB expanded, which adds storage and timeout risk without helping the core price model. Wikinews is not linked to tickers.
+**Step 0.2. [SUPERSEDED 2026-11-11, see `docs/decisions.md` D3] Agree team scope: prices + SEC EDGAR. Skip GDELT and Wikinews.**
+**Why (original reasoning, no longer followed):** The SEC inventory is a fixed list with accession numbers, so provenance is easy to prove. It is 2.78 GB, well under the 200 GiB HDFS ceiling. GDELT is 54.71 GB expanded, which adds storage and timeout risk without helping the core price model. Wikinews is not linked to tickers.
+**Current scope:** prices + GDELT. SEC EDGAR was dropped from Task 2–4 after D1 found only 11/311 filings matched a price ticker; GDELT's date-aligned daily events better support the sentiment/news-event business question. See D3 for the full rationale.
 
 **Step 0.3. Create a git repo and a `.gitignore` that excludes `*.pem`, `.aws/`, `.lab-cluster-id` and any raw data.**
 **Why:** The ZIP must contain no credentials or raw datasets. If you exclude them from day one, they cannot leak into the submission.
