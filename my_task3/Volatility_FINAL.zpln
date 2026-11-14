@@ -1,0 +1,2005 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Overview",
+      "text": "%md\n# INF2006 G12 — Task 3: Next-week volatility category (FINAL candidate notebook)\nThis notebook is **self-contained**: load the existing Task 2 S3 tables, create past-only features, compare a few models, choose the probability cutoff using 2016 validation data, evaluate on 2017 test data once, save the final pipeline and verify reloading.\n\n**How to run:** Import this `.zpln` into Zeppelin, then click **Run all** or run the cells in order. download numpy : **sudo python3 -m pip install numpy**\n\n**Meaning of class 1:** next-five-session volatility exceeds the threshold used to create the existing volatility label. In both notebooks, the model predicts a **class**, not an exact future price or numerical volatility. The probability score estimates the likelihood of class 1.\n\n**Important:** Only use information from the current or earlier date as a feature. The test split is for the final one-time assessment, not repeated tuning.\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:29+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753379_1039490388",
+      "id": "28FB77B7992F",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:262",
+      "dateFinished": "2026-11-14T18:28:29+0000",
+      "dateStarted": "2026-11-14T18:28:29+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<h1>INF2006 G12 — Task 3: Next-week volatility category (FINAL candidate notebook)</h1>\n<p>This notebook is <strong>self-contained</strong>: load the existing Task 2 S3 tables, create past-only features, compare a few models, choose the probability cutoff using 2016 validation data, evaluate on 2017 test data once, save the final pipeline and verify reloading.</p>\n<p><strong>How to run:</strong> Import this <code>.zpln</code> into Zeppelin, then click <strong>Run all</strong> or run the cells in order. download numpy : <strong>sudo python3 -m pip install numpy</strong></p>\n<p><strong>Meaning of class 1:</strong> next-five-session volatility exceeds the threshold used to create the existing volatility label. In both notebooks, the model predicts a <strong>class</strong>, not an exact future price or numerical volatility. The probability score estimates the likelihood of class 1.</p>\n<p><strong>Important:</strong> Only use information from the current or earlier date as a feature. The test split is for the final one-time assessment, not repeated tuning.</p>\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Settings",
+      "text": "%spark.pyspark\n# CELL 1 — Settings\n# We use time splits: 2013–2015 train, 2016 validation, 2017 test.\nimport time, json, datetime\nfrom pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\nfrom pyspark.ml import Pipeline, PipelineModel\nfrom pyspark.ml.feature import Imputer, VectorAssembler, StandardScaler\nfrom pyspark.ml.classification import LogisticRegression, RandomForestClassifier, GBTClassifier\nfrom pyspark.ml.evaluation import BinaryClassificationEvaluator\nfrom pyspark.ml.functions import vector_to_array\n\nspark.conf.set(\"spark.sql.shuffle.partitions\", \"32\")  # fewer tiny Spark tasks on small EMR clusters\nBUCKET = \"inf2006-g12-ml\"\nBASE = \"s3a://\" + BUCKET\nPRICES_PATH = BASE + \"/task2/cleaned/cleaned/prices\"\nTASK = \"volatility\"\nINPUT = BASE + (\"/task2/model_ready_v1\" if TASK == \"direction\" else \"/task3/volatility_v1\")\nLABEL = \"label\" if TASK == \"direction\" else \"label_volatility_5d\"\nSPLITS = [\"training\", \"validation\", \"testing\"]\nBASE_FEATURES = [\"daily_return\", \"return_5d\", \"volatility_20d\", \"volume_change_1d\", \"intraday_range\"]\nEXTRA_FEATURES = [\"volatility_5d\", \"volatility_60d\", \"vol_ratio_5_60\", \"abs_return_5d\", \"range_5d\", \"return_20d\", \"volume_z_20d\", \"market_return_1d\", \"market_volatility_5d\"]\nALL_FEATURES = BASE_FEATURES + EXTRA_FEATURES\nSEED = 42\nRUN_ID = datetime.datetime.now(datetime.timezone.utc).strftime(\"%Y%m%dT%H%M%SZ\")\nOUT = BASE + \"/task3/final_models/volatility_final/\" + RUN_ID\n# Three sensible candidates. Start with these before trying expensive huge searches.\n# Switch the fourth model on after the first successful complete run, if needed.\nTRY_RANDOM_FOREST = False\nprint(\"Task:\", TASK, \"| Spark:\", spark.version, \"| RUN_ID:\", RUN_ID)\nprint(\"Input:\", INPUT, \"| Save location:\", OUT)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:29+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753379_419629777",
+      "id": "500782DFF4C0",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:263",
+      "dateFinished": "2026-11-14T18:28:30+0000",
+      "dateStarted": "2026-11-14T18:28:30+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Task: volatility | Spark: 3.5.5-amzn-1 | RUN_ID: 20261114T182830Z\nInput: s3a://inf2006-g12-ml/task3/volatility_v1 | Save location: s3a://inf2006-g12-ml/task3/final_models/volatility_final/20261114T182830Z\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Load and check input",
+      "text": "%spark.pyspark\n# Load and check Task 2's existing labels and five original input features.\n# An input feature describes what we know as of TODAY. The label describes the FUTURE.\ndef prepare(df):\n    required = [\"ticker\", \"trade_date\", LABEL] + BASE_FEATURES\n    missing = sorted(set(required) - set(df.columns))\n    assert not missing, \"Missing columns: \" + str(missing)\n    out = df.select(\"ticker\", F.to_date(\"trade_date\").alias(\"trade_date\"),\n        *[F.col(c).cast(\"double\").alias(c) for c in BASE_FEATURES],\n        F.col(LABEL).cast(\"double\").alias(\"target\"))\n    invalid = F.col(\"target\").isNull() | (~F.col(\"target\").isin(0.0, 1.0))\n    for col in BASE_FEATURES:\n        invalid = invalid | F.col(col).isNull() | F.isnan(col) | (F.abs(F.col(col)) == float(\"inf\"))\n    assert out.filter(invalid).limit(1).count() == 0, \"Invalid original features or target\"\n    assert out.groupBy(\"ticker\", \"trade_date\").count().filter(\"count > 1\").limit(1).count() == 0, \"Duplicate ticker/date\"\n    return out\n\ndata = {}\nfor split in SPLITS:\n    data[split] = prepare(spark.read.parquet(INPUT + \"/\" + split)).cache()\n    n = data[split].count()\n    summary = data[split].agg(F.min(\"trade_date\"), F.max(\"trade_date\"), F.avg(\"target\")).first()\n    print(split, \"rows:\", n, \"dates:\", summary[0], \"to\", summary[1], \"positive share:\", round(summary[2], 4))\n# The row counts below were observed in your earlier completed notebooks.\nexpected = ({\"training\":349590, \"validation\":122801, \"testing\":126001} if TASK == \"direction\"\n            else {\"training\":349590, \"validation\":122801, \"testing\":123476})\nfor split in SPLITS:\n    assert data[split].count() == expected[split], \"Unexpected \" + split + \" count; investigate changed upstream data\"\nprint(\"Input data checks passed.\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:30+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3370",
+              "$$hashKey": "object:151566"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3371",
+              "$$hashKey": "object:151567"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3372",
+              "$$hashKey": "object:151568"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3373",
+              "$$hashKey": "object:151569"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3374",
+              "$$hashKey": "object:151570"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3375",
+              "$$hashKey": "object:151571"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3376",
+              "$$hashKey": "object:151572"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3377",
+              "$$hashKey": "object:151573"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3378",
+              "$$hashKey": "object:151574"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3379",
+              "$$hashKey": "object:151575"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3380",
+              "$$hashKey": "object:151576"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3381",
+              "$$hashKey": "object:151577"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3382",
+              "$$hashKey": "object:151578"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3383",
+              "$$hashKey": "object:151579"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3384",
+              "$$hashKey": "object:151580"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3385",
+              "$$hashKey": "object:151581"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3386",
+              "$$hashKey": "object:151582"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3387",
+              "$$hashKey": "object:151583"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3388",
+              "$$hashKey": "object:151584"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3389",
+              "$$hashKey": "object:151585"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3390",
+              "$$hashKey": "object:151586"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3391",
+              "$$hashKey": "object:151587"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3392",
+              "$$hashKey": "object:151588"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3393",
+              "$$hashKey": "object:151589"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3394",
+              "$$hashKey": "object:151590"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3395",
+              "$$hashKey": "object:151591"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3396",
+              "$$hashKey": "object:151592"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3397",
+              "$$hashKey": "object:151593"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3398",
+              "$$hashKey": "object:151594"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3399",
+              "$$hashKey": "object:151595"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3400",
+              "$$hashKey": "object:151596"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3401",
+              "$$hashKey": "object:151597"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3402",
+              "$$hashKey": "object:151598"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3403",
+              "$$hashKey": "object:151599"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3404",
+              "$$hashKey": "object:151600"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3405",
+              "$$hashKey": "object:151601"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3406",
+              "$$hashKey": "object:151602"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3407",
+              "$$hashKey": "object:151603"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3408",
+              "$$hashKey": "object:151604"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753379_1926200623",
+      "id": "9C6A8183A2D9",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:264",
+      "dateFinished": "2026-11-14T18:28:36+0000",
+      "dateStarted": "2026-11-14T18:28:30+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "training rows: 349590 dates: 2013-02-15 to 2015-12-23 positive share: 0.2509\nvalidation rows: 122801 dates: 2016-01-04 to 2016-12-22 positive share: 0.3251\ntesting rows: 123476 dates: 2017-01-03 to 2017-12-21 positive share: 0.1813\nInput data checks passed.\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Calculate past-only features",
+      "text": "%spark.pyspark\n# Build extra features using ONLY current and earlier daily prices.\nprices = spark.read.parquet(PRICES_PATH).select(\"ticker\", F.to_date(\"trade_date\").alias(\"trade_date\"),\n    *[F.col(c).cast(\"double\").alias(c) for c in [\"high_price\", \"low_price\", \"close_price\", \"volume\"]])\nassert prices.groupBy(\"ticker\", \"trade_date\").count().filter(\"count > 1\").limit(1).count() == 0, \"Duplicate cleaned prices\"\nw = Window.partitionBy(\"ticker\").orderBy(\"trade_date\")\ndef past(days):\n    return w.rowsBetween(-(days - 1), 0)  # never reads future dates\np = (prices.withColumn(\"prior_close\", F.lag(\"close_price\").over(w))\n    .withColumn(\"ret\", F.when(F.col(\"prior_close\") > 0, F.col(\"close_price\") / F.col(\"prior_close\") - 1))\n    .withColumn(\"rng\", F.when(F.col(\"close_price\") > 0, (F.col(\"high_price\") - F.col(\"low_price\")) / F.col(\"close_price\")))\n    .withColumn(\"logvol\", F.when(F.col(\"volume\") >= 0, F.log1p(\"volume\"))))\np = (p.withColumn(\"volatility_5d\", F.stddev_samp(\"ret\").over(past(5)))\n    .withColumn(\"volatility_60d\", F.stddev_samp(\"ret\").over(past(60)))\n    .withColumn(\"abs_return_5d\", F.avg(F.abs(\"ret\")).over(past(5)))\n    .withColumn(\"range_5d\", F.avg(\"rng\").over(past(5)))\n    .withColumn(\"return_20d\", F.when(F.lag(\"close_price\", 20).over(w) > 0,\n        F.col(\"close_price\") / F.lag(\"close_price\", 20).over(w) - 1))\n    .withColumn(\"volume_z_20d\", F.when(F.stddev_samp(\"logvol\").over(past(20)) > 0,\n        (F.col(\"logvol\") - F.avg(\"logvol\").over(past(20))) / F.stddev_samp(\"logvol\").over(past(20)))))\np = p.withColumn(\"vol_ratio_5_60\", F.when(F.col(\"volatility_60d\") > 0,\n    F.col(\"volatility_5d\") / F.col(\"volatility_60d\")))\nmarket = Window.partitionBy(\"trade_date\")\np = (p.withColumn(\"market_return_1d\", F.avg(\"ret\").over(market))\n      .withColumn(\"market_volatility_5d\", F.avg(\"volatility_5d\").over(market)))\nextra = p.select(\"ticker\", \"trade_date\", *EXTRA_FEATURES)\nfor c in EXTRA_FEATURES:\n    extra = extra.withColumn(c, F.when(F.isnan(c) | (F.abs(F.col(c)) == float(\"inf\")), F.lit(None).cast(\"double\")).otherwise(F.col(c)))\n# Missing *extra* values are handled by an Imputer fitted ONLY on training.\n# Left join deliberately keeps rows that have no matching cleaned-price record.\nfor split in SPLITS:\n    old = data[split]\n    joined = old.join(extra, [\"ticker\", \"trade_date\"], \"left\").cache()\n    assert joined.count() == old.count(), \"Feature join unexpectedly changed the number of rows\"\n    data[split] = joined\n    old.unpersist()\nprint(\"Extra features added:\", EXTRA_FEATURES)\nprint(\"Missing extra features in training (model will fill them from training medians):\")\ndata[\"training\"].select(*[F.sum(F.col(c).isNull().cast(\"int\")).alias(c) for c in EXTRA_FEATURES]).show(vertical=True)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:36+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3409",
+              "$$hashKey": "object:152209"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3410",
+              "$$hashKey": "object:152210"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3411",
+              "$$hashKey": "object:152211"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3412",
+              "$$hashKey": "object:152212"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3413",
+              "$$hashKey": "object:152213"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3414",
+              "$$hashKey": "object:152214"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3415",
+              "$$hashKey": "object:152215"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3416",
+              "$$hashKey": "object:152216"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3417",
+              "$$hashKey": "object:152217"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3418",
+              "$$hashKey": "object:152218"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3419",
+              "$$hashKey": "object:152219"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3420",
+              "$$hashKey": "object:152220"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3421",
+              "$$hashKey": "object:152221"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3422",
+              "$$hashKey": "object:152222"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3423",
+              "$$hashKey": "object:152223"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3424",
+              "$$hashKey": "object:152224"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3425",
+              "$$hashKey": "object:152225"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3426",
+              "$$hashKey": "object:152226"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753379_1455189815",
+      "id": "117656ADF4DF",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:265",
+      "dateFinished": "2026-11-14T18:28:39+0000",
+      "dateStarted": "2026-11-14T18:28:36+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Extra features added: ['volatility_5d', 'volatility_60d', 'vol_ratio_5_60', 'abs_return_5d', 'range_5d', 'return_20d', 'volume_z_20d', 'market_return_1d', 'market_volatility_5d']\nMissing extra features in training (model will fill them from training medians):\n-RECORD 0--------------------\n volatility_5d        | 0    \n volatility_60d       | 0    \n vol_ratio_5_60       | 0    \n abs_return_5d        | 0    \n range_5d             | 0    \n return_20d           | 7425 \n volume_z_20d         | 0    \n market_return_1d     | 0    \n market_volatility_5d | 0    \n\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Metrics and baselines",
+      "text": "%spark.pyspark\n# How we judge models\n# Balanced accuracy gives equal importance to detecting 0 and detecting 1.\n# AUC measures how well the probability scores rank positive examples above negative ones.\nauc_evaluator = BinaryClassificationEvaluator(labelCol=\"target\", rawPredictionCol=\"risk_score\", metricName=\"areaUnderROC\")\ndef measure(df, title, use_auc=True):\n    counts = {(int(r[\"target\"]), int(r[\"prediction\"])): r[\"count\"]\n              for r in df.groupBy(\"target\", \"prediction\").count().collect()}\n    tn, fp, fn, tp = [counts.get(key, 0) for key in [(0,0), (0,1), (1,0), (1,1)]]\n    total = tn + fp + fn + tp\n    assert total > 0, \"No data to evaluate\"\n    recall = tp / (tp + fn) if tp + fn else 0.0\n    specificity = tn / (tn + fp) if tn + fp else 0.0\n    precision = tp / (tp + fp) if tp + fp else 0.0\n    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0\n    result = dict(model=title, rows=total, auc=round(float(auc_evaluator.evaluate(df)), 5) if use_auc else None,\n        accuracy=round((tp + tn) / total, 5), balanced_accuracy=round((recall + specificity) / 2, 5),\n        f1=round(f1, 5), recall=round(recall, 5), precision=round(precision, 5),\n        tn=tn, fp=fp, fn=fn, tp=tp)\n    print(title, result)\n    return result\n\n# Faster than evaluating hundreds of full Spark queries: collect only a SMALL score histogram.\n# Search cutoff 0.05–0.95 in steps of 0.01. We choose this on VALIDATION, never on TEST.\ndef find_threshold(df):\n    hist = (df.select(F.least(F.greatest(F.floor(F.col(\"risk_score\") * 100), F.lit(0)), F.lit(100)).cast(\"int\").alias(\"bin\"), \"target\")\n              .groupBy(\"bin\", \"target\").count().collect())\n    positives, negatives = [0] * 101, [0] * 101\n    for r in hist:\n        (positives if float(r[\"target\"]) == 1.0 else negatives)[int(r[\"bin\"])] += r[\"count\"]\n    P, N = sum(positives), sum(negatives)\n    assert P > 0 and N > 0, \"Both classes must appear in validation\"\n    best = (-1.0, None)\n    for k in range(5, 96):\n        tp = sum(positives[k:])   # predict 1 when probability >= k / 100\n        tn = sum(negatives[:k])   # predict 0 otherwise\n        bal = (tp / P + tn / N) / 2\n        if bal > best[0]:\n            best = (bal, k / 100.0)\n    return best[1]\n\ndef with_cutoff(df, threshold):\n    return df.withColumn(\"prediction\", (F.col(\"risk_score\") >= F.lit(float(threshold))).cast(\"double\"))\n\n# Simple rule baselines let us check whether ML actually beats an easy alternative.\nmajority = float(data[\"training\"].groupBy(\"target\").count().orderBy(F.desc(\"count\")).first()[\"target\"])\nrule_col = \"return_5d\" if TASK == \"direction\" else \"volatility_20d\"\nrule_cutoff = 0.0 if TASK == \"direction\" else float(data[\"training\"].approxQuantile(rule_col, [0.75], 0.001)[0])\ndef evaluate_baselines(df, split):\n    m = measure(df.withColumn(\"prediction\", F.lit(majority)).withColumn(\"risk_score\", F.lit(majority)),\n                \"always_majority_\" + split)\n    r = measure(df.withColumn(\"prediction\", (F.col(rule_col) > rule_cutoff).cast(\"double\"))\n                .withColumn(\"risk_score\", F.col(rule_col)), \"historical_rule_\" + split)\n    return [m, r]\nvalidation_baselines = evaluate_baselines(data[\"validation\"], \"validation\")\nprint(\"Rule:\", rule_col, \">\", rule_cutoff)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:39+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3427",
+              "$$hashKey": "object:152636"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3428",
+              "$$hashKey": "object:152637"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3429",
+              "$$hashKey": "object:152638"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3430",
+              "$$hashKey": "object:152639"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3431",
+              "$$hashKey": "object:152640"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3432",
+              "$$hashKey": "object:152641"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3433",
+              "$$hashKey": "object:152642"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3434",
+              "$$hashKey": "object:152643"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3435",
+              "$$hashKey": "object:152644"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3436",
+              "$$hashKey": "object:152645"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3437",
+              "$$hashKey": "object:152646"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3438",
+              "$$hashKey": "object:152647"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3439",
+              "$$hashKey": "object:152648"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3440",
+              "$$hashKey": "object:152649"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3441",
+              "$$hashKey": "object:152650"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753379_1428701636",
+      "id": "A1614468ACEF",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:266",
+      "dateFinished": "2026-11-14T18:28:42+0000",
+      "dateStarted": "2026-11-14T18:28:39+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "always_majority_validation {'model': 'always_majority_validation', 'rows': 122801, 'auc': 0.5, 'accuracy': 0.67488, 'balanced_accuracy': 0.5, 'f1': 0.0, 'recall': 0.0, 'precision': 0.0, 'tn': 82876, 'fp': 0, 'fn': 39925, 'tp': 0}\nhistorical_rule_validation {'model': 'historical_rule_validation', 'rows': 122801, 'auc': 0.70313, 'accuracy': 0.68164, 'balanced_accuracy': 0.65597, 'f1': 0.54335, 'recall': 0.58257, 'precision': 0.50908, 'tn': 60447, 'fp': 22429, 'fn': 16666, 'tp': 23259}\nRule: volatility_20d > 0.01606290757433682\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Train and select",
+      "text": "%spark.pyspark\n# Train several CANDIDATES on training data; compare using 2016 validation.\n# Logistic regression gets scaled data; tree models use unscaled data (faster).\ndef pipeline_for(kind, cols):\n    imputed = [c + \"_filled\" for c in cols]\n    steps = [Imputer(inputCols=cols, outputCols=imputed, strategy=\"median\")]\n    if kind == \"lr\":\n        steps += [VectorAssembler(inputCols=imputed, outputCol=\"unscaled\"),\n                  StandardScaler(inputCol=\"unscaled\", outputCol=\"features\", withStd=True, withMean=False),\n                  LogisticRegression(featuresCol=\"features\", labelCol=\"target\", maxIter=100, regParam=0.01)]\n    elif kind == \"gbt\":\n        steps += [VectorAssembler(inputCols=imputed, outputCol=\"features\"),\n                  GBTClassifier(featuresCol=\"features\", labelCol=\"target\", maxIter=35, maxDepth=4,\n                                minInstancesPerNode=30, seed=SEED)]\n    elif kind == \"rf\":\n        steps += [VectorAssembler(inputCols=imputed, outputCol=\"features\"),\n                  RandomForestClassifier(featuresCol=\"features\", labelCol=\"target\", numTrees=50,\n                                         maxDepth=7, minInstancesPerNode=30, seed=SEED)]\n    return Pipeline(stages=steps)\n\ncandidates = [(\"logistic_base\", \"lr\", BASE_FEATURES),\n              (\"logistic_extra\", \"lr\", ALL_FEATURES),\n              (\"gbt_extra\", \"gbt\", ALL_FEATURES)]\nif TRY_RANDOM_FOREST:\n    candidates.append((\"random_forest_extra\", \"rf\", ALL_FEATURES))\nresults = []\nfitted = {}\nfor name, kind, cols in candidates:\n    start = time.time()\n    print(\"\\nTRAINING:\", name, \"with\", len(cols), \"features\", flush=True)\n    fitted[name] = pipeline_for(kind, cols).fit(data[\"training\"])\n    scores = (fitted[name].transform(data[\"validation\"])\n        .withColumn(\"risk_score\", vector_to_array(\"probability\")[1]).select(\"target\", \"risk_score\").cache())\n    scores.count()  # materialize cache once, then reuse for threshold + evaluation\n    threshold = find_threshold(scores)\n    comparison = measure(with_cutoff(scores, threshold), name + \"_validation\")\n    comparison.update(name=name, threshold=threshold, feature_count=len(cols),\n                      fit_seconds=round(time.time() - start, 1))\n    results.append(comparison)\n    scores.unpersist()\n    print(\"Threshold selected on VALIDATION:\", threshold)\n# Prioritize ranking quality (AUC); balanced accuracy breaks ties.\n# The threshold is separately tuned to make decisions about class 0 versus class 1.\nchosen = sorted(results, key=lambda x: (-x[\"auc\"], -x[\"balanced_accuracy\"], x[\"name\"]))[0]\nchosen_name = chosen[\"name\"]\nchosen_threshold = chosen[\"threshold\"]\nfinal_model = fitted[chosen_name]\nchosen_features = next(cols for name, kind, cols in candidates if name == chosen_name)\nprint(\"\\nWINNING MODEL:\", chosen_name, \"| validation AUC:\", chosen[\"auc\"],\n      \"| validation balanced accuracy:\", chosen[\"balanced_accuracy\"], \"| decision cutoff:\", chosen_threshold)\nprint(\"Comparison:\")\nfor r in results:\n    print(r[\"name\"], \"AUC\", r[\"auc\"], \"balanced accuracy\", r[\"balanced_accuracy\"],\n          \"F1\", r[\"f1\"], \"threshold\", r[\"threshold\"], \"fit seconds\", r[\"fit_seconds\"])\nprint(\"Test data has NOT been used to choose the model.\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:28:42+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3442",
+              "$$hashKey": "object:232392"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3443",
+              "$$hashKey": "object:232393"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3444",
+              "$$hashKey": "object:232394"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3445",
+              "$$hashKey": "object:232395"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3446",
+              "$$hashKey": "object:232396"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3447",
+              "$$hashKey": "object:232397"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3448",
+              "$$hashKey": "object:232398"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3449",
+              "$$hashKey": "object:232399"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3450",
+              "$$hashKey": "object:232400"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3451",
+              "$$hashKey": "object:232401"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3452",
+              "$$hashKey": "object:232402"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3453",
+              "$$hashKey": "object:232403"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3454",
+              "$$hashKey": "object:232404"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3455",
+              "$$hashKey": "object:232405"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3456",
+              "$$hashKey": "object:232406"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3457",
+              "$$hashKey": "object:232407"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3458",
+              "$$hashKey": "object:232408"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3459",
+              "$$hashKey": "object:232409"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3460",
+              "$$hashKey": "object:232410"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3461",
+              "$$hashKey": "object:232411"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3462",
+              "$$hashKey": "object:232412"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3463",
+              "$$hashKey": "object:232413"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3464",
+              "$$hashKey": "object:232414"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3465",
+              "$$hashKey": "object:232415"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3466",
+              "$$hashKey": "object:232416"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3467",
+              "$$hashKey": "object:232417"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3468",
+              "$$hashKey": "object:232418"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3469",
+              "$$hashKey": "object:232419"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3470",
+              "$$hashKey": "object:232420"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3471",
+              "$$hashKey": "object:232421"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3472",
+              "$$hashKey": "object:232422"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3473",
+              "$$hashKey": "object:232423"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3474",
+              "$$hashKey": "object:232424"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3475",
+              "$$hashKey": "object:232425"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3476",
+              "$$hashKey": "object:232426"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3477",
+              "$$hashKey": "object:232427"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3478",
+              "$$hashKey": "object:232428"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3479",
+              "$$hashKey": "object:232429"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3480",
+              "$$hashKey": "object:232430"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3481",
+              "$$hashKey": "object:232431"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3482",
+              "$$hashKey": "object:232432"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3483",
+              "$$hashKey": "object:232433"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3484",
+              "$$hashKey": "object:232434"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3485",
+              "$$hashKey": "object:232435"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3486",
+              "$$hashKey": "object:232436"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3487",
+              "$$hashKey": "object:232437"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3488",
+              "$$hashKey": "object:232438"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3489",
+              "$$hashKey": "object:232439"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3490",
+              "$$hashKey": "object:232440"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3491",
+              "$$hashKey": "object:232441"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3492",
+              "$$hashKey": "object:232442"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3493",
+              "$$hashKey": "object:232443"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3494",
+              "$$hashKey": "object:232444"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3495",
+              "$$hashKey": "object:232445"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3496",
+              "$$hashKey": "object:232446"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3497",
+              "$$hashKey": "object:232447"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3498",
+              "$$hashKey": "object:232448"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3499",
+              "$$hashKey": "object:232449"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3500",
+              "$$hashKey": "object:232450"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3501",
+              "$$hashKey": "object:232451"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3502",
+              "$$hashKey": "object:232452"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3503",
+              "$$hashKey": "object:232453"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3504",
+              "$$hashKey": "object:232454"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3505",
+              "$$hashKey": "object:232455"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3506",
+              "$$hashKey": "object:232456"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3507",
+              "$$hashKey": "object:232457"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3508",
+              "$$hashKey": "object:232458"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3509",
+              "$$hashKey": "object:232459"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3510",
+              "$$hashKey": "object:232460"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3511",
+              "$$hashKey": "object:232461"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3512",
+              "$$hashKey": "object:232462"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3513",
+              "$$hashKey": "object:232463"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3514",
+              "$$hashKey": "object:232464"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3515",
+              "$$hashKey": "object:232465"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3516",
+              "$$hashKey": "object:232466"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3517",
+              "$$hashKey": "object:232467"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3518",
+              "$$hashKey": "object:232468"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3519",
+              "$$hashKey": "object:232469"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3520",
+              "$$hashKey": "object:232470"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3521",
+              "$$hashKey": "object:232471"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3522",
+              "$$hashKey": "object:232472"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3523",
+              "$$hashKey": "object:232473"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3524",
+              "$$hashKey": "object:232474"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3525",
+              "$$hashKey": "object:232475"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3526",
+              "$$hashKey": "object:232476"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3527",
+              "$$hashKey": "object:232477"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3528",
+              "$$hashKey": "object:232478"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3529",
+              "$$hashKey": "object:232479"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3530",
+              "$$hashKey": "object:232480"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3531",
+              "$$hashKey": "object:232481"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3532",
+              "$$hashKey": "object:232482"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3533",
+              "$$hashKey": "object:232483"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3534",
+              "$$hashKey": "object:232484"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3535",
+              "$$hashKey": "object:232485"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3536",
+              "$$hashKey": "object:232486"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3537",
+              "$$hashKey": "object:232487"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3538",
+              "$$hashKey": "object:232488"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3539",
+              "$$hashKey": "object:232489"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3540",
+              "$$hashKey": "object:232490"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3541",
+              "$$hashKey": "object:232491"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3542",
+              "$$hashKey": "object:232492"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3543",
+              "$$hashKey": "object:232493"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3544",
+              "$$hashKey": "object:232494"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3545",
+              "$$hashKey": "object:232495"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3546",
+              "$$hashKey": "object:232496"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3547",
+              "$$hashKey": "object:232497"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3548",
+              "$$hashKey": "object:232498"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3549",
+              "$$hashKey": "object:232499"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3550",
+              "$$hashKey": "object:232500"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3551",
+              "$$hashKey": "object:232501"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3552",
+              "$$hashKey": "object:232502"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3553",
+              "$$hashKey": "object:232503"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3554",
+              "$$hashKey": "object:232504"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3555",
+              "$$hashKey": "object:232505"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3556",
+              "$$hashKey": "object:232506"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3557",
+              "$$hashKey": "object:232507"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3558",
+              "$$hashKey": "object:232508"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3559",
+              "$$hashKey": "object:232509"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3560",
+              "$$hashKey": "object:232510"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3561",
+              "$$hashKey": "object:232511"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3562",
+              "$$hashKey": "object:232512"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3563",
+              "$$hashKey": "object:232513"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3564",
+              "$$hashKey": "object:232514"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3565",
+              "$$hashKey": "object:232515"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3566",
+              "$$hashKey": "object:232516"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3567",
+              "$$hashKey": "object:232517"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3568",
+              "$$hashKey": "object:232518"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3569",
+              "$$hashKey": "object:232519"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3570",
+              "$$hashKey": "object:232520"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3571",
+              "$$hashKey": "object:232521"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3572",
+              "$$hashKey": "object:232522"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3573",
+              "$$hashKey": "object:232523"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3574",
+              "$$hashKey": "object:232524"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3575",
+              "$$hashKey": "object:232525"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3576",
+              "$$hashKey": "object:232526"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3577",
+              "$$hashKey": "object:232527"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3578",
+              "$$hashKey": "object:232528"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3579",
+              "$$hashKey": "object:232529"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3580",
+              "$$hashKey": "object:232530"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3581",
+              "$$hashKey": "object:232531"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3582",
+              "$$hashKey": "object:232532"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3583",
+              "$$hashKey": "object:232533"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3584",
+              "$$hashKey": "object:232534"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3585",
+              "$$hashKey": "object:232535"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3586",
+              "$$hashKey": "object:232536"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3587",
+              "$$hashKey": "object:232537"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3588",
+              "$$hashKey": "object:232538"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3589",
+              "$$hashKey": "object:232539"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3590",
+              "$$hashKey": "object:232540"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3591",
+              "$$hashKey": "object:232541"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3592",
+              "$$hashKey": "object:232542"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3593",
+              "$$hashKey": "object:232543"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3594",
+              "$$hashKey": "object:232544"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3595",
+              "$$hashKey": "object:232545"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3596",
+              "$$hashKey": "object:232546"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3597",
+              "$$hashKey": "object:232547"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3598",
+              "$$hashKey": "object:232548"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3599",
+              "$$hashKey": "object:232549"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3600",
+              "$$hashKey": "object:232550"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3601",
+              "$$hashKey": "object:232551"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3602",
+              "$$hashKey": "object:232552"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3603",
+              "$$hashKey": "object:232553"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3604",
+              "$$hashKey": "object:232554"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3605",
+              "$$hashKey": "object:232555"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3606",
+              "$$hashKey": "object:232556"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3607",
+              "$$hashKey": "object:232557"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3608",
+              "$$hashKey": "object:232558"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3609",
+              "$$hashKey": "object:232559"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3610",
+              "$$hashKey": "object:232560"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3611",
+              "$$hashKey": "object:232561"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3612",
+              "$$hashKey": "object:232562"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3613",
+              "$$hashKey": "object:232563"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3614",
+              "$$hashKey": "object:232564"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3615",
+              "$$hashKey": "object:232565"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3616",
+              "$$hashKey": "object:232566"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3617",
+              "$$hashKey": "object:232567"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3618",
+              "$$hashKey": "object:232568"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3619",
+              "$$hashKey": "object:232569"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3620",
+              "$$hashKey": "object:232570"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3621",
+              "$$hashKey": "object:232571"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3622",
+              "$$hashKey": "object:232572"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3623",
+              "$$hashKey": "object:232573"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3624",
+              "$$hashKey": "object:232574"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3625",
+              "$$hashKey": "object:232575"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3626",
+              "$$hashKey": "object:232576"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3627",
+              "$$hashKey": "object:232577"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3628",
+              "$$hashKey": "object:232578"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3629",
+              "$$hashKey": "object:232579"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3630",
+              "$$hashKey": "object:232580"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3631",
+              "$$hashKey": "object:232581"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3632",
+              "$$hashKey": "object:232582"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3633",
+              "$$hashKey": "object:232583"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3634",
+              "$$hashKey": "object:232584"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3635",
+              "$$hashKey": "object:232585"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3636",
+              "$$hashKey": "object:232586"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3637",
+              "$$hashKey": "object:232587"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3638",
+              "$$hashKey": "object:232588"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3639",
+              "$$hashKey": "object:232589"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3640",
+              "$$hashKey": "object:232590"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3641",
+              "$$hashKey": "object:232591"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3642",
+              "$$hashKey": "object:232592"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3643",
+              "$$hashKey": "object:232593"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3644",
+              "$$hashKey": "object:232594"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3645",
+              "$$hashKey": "object:232595"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3646",
+              "$$hashKey": "object:232596"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3647",
+              "$$hashKey": "object:232597"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3648",
+              "$$hashKey": "object:232598"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3649",
+              "$$hashKey": "object:232599"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3650",
+              "$$hashKey": "object:232600"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3651",
+              "$$hashKey": "object:232601"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3652",
+              "$$hashKey": "object:232602"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3653",
+              "$$hashKey": "object:232603"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3654",
+              "$$hashKey": "object:232604"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3655",
+              "$$hashKey": "object:232605"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3656",
+              "$$hashKey": "object:232606"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3657",
+              "$$hashKey": "object:232607"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3658",
+              "$$hashKey": "object:232608"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3659",
+              "$$hashKey": "object:232609"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3660",
+              "$$hashKey": "object:232610"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3661",
+              "$$hashKey": "object:232611"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3662",
+              "$$hashKey": "object:232612"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3663",
+              "$$hashKey": "object:232613"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3664",
+              "$$hashKey": "object:232614"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3665",
+              "$$hashKey": "object:232615"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3666",
+              "$$hashKey": "object:232616"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3667",
+              "$$hashKey": "object:232617"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3668",
+              "$$hashKey": "object:232618"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3669",
+              "$$hashKey": "object:232619"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3670",
+              "$$hashKey": "object:232620"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3671",
+              "$$hashKey": "object:232621"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753380_1037971740",
+      "id": "60F57517ECB9",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:267",
+      "dateFinished": "2026-11-14T18:29:47+0000",
+      "dateStarted": "2026-11-14T18:28:42+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "\nTRAINING: logistic_base with 5 features\nlogistic_base_validation {'model': 'logistic_base_validation', 'rows': 122801, 'auc': 0.73436, 'accuracy': 0.69561, 'balanced_accuracy': 0.67753, 'f1': 0.57209, 'recall': 0.62585, 'precision': 0.52683, 'tn': 60434, 'fp': 22442, 'fn': 14938, 'tp': 24987}\nThreshold selected on VALIDATION: 0.28\n\nTRAINING: logistic_extra with 14 features\nlogistic_extra_validation {'model': 'logistic_extra_validation', 'rows': 122801, 'auc': 0.76192, 'accuracy': 0.72569, 'balanced_accuracy': 0.70139, 'f1': 0.59966, 'recall': 0.63191, 'precision': 0.57055, 'tn': 63886, 'fp': 18990, 'fn': 14696, 'tp': 25229}\nThreshold selected on VALIDATION: 0.33\n\nTRAINING: gbt_extra with 14 features\ngbt_extra_validation {'model': 'gbt_extra_validation', 'rows': 122801, 'auc': 0.75597, 'accuracy': 0.72645, 'balanced_accuracy': 0.69392, 'f1': 0.5882, 'recall': 0.6009, 'precision': 0.57603, 'tn': 65218, 'fp': 17658, 'fn': 15934, 'tp': 23991}\nThreshold selected on VALIDATION: 0.36\n\nWINNING MODEL: logistic_extra | validation AUC: 0.76192 | validation balanced accuracy: 0.70139 | decision cutoff: 0.33\nComparison:\nlogistic_base AUC 0.73436 balanced accuracy 0.67753 F1 0.57209 threshold 0.28 fit seconds 6.6\nlogistic_extra AUC 0.76192 balanced accuracy 0.70139 F1 0.59966 threshold 0.33 fit seconds 10.2\ngbt_extra AUC 0.75597 balanced accuracy 0.69392 F1 0.5882 threshold 0.36 fit seconds 48.8\nTest data has NOT been used to choose the model.\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Understand features",
+      "text": "%spark.pyspark\n# Bigger tree importance = this feature influenced splits more. Not proof of causation.\n# Logistic coefficients refer to standardized features (sign tells direction of association).\nmodel_stage = final_model.stages[-1]\nif hasattr(model_stage, \"coefficients\"):\n    weights = model_stage.coefficients.toArray()\n    meaning = \"standardized logistic coefficient\"\nelse:\n    weights = model_stage.featureImportances.toArray()\n    meaning = \"tree feature importance\"\nprint(\"Chosen algorithm:\", chosen_name, \"|\", meaning)\nfor col, weight in sorted(zip(chosen_features, weights), key=lambda pair: -abs(pair[1])):\n    print(\"{:<26s} {: .5f}\".format(col, float(weight)))\nprint(\"WARNING: feature importance is not proof of prediction reliability or causality.\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:29:47+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753380_765279403",
+      "id": "7FA12A8C7289",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:268",
+      "dateFinished": "2026-11-14T18:29:48+0000",
+      "dateStarted": "2026-11-14T18:29:47+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Chosen algorithm: logistic_extra | standardized logistic coefficient\nrange_5d                    0.50780\nvolatility_60d              0.32593\nintraday_range              0.14351\nmarket_volatility_5d        0.13108\nmarket_return_1d           -0.12678\nvol_ratio_5_60             -0.11967\nreturn_20d                 -0.09688\nreturn_5d                  -0.08998\nabs_return_5d               0.04028\nvolume_z_20d                0.03742\nvolatility_5d              -0.03278\nvolatility_20d              0.01764\ndaily_return                0.01759\nvolume_change_1d            0.00747\nWARNING: feature importance is not proof of prediction reliability or causality.\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Final test",
+      "text": "%spark.pyspark\n# Final one-time evaluation on unseen 2017 data.\n\ntest_scores = (final_model.transform(data[\"testing\"])\n    .withColumn(\"risk_score\", vector_to_array(\"probability\")[1]))\ntest_predictions = with_cutoff(test_scores, chosen_threshold).cache()\ntest_predictions.count()\nfinal_test = measure(test_predictions, chosen_name + \"_FINAL_TEST\")\ntest_baselines = evaluate_baselines(data[\"testing\"], \"testing\")\nprint(\"\\nCONFUSION MATRIX (actual rows, predicted columns):\")\nprint(\"             predict 0   predict 1\")\nprint(\"actual 0    {:>10} {:>10}\".format(final_test[\"tn\"], final_test[\"fp\"]))\nprint(\"actual 1    {:>10} {:>10}\".format(final_test[\"fn\"], final_test[\"tp\"]))\nprint(\"Compare balanced accuracy and AUC against the baselines, not accuracy alone.\")\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:29:48+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3672",
+              "$$hashKey": "object:233797"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3673",
+              "$$hashKey": "object:233798"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3674",
+              "$$hashKey": "object:233799"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3675",
+              "$$hashKey": "object:233800"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3676",
+              "$$hashKey": "object:233801"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3677",
+              "$$hashKey": "object:233802"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3678",
+              "$$hashKey": "object:233803"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3679",
+              "$$hashKey": "object:233804"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3680",
+              "$$hashKey": "object:233805"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3681",
+              "$$hashKey": "object:233806"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3682",
+              "$$hashKey": "object:233807"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3683",
+              "$$hashKey": "object:233808"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3684",
+              "$$hashKey": "object:233809"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3685",
+              "$$hashKey": "object:233810"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3686",
+              "$$hashKey": "object:233811"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3687",
+              "$$hashKey": "object:233812"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3688",
+              "$$hashKey": "object:233813"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3689",
+              "$$hashKey": "object:233814"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3690",
+              "$$hashKey": "object:233815"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3691",
+              "$$hashKey": "object:233816"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3692",
+              "$$hashKey": "object:233817"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753380_2004401480",
+      "id": "235C080EDE54",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:269",
+      "dateFinished": "2026-11-14T18:29:52+0000",
+      "dateStarted": "2026-11-14T18:29:48+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "logistic_extra_FINAL_TEST {'model': 'logistic_extra_FINAL_TEST', 'rows': 123476, 'auc': 0.74549, 'accuracy': 0.80752, 'balanced_accuracy': 0.64006, 'f1': 0.41546, 'recall': 0.37736, 'precision': 0.46211, 'tn': 91263, 'fp': 9831, 'fn': 13936, 'tp': 8446}\nalways_majority_testing {'model': 'always_majority_testing', 'rows': 123476, 'auc': 0.5, 'accuracy': 0.81873, 'balanced_accuracy': 0.5, 'f1': 0.0, 'recall': 0.0, 'precision': 0.0, 'tn': 101094, 'fp': 0, 'fn': 22382, 'tp': 0}\nhistorical_rule_testing {'model': 'historical_rule_testing', 'rows': 123476, 'auc': 0.70256, 'accuracy': 0.77375, 'balanced_accuracy': 0.61973, 'f1': 0.37728, 'recall': 0.37812, 'precision': 0.37645, 'tn': 87076, 'fp': 14018, 'fn': 13919, 'tp': 8463}\n\nCONFUSION MATRIX (actual rows, predicted columns):\n             predict 0   predict 1\nactual 0         91263       9831\nactual 1         13936       8446\nCompare balanced accuracy and AUC against the baselines, not accuracy alone.\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Save",
+      "text": "%spark.pyspark\n# Save the pipeline, predictions and scores in S3.\n# Note: Spark writes folders containing part-files, not one .csv file.\nMODEL_PATH = OUT + \"/model\"\nPRED_PATH = OUT + \"/predictions\"\nMETRICS_PATH = OUT + \"/metrics\"\nSETTINGS_PATH = OUT + \"/settings\"\nfinal_model.write().overwrite().save(MODEL_PATH)\n(test_predictions.select(\"ticker\", \"trade_date\", \"target\", \"prediction\", \"risk_score\")\n    .write.mode(\"overwrite\").parquet(PRED_PATH))\nall_metrics = ([dict(stage=\"validation\", **r) for r in validation_baselines + results] +\n               [dict(stage=\"testing\", **r) for r in test_baselines + [final_test]])\nspark.createDataFrame([(json.dumps(r),) for r in all_metrics], [\"value\"]).coalesce(1).write.mode(\"overwrite\").text(METRICS_PATH)\ninfo = dict(task=TASK, run_id=RUN_ID, algorithm=chosen_name, threshold=chosen_threshold,\n    features=chosen_features, input_path=INPUT, prices_path=PRICES_PATH,\n    model_path=MODEL_PATH, predictions_path=PRED_PATH, validation_auc=chosen[\"auc\"],\n    validation_balanced_accuracy=chosen[\"balanced_accuracy\"])\nspark.createDataFrame([(json.dumps(info),)], [\"value\"]).coalesce(1).write.mode(\"overwrite\").text(SETTINGS_PATH)\nassert spark.read.parquet(PRED_PATH).count() == data[\"testing\"].count()\nprint(\"SAVED. RUN_ID:\", RUN_ID)\nprint(\"MODEL:\", MODEL_PATH)\nprint(\"PREDICTIONS:\", PRED_PATH)\nprint(\"SETTINGS:\", SETTINGS_PATH)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:29:52+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3693",
+              "$$hashKey": "object:234443"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3694",
+              "$$hashKey": "object:234444"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3695",
+              "$$hashKey": "object:234445"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3696",
+              "$$hashKey": "object:234446"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3697",
+              "$$hashKey": "object:234447"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3698",
+              "$$hashKey": "object:234448"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3699",
+              "$$hashKey": "object:234449"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3700",
+              "$$hashKey": "object:234450"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3701",
+              "$$hashKey": "object:234451"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3702",
+              "$$hashKey": "object:234452"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3703",
+              "$$hashKey": "object:234453"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3704",
+              "$$hashKey": "object:234454"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3705",
+              "$$hashKey": "object:234455"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3706",
+              "$$hashKey": "object:234456"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3707",
+              "$$hashKey": "object:234457"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3708",
+              "$$hashKey": "object:234458"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3709",
+              "$$hashKey": "object:234459"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3710",
+              "$$hashKey": "object:234460"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3711",
+              "$$hashKey": "object:234461"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753380_901059874",
+      "id": "9AFED81C9724",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:270",
+      "dateFinished": "2026-11-14T18:29:58+0000",
+      "dateStarted": "2026-11-14T18:29:52+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "SAVED. RUN_ID: 20261114T182830Z\nMODEL: s3a://inf2006-g12-ml/task3/final_models/volatility_final/20261114T182830Z/model\nPREDICTIONS: s3a://inf2006-g12-ml/task3/final_models/volatility_final/20261114T182830Z/predictions\nSETTINGS: s3a://inf2006-g12-ml/task3/final_models/volatility_final/20261114T182830Z/settings\n"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Reload proof",
+      "text": "%spark.pyspark\n\nreloaded_model = PipelineModel.load(MODEL_PATH)\n# Compare five example rows before/after reload. Reusing the same untouched inputs.\nsample = data[\"testing\"].orderBy(\"ticker\", \"trade_date\").limit(5).cache()\noriginal = (with_cutoff(final_model.transform(sample)\n    .withColumn(\"risk_score\", vector_to_array(\"probability\")[1]), chosen_threshold)\n    .select(\"ticker\", \"trade_date\", \"prediction\", \"risk_score\"))\nreloaded = (with_cutoff(reloaded_model.transform(sample)\n    .withColumn(\"risk_score\", vector_to_array(\"probability\")[1]), chosen_threshold)\n    .select(\"ticker\", \"trade_date\", \"prediction\", \"risk_score\"))\na = original.orderBy(\"ticker\", \"trade_date\").collect()\nb = reloaded.orderBy(\"ticker\", \"trade_date\").collect()\nassert len(a) == len(b) == 5, \"Expected five examples\"\nfor before, after in zip(a, b):\n    assert before[\"ticker\"] == after[\"ticker\"] and before[\"trade_date\"] == after[\"trade_date\"]\n    assert before[\"prediction\"] == after[\"prediction\"]\n    assert abs(before[\"risk_score\"] - after[\"risk_score\"]) < 1e-9\nprint(\"RELOAD CHECK PASSED — same predictions and probability scores on five rows.\")\nreloaded.show(5, truncate=False)\nsample.unpersist()\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:29:59+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true,
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        }
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3712",
+              "$$hashKey": "object:235143"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3713",
+              "$$hashKey": "object:235144"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3714",
+              "$$hashKey": "object:235145"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3715",
+              "$$hashKey": "object:235146"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3716",
+              "$$hashKey": "object:235147"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3717",
+              "$$hashKey": "object:235148"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3718",
+              "$$hashKey": "object:235149"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3719",
+              "$$hashKey": "object:235150"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3720",
+              "$$hashKey": "object:235151"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3721",
+              "$$hashKey": "object:235152"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3722",
+              "$$hashKey": "object:235153"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3723",
+              "$$hashKey": "object:235154"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3724",
+              "$$hashKey": "object:235155"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3725",
+              "$$hashKey": "object:235156"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3726",
+              "$$hashKey": "object:235157"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3727",
+              "$$hashKey": "object:235158"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3728",
+              "$$hashKey": "object:235159"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3729",
+              "$$hashKey": "object:235160"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3730",
+              "$$hashKey": "object:235161"
+            },
+            {
+              "jobUrl": "http://ip-172-31-35-86.ec2.internal:4040/jobs/job?id=3731",
+              "$$hashKey": "object:235162"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794677753380_1221402450",
+      "id": "332E06A836D1",
+      "dateCreated": "2026-11-14T17:35:53+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:271",
+      "dateFinished": "2026-11-14T18:30:02+0000",
+      "dateStarted": "2026-11-14T18:29:59+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "RELOAD CHECK PASSED — same predictions and probability scores on five rows.\n+------+----------+----------+-------------------+\n|ticker|trade_date|prediction|risk_score         |\n+------+----------+----------+-------------------+\n|A     |2017-01-03|0.0       |0.14874236967230825|\n|A     |2017-01-04|0.0       |0.14133622029146886|\n|A     |2017-01-05|0.0       |0.16059391621253027|\n|A     |2017-01-06|0.0       |0.20571703433800725|\n|A     |2017-01-09|0.0       |0.1964987965302405 |\n+------+----------+----------+-------------------+\n\nDataFrame[ticker: string, trade_date: date, daily_return: double, return_5d: double, volatility_20d: double, volume_change_1d: double, intraday_range: double, target: double, volatility_5d: double, volatility_60d: double, vol_ratio_5_60: double, abs_return_5d: double, range_5d: double, return_20d: double, volume_z_20d: double, market_return_1d: double, market_volatility_5d: double]\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%spark.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-14T18:30:02+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794678207930_998164351",
+      "id": "paragraph_1794678207930_998164351",
+      "dateCreated": "2026-11-14T17:43:27+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:144247",
+      "dateFinished": "2026-11-14T18:30:02+0000",
+      "dateStarted": "2026-11-14T18:30:02+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": []
+      }
+    }
+  ],
+  "name": "INF2006_Task3_Volatility_FINAL",
+  "id": "2N6X6VCXX",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/INF2006_Task3_Volatility_FINAL"
+}
