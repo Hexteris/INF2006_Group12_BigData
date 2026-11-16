@@ -1,0 +1,8 @@
+{"check":"series","value":"505"}
+{"check":"series_starting_late","value":"29"}
+{"check":"series_ending_early","value":"0"}
+{"check":"series_with_gaps","value":"6"}
+{"check":"missing_bars_in_span","value":"51"}
+{"check":"min_bars","value":"44"}
+{"check":"max_bars","value":"1259"}
+{"check":"median_bars","value":"1259"}

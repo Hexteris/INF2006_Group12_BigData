@@ -1,4 +1,0 @@
-source=sec_edgar version=v1 acq=2026-10-28 put_seconds=16 readback_seconds=10
-files=311 mismatches=0
-2777408405  5554816810  /corpus/raw/sec_edgar/v1/acq_2026-10-28
-replication=2 file=0000002969_0001193125-15-386399_10-K.txt

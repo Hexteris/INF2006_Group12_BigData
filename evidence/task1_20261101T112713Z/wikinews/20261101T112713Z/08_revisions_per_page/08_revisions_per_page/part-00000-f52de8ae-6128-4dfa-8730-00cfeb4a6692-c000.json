@@ -1,0 +1,3 @@
+{"check":"pages_with_revisions","value":"265900"}
+{"check":"revisions_per_page_p50_p90_p99","value":"[2, 12, 53]"}
+{"check":"max_revisions_on_one_page","value":"234221"}

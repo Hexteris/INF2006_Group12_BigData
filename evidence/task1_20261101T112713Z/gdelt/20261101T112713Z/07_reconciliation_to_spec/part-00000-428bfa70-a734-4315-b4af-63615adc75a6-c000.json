@@ -1,0 +1,5 @@
+{"rule":"R0_all_lines","events":144207180,"diff_vs_spec_144_2M":7180,"diff_pct":0.005}
+{"rule":"R1_58_fields","events":144207180,"diff_vs_spec_144_2M":7180,"diff_pct":0.005}
+{"rule":"R2_plus_valid_id_and_sqldate","events":144207180,"diff_vs_spec_144_2M":7180,"diff_pct":0.005}
+{"rule":"R3_plus_no_duplicate_id","events":144207180,"diff_vs_spec_144_2M":7180,"diff_pct":0.005}
+{"rule":"R4_plus_sqldate_in_Jul2015_Jun2017","events":143327058,"diff_vs_spec_144_2M":-872942,"diff_pct":-0.605}

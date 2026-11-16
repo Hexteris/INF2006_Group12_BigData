@@ -1,0 +1,12 @@
+{"check":"rows","value":"311"}
+{"check":"distinct_accessions","value":"311"}
+{"check":"distinct_issuers","value":"303"}
+{"check":"cik_kept_as_10_digit_text","value":"311"}
+{"check":"accession_format_ok","value":"311"}
+{"check":"form_10K","value":"156"}
+{"check":"form_10Q","value":"155"}
+{"check":"unparsable_filed_date","value":"0"}
+{"check":"first_filed","value":"2013-01-14"}
+{"check":"last_filed","value":"2017-12-20"}
+{"check":"document_kinds","value":"1"}
+{"check":"url_matches_cik_and_accession","value":"311"}

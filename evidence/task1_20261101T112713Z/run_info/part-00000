@@ -1,0 +1,7 @@
+run_id=20261101T112713Z
+application_id=application_1793529609230_0007
+spark=3.5.5-amzn-1
+full_run=True
+timing[sec_edgar_content_check]=18.4s
+timing[gdelt_scan]=349.8s
+timing[wikinews_scan]=648.6s

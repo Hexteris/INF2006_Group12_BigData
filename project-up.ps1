@@ -6,14 +6,14 @@
     Reference config (project spec, "Cloud resource constraints"):
       emr-7.10.0; 1 primary + 2 core m5.xlarge; no task nodes, no autoscaling
       one 100 GiB gp3 volume per core node, 3000 IOPS, 125 MiB/s   (config/instance-groups.json)
-      DEVIATION: spec says 200 GiB; Learner Lab policy denies EBS volumes > ~100 GiB (tested 2026-10-28)
+      spec: 100 GiB (Project Instructions latest)
       dfs.replication=2; Spark 2 executors x 2 cores x 6g, 2g overhead,
       2g driver, dynamic allocation off                              (config/emr-configurations.json)
       Apps: Hadoop, Hive, Spark, Livy, JupyterHub (JupyterHub's PySpark kernel runs through Livy)
 
     Usage:
-        .\project-up.ps1 -Bucket inf2006-g12-2501690                  # launch + connect
-        .\project-up.ps1 -Bucket inf2006-g12-2501690 -Release emr-7.9.0   # fallback release (record as deviation)
+        .\project-up.ps1 -Bucket inf2006-bigdata                  # launch + connect
+        .\project-up.ps1 -Bucket inf2006-bigdata -Release emr-7.9.0   # fallback release (record as deviation)
         .\project-up.ps1 -ClusterId j-XXXX                             # reconnect / re-open SSH after IP change
 
     -Bucket enables: EMR logs -> s3://<bucket>/emr-logs/ and JupyterHub notebook
@@ -34,7 +34,8 @@ param(
     [int]   $IdleTimeout = 3600,
     [string]$KeyName     = "vockey2",
     [string]$PemFile     = "vockey2.pem",
-    [string]$Region      = "us-east-1"
+    [string]$Region      = "us-east-1",
+    [switch]$NoConnect   # print the SSH command instead of opening an interactive session
 )
 
 # "Continue", not "Stop": in Windows PowerShell 5.1, "Stop" turns any stderr output from
@@ -90,6 +91,7 @@ if (-not $ClusterId) {
         --instance-groups "file://config/instance-groups.json" `
         --configurations "file://$cfgFile" `
         --ec2-attributes KeyName=$KeyName `
+        --ebs-root-volume-size 30 `
         --use-default-roles `
         --log-uri "s3://$Bucket/emr-logs/" `
         --auto-termination-policy IdleTimeout=$IdleTimeout `
@@ -145,4 +147,9 @@ Write-Host "JupyterHub: https://localhost:9443 (jovyan / jupyter; accept the sel
 Write-Host "YARN UI:    http://localhost:8088" -ForegroundColor Cyan
 Write-Host "Teardown:   .\project-down.ps1" -ForegroundColor DarkGray
 Write-Host ""
+if ($NoConnect) {
+    Write-Host "Connect with:" -ForegroundColor Cyan
+    Write-Host "  ssh -i $PemFile -o ServerAliveInterval=60 -L 9443:localhost:9443 -L 8088:localhost:8088 hadoop@$dns"
+    exit 0
+}
 ssh -i $PemFile -o ServerAliveInterval=60 -L 9443:localhost:9443 -L 8088:localhost:8088 "hadoop@$dns"

@@ -1,3 +1,0 @@
-acquired=314 staged=314 hdfs_matches_acquisition=314
-mismatch_or_missing: none
-acquired_not_staged: none

@@ -1,0 +1,182 @@
+{
+    "Cluster": {
+        "Id": "j-00703753JKXXC2HG7Y9X",
+        "Name": "G12-Reference",
+        "Status": {
+            "State": "WAITING",
+            "StateChangeReason": {
+                "Message": "Cluster ready to run steps."
+            },
+            "Timeline": {
+                "CreationDateTime": "2026-11-01T15:59:53.969000+08:00",
+                "ReadyDateTime": "2026-11-01T16:08:28.569000+08:00"
+            }
+        },
+        "Ec2InstanceAttributes": {
+            "Ec2KeyName": "vockey2",
+            "RequestedEc2SubnetIds": [],
+            "Ec2AvailabilityZone": "us-east-1a",
+            "RequestedEc2AvailabilityZones": [],
+            "IamInstanceProfile": "EMR_EC2_DefaultRole",
+            "EmrManagedMasterSecurityGroup": "sg-04690ad83a774fe70",
+            "EmrManagedSlaveSecurityGroup": "sg-08244187bbab4f23e"
+        },
+        "InstanceCollectionType": "INSTANCE_GROUP",
+        "LogUri": "s3n://inf2006-bigdata/emr-logs/",
+        "ReleaseLabel": "emr-7.10.0",
+        "AutoTerminate": false,
+        "TerminationProtected": false,
+        "UnhealthyNodeReplacement": true,
+        "VisibleToAllUsers": true,
+        "Applications": [
+            {
+                "Name": "Hadoop",
+                "Version": "3.4.1"
+            },
+            {
+                "Name": "Hive",
+                "Version": "3.1.3"
+            },
+            {
+                "Name": "Spark",
+                "Version": "3.5.5"
+            },
+            {
+                "Name": "Livy",
+                "Version": "0.8.0"
+            },
+            {
+                "Name": "JupyterHub",
+                "Version": "1.5.0"
+            }
+        ],
+        "Tags": [
+            {
+                "Key": "project",
+                "Value": "INF2006-G12"
+            }
+        ],
+        "ServiceRole": "EMR_DefaultRole",
+        "NormalizedInstanceHours": 48,
+        "MasterPublicDnsName": "ec2-18-234-55-245.compute-1.amazonaws.com",
+        "Configurations": [
+            {
+                "Classification": "hdfs-site",
+                "Properties": {
+                    "dfs.replication": "2"
+                }
+            },
+            {
+                "Classification": "spark",
+                "Properties": {
+                    "maximizeResourceAllocation": "false"
+                }
+            },
+            {
+                "Classification": "spark-defaults",
+                "Properties": {
+                    "spark.driver.memory": "2g",
+                    "spark.dynamicAllocation.enabled": "false",
+                    "spark.executor.cores": "2",
+                    "spark.executor.instances": "2",
+                    "spark.executor.memory": "6g",
+                    "spark.executor.memoryOverhead": "2g"
+                }
+            },
+            {
+                "Classification": "jupyter-s3-conf",
+                "Properties": {
+                    "s3.persistence.bucket": "inf2006-bigdata",
+                    "s3.persistence.enabled": "true"
+                }
+            }
+        ],
+        "ScaleDownBehavior": "TERMINATE_AT_TASK_COMPLETION",
+        "EbsRootVolumeSize": 30,
+        "KerberosAttributes": {},
+        "ClusterArn": "arn:aws:elasticmapreduce:us-east-1:246341759803:cluster/j-00703753JKXXC2HG7Y9X",
+        "StepConcurrencyLevel": 1,
+        "PlacementGroups": [],
+        "OSReleaseLabel": "2023.12.20261026.1",
+        "SessionEnabled": false,
+        "BootstrapActions": [],
+        "InstanceGroups": [
+            {
+                "Id": "ig-046091622OZHK9WMZMBE",
+                "Name": "Primary",
+                "Market": "ON_DEMAND",
+                "InstanceGroupType": "MASTER",
+                "InstanceType": "m5.xlarge",
+                "RequestedInstanceCount": 1,
+                "RunningInstanceCount": 1,
+                "Status": {
+                    "State": "RUNNING",
+                    "StateChangeReason": {
+                        "Message": ""
+                    },
+                    "Timeline": {
+                        "CreationDateTime": "2026-11-01T15:59:53.993000+08:00",
+                        "ReadyDateTime": "2026-11-01T16:07:58.644000+08:00"
+                    }
+                },
+                "Configurations": [],
+                "ConfigurationsVersion": 0,
+                "LastSuccessfullyAppliedConfigurations": [],
+                "LastSuccessfullyAppliedConfigurationsVersion": 0,
+                "EbsBlockDevices": [
+                    {
+                        "VolumeSpecification": {
+                            "VolumeType": "gp2",
+                            "SizeInGB": 32
+                        },
+                        "Device": "/dev/sdb"
+                    },
+                    {
+                        "VolumeSpecification": {
+                            "VolumeType": "gp2",
+                            "SizeInGB": 32
+                        },
+                        "Device": "/dev/sdc"
+                    }
+                ],
+                "ShrinkPolicy": {}
+            },
+            {
+                "Id": "ig-01482731HW4LJ41A9HYG",
+                "Name": "Core",
+                "Market": "ON_DEMAND",
+                "InstanceGroupType": "CORE",
+                "InstanceType": "m5.xlarge",
+                "RequestedInstanceCount": 2,
+                "RunningInstanceCount": 2,
+                "Status": {
+                    "State": "RUNNING",
+                    "StateChangeReason": {
+                        "Message": ""
+                    },
+                    "Timeline": {
+                        "CreationDateTime": "2026-11-01T15:59:53.994000+08:00",
+                        "ReadyDateTime": "2026-11-01T16:08:28.569000+08:00"
+                    }
+                },
+                "Configurations": [],
+                "ConfigurationsVersion": 0,
+                "LastSuccessfullyAppliedConfigurations": [],
+                "LastSuccessfullyAppliedConfigurationsVersion": 0,
+                "EbsBlockDevices": [
+                    {
+                        "VolumeSpecification": {
+                            "VolumeType": "gp3",
+                            "Iops": 3000,
+                            "SizeInGB": 100,
+                            "Throughput": 125
+                        },
+                        "Device": "/dev/sdb"
+                    }
+                ],
+                "EbsOptimized": true,
+                "ShrinkPolicy": {}
+            }
+        ]
+    }
+}

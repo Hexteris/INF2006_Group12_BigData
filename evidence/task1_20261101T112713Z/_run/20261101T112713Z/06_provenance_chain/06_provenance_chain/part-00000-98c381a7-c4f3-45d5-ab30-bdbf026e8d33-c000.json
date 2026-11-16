@@ -1,0 +1,5 @@
+{"source":"gdelt","hdfs_files":731,"original_files":731,"sha256_identical":731,"bytes_in_original":731,"bytes_identical":731,"hdfs_not_in_original":0,"original_not_in_hdfs":0}
+{"source":"prices","hdfs_files":1,"original_files":1,"sha256_identical":1,"bytes_in_original":1,"bytes_identical":1,"hdfs_not_in_original":0,"original_not_in_hdfs":0}
+{"source":"sec_edgar","hdfs_files":311,"original_files":311,"sha256_identical":311,"bytes_in_original":311,"bytes_identical":311,"hdfs_not_in_original":0,"original_not_in_hdfs":0}
+{"source":"sec_inventory","hdfs_files":1,"original_files":1,"sha256_identical":1,"bytes_in_original":0,"bytes_identical":0,"hdfs_not_in_original":0,"original_not_in_hdfs":0}
+{"source":"wikinews","hdfs_files":2,"original_files":2,"sha256_identical":2,"bytes_in_original":2,"bytes_identical":2,"hdfs_not_in_original":0,"original_not_in_hdfs":0}

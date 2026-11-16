@@ -1,0 +1,4 @@
+{"flag":"close_outside_range","count":8}
+{"flag":"high_lt_low","count":1}
+{"flag":"null_field","count":11}
+{"flag":"open_outside_range","count":3}

@@ -1,4 +1,0 @@
-source=sec_company_tickers version=current acq=2026-10-28 put_seconds=3 readback_seconds=2
-files=1 mismatches=0
-798155  1596310  /corpus/raw/sec_company_tickers/current/acq_2026-10-28
-replication=2 file=company_tickers.json
