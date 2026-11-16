@@ -1,0 +1,567 @@
+﻿{
+  "paragraphs": [
+    {
+      "user": "anonymous",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=47",
+              "$$hashKey": "object:2656"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=48",
+              "$$hashKey": "object:2657"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=49",
+              "$$hashKey": "object:2658"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=50",
+              "$$hashKey": "object:2659"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=51",
+              "$$hashKey": "object:2660"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=52",
+              "$$hashKey": "object:2661"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=53",
+              "$$hashKey": "object:2662"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=54",
+              "$$hashKey": "object:2663"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=55",
+              "$$hashKey": "object:2664"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=56",
+              "$$hashKey": "object:2665"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=57",
+              "$$hashKey": "object:2666"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=58",
+              "$$hashKey": "object:2667"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=59",
+              "$$hashKey": "object:2668"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794593385480_1642760119",
+      "id": "paragraph_1794593385480_1642760119",
+      "dateCreated": "2026-11-13T18:09:45+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:272",
+      "text": "\n%spark.pyspark\n\nBUCKET = \"inf2006-g12-ml\"\nBASE = \"s3a://\" + BUCKET\n\n# Existing Task 2 ML data\ntrain = spark.read.parquet(\n    BASE + \"/task2/model_ready_v1/training\"\n)\n\nval = spark.read.parquet(\n    BASE + \"/task2/model_ready_v1/validation\"\n)\n\ntest = spark.read.parquet(\n    BASE + \"/task2/model_ready_v1/testing\"\n)\n\n# Your actual cleaned-price folder\nprices = spark.read.parquet(\n    BASE + \"/task2/cleaned/cleaned/prices\"\n)\n\nprint(\"Training:\", train.count())\nprint(\"Validation:\", val.count())\nprint(\"Testing:\", test.count())\nprint(\"Cleaned prices:\", prices.count())\n\nprices.printSchema()\nprices.show(5, truncate=False)\n",
+      "dateUpdated": "2026-11-13T18:19:59+0000",
+      "dateFinished": "2026-11-13T18:20:02+0000",
+      "dateStarted": "2026-11-13T18:19:59+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Training: 349590\nValidation: 122801\nTesting: 126001\nCleaned prices: 605887\nroot\n |-- ticker: string (nullable = true)\n |-- trade_date: date (nullable = true)\n |-- open_price: double (nullable = true)\n |-- high_price: double (nullable = true)\n |-- low_price: double (nullable = true)\n |-- close_price: double (nullable = true)\n |-- volume: long (nullable = true)\n |-- year: integer (nullable = true)\n\n+------+----------+----------+----------+---------+-----------+-------+----+\n|ticker|trade_date|open_price|high_price|low_price|close_price|volume |year|\n+------+----------+----------+----------+---------+-----------+-------+----+\n|LMT   |2017-02-01|250.83    |252.56    |249.98   |250.9      |1210386|2017|\n|LMT   |2017-02-02|250.9     |252.165   |250.34   |251.97     |1045748|2017|\n|LMT   |2017-02-03|252.67    |256.46    |251.5    |254.46     |1803657|2017|\n|LMT   |2017-02-06|254.43    |257.07    |254.11   |255.31     |980820 |2017|\n|LMT   |2017-02-07|256.0     |257.3     |255.58   |256.37     |977790 |2017|\n+------+----------+----------+----------+---------+-----------+-------+----+\nonly showing top 5 rows\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "\n%spark.pyspark\n\nfrom pyspark.sql import functions as F\nfrom pyspark.sql.window import Window\n\n# Check the columns we need\nrequired = {\"ticker\", \"trade_date\", \"close_price\"}\n\nassert required.issubset(set(prices.columns))\n\n# Prepare cleaned price history\nprices_clean = prices.select(\n    \"ticker\",\n    F.to_date(\"trade_date\").alias(\"trade_date\"),\n    F.col(\"close_price\").cast(\"double\").alias(\"close_price\")\n)\n\n# Check there are no duplicate stock-date records\nduplicates = (\n    prices_clean.groupBy(\"ticker\", \"trade_date\")\n    .count()\n    .filter(F.col(\"count\") > 1)\n    .count()\n)\n\nassert duplicates == 0, \"Duplicate stock-date records found\"\n\n# Sort prices by date for each stock\nw = Window.partitionBy(\"ticker\").orderBy(\"trade_date\")\n\n# Calculate previous closing price\nprices_returns = prices_clean.withColumn(\n    \"previous_close\",\n    F.lag(\"close_price\", 1).over(w)\n)\n\n# Calculate daily return\nprices_returns = prices_returns.withColumn(\n    \"daily_return_future_base\",\n    F.when(\n        F.col(\"previous_close\") > 0,\n        F.col(\"close_price\") / F.col(\"previous_close\") - 1\n    )\n)\n\n# Window covering the NEXT five stock observations\nfuture_window = w.rowsBetween(1, 5)\n\n# Calculate future 5-day volatility\nfuture = (\n    prices_returns\n    .withColumn(\n        \"future_volatility_5d\",\n        F.stddev_samp(\"daily_return_future_base\")\n        .over(future_window)\n    )\n    .withColumn(\n        \"future_count\",\n        F.count(\"daily_return_future_base\")\n        .over(future_window)\n    )\n    .withColumn(\n        \"future_end_date\",\n        F.lead(\"trade_date\", 5).over(w)\n    )\n    .select(\n        \"ticker\",\n        \"trade_date\",\n        \"future_volatility_5d\",\n        \"future_count\",\n        \"future_end_date\"\n    )\n)\n\nfuture.show(10, truncate=False)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-13T18:20:56+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=60",
+              "$$hashKey": "object:2794"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=61",
+              "$$hashKey": "object:2795"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=62",
+              "$$hashKey": "object:2796"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=63",
+              "$$hashKey": "object:2797"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=64",
+              "$$hashKey": "object:2798"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794593422476_406439623",
+      "id": "paragraph_1794593422476_406439623",
+      "dateCreated": "2026-11-13T18:10:22+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:340",
+      "dateFinished": "2026-11-13T18:20:58+0000",
+      "dateStarted": "2026-11-13T18:20:56+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "+------+----------+--------------------+------------+---------------+\n|ticker|trade_date|future_volatility_5d|future_count|future_end_date|\n+------+----------+--------------------+------------+---------------+\n|ALL   |2013-02-08|0.003730487763284166|5           |2013-02-15     |\n|ALL   |2013-02-11|0.008102123367026487|5           |2013-02-19     |\n|ALL   |2013-02-12|0.010000521204047846|5           |2013-02-20     |\n|ALL   |2013-02-13|0.00993720699497808 |5           |2013-02-21     |\n|ALL   |2013-02-14|0.009897094129212336|5           |2013-02-22     |\n|ALL   |2013-02-15|0.018121199424434915|5           |2013-02-25     |\n|ALL   |2013-02-19|0.014583498165621853|5           |2013-02-26     |\n|ALL   |2013-02-20|0.016060308980440058|5           |2013-02-27     |\n|ALL   |2013-02-21|0.016000676213608046|5           |2013-02-28     |\n|ALL   |2013-02-22|0.01617394752761975 |5           |2013-03-01     |\n+------+----------+--------------------+------------+---------------+\nonly showing top 10 rows\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "\n%spark.pyspark\n\n# Keep only rows with five future returns\nvalid_future = future.filter(\n    (F.col(\"future_count\") == 5)\n    & F.col(\"future_volatility_5d\").isNotNull()\n)\n\ndef attach_volatility(df, end_date):\n    prepared = df.withColumn(\n        \"trade_date\",\n        F.to_date(\"trade_date\")\n    )\n\n    result = prepared.join(\n        valid_future,\n        [\"ticker\", \"trade_date\"],\n        \"inner\"\n    )\n\n    # The entire five-session outcome must be\n    # inside the permitted period\n    return result.filter(\n        F.col(\"future_end_date\") <= F.to_date(F.lit(end_date))\n    )\n\ntrain_vol = attach_volatility(train, \"2015-12-31\")\nval_vol = attach_volatility(val, \"2016-12-31\")\ntest_vol = attach_volatility(test, \"2017-12-31\")\n\nprint(\"Training with volatility:\", train_vol.count())\nprint(\"Validation with volatility:\", val_vol.count())\nprint(\"Testing with volatility:\", test_vol.count())\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-13T18:21:02+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=65",
+              "$$hashKey": "object:3233"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=66",
+              "$$hashKey": "object:3234"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=67",
+              "$$hashKey": "object:3235"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=68",
+              "$$hashKey": "object:3236"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=69",
+              "$$hashKey": "object:3237"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=70",
+              "$$hashKey": "object:3238"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=71",
+              "$$hashKey": "object:3239"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=72",
+              "$$hashKey": "object:3240"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=73",
+              "$$hashKey": "object:3241"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=74",
+              "$$hashKey": "object:3242"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=75",
+              "$$hashKey": "object:3243"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=76",
+              "$$hashKey": "object:3244"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794593439792_1367926782",
+      "id": "paragraph_1794593439792_1367926782",
+      "dateCreated": "2026-11-13T18:10:39+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:412",
+      "dateFinished": "2026-11-13T18:21:07+0000",
+      "dateStarted": "2026-11-13T18:21:02+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Training with volatility: 349590\nValidation with volatility: 122801\nTesting with volatility: 123476\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "\n%spark.pyspark\n\n# Calculate the threshold from TRAINING data only\nthreshold = train_vol.approxQuantile(\n    \"future_volatility_5d\",\n    [0.75],\n    0.001\n)[0]\n\nprint(\"High volatility threshold:\", threshold)\n\ndef add_volatility_label(df):\n    return df.withColumn(\n        \"label_volatility_5d\",\n        F.when(\n            F.col(\"future_volatility_5d\") > threshold,\n            F.lit(1.0)\n        ).otherwise(F.lit(0.0))\n    )\n\ntrain_vol = add_volatility_label(train_vol)\nval_vol = add_volatility_label(val_vol)\ntest_vol = add_volatility_label(test_vol)\n\nprint(\"Training labels:\")\ntrain_vol.groupBy(\"label_volatility_5d\").count().show()\n\nprint(\"Validation labels:\")\nval_vol.groupBy(\"label_volatility_5d\").count().show()\n\nprint(\"Testing labels:\")\ntest_vol.groupBy(\"label_volatility_5d\").count().show()\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-13T18:21:08+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=77",
+              "$$hashKey": "object:3856"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=78",
+              "$$hashKey": "object:3857"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=79",
+              "$$hashKey": "object:3858"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=80",
+              "$$hashKey": "object:3859"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=81",
+              "$$hashKey": "object:3860"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=82",
+              "$$hashKey": "object:3861"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=83",
+              "$$hashKey": "object:3862"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=84",
+              "$$hashKey": "object:3863"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=85",
+              "$$hashKey": "object:3864"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=86",
+              "$$hashKey": "object:3865"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=87",
+              "$$hashKey": "object:3866"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=88",
+              "$$hashKey": "object:3867"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=89",
+              "$$hashKey": "object:3868"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=90",
+              "$$hashKey": "object:3869"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794593568696_139154257",
+      "id": "paragraph_1794593568696_139154257",
+      "dateCreated": "2026-11-13T18:12:48+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:1237",
+      "dateFinished": "2026-11-13T18:21:15+0000",
+      "dateStarted": "2026-11-13T18:21:08+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "High volatility threshold: 0.01592918611702021\nTraining labels:\n+-------------------+------+\n|label_volatility_5d| count|\n+-------------------+------+\n|                1.0| 87700|\n|                0.0|261890|\n+-------------------+------+\n\nValidation labels:\n+-------------------+-----+\n|label_volatility_5d|count|\n+-------------------+-----+\n|                1.0|39925|\n|                0.0|82876|\n+-------------------+-----+\n\nTesting labels:\n+-------------------+------+\n|label_volatility_5d| count|\n+-------------------+------+\n|                1.0| 22382|\n|                0.0|101094|\n+-------------------+------+\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "\n%spark.pyspark\n\nBUCKET = \"inf2006-g12-ml\"\n\nOUTPUT = f\"s3a://{BUCKET}/task3/volatility_v1\"\n\n# Save datasets\ntrain_vol.write.mode(\"overwrite\").parquet(\n    OUTPUT + \"/training\"\n)\n\nval_vol.write.mode(\"overwrite\").parquet(\n    OUTPUT + \"/validation\"\n)\n\ntest_vol.write.mode(\"overwrite\").parquet(\n    OUTPUT + \"/testing\"\n)\n\n# Save the threshold\nmetadata = spark.createDataFrame(\n    [(float(threshold),)],\n    [\"high_volatility_threshold\"]\n)\n\nmetadata.write.mode(\"overwrite\").json(\n    OUTPUT + \"/metadata\"\n)\n\n# Check saved records\nfor name in [\"training\", \"validation\", \"testing\"]:\n    df = spark.read.parquet(OUTPUT + \"/\" + name)\n    print(name, df.count())\n\nprint(\"SAVED SUCCESSFULLY\")\nprint(\"Location:\", OUTPUT)\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-13T18:21:18+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=91",
+              "$$hashKey": "object:4971"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=92",
+              "$$hashKey": "object:4972"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=93",
+              "$$hashKey": "object:4973"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=94",
+              "$$hashKey": "object:4974"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=95",
+              "$$hashKey": "object:4975"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=96",
+              "$$hashKey": "object:4976"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=97",
+              "$$hashKey": "object:4977"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=98",
+              "$$hashKey": "object:4978"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=99",
+              "$$hashKey": "object:4979"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=100",
+              "$$hashKey": "object:4980"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=101",
+              "$$hashKey": "object:4981"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=102",
+              "$$hashKey": "object:4982"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=103",
+              "$$hashKey": "object:4983"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=104",
+              "$$hashKey": "object:4984"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=105",
+              "$$hashKey": "object:4985"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=106",
+              "$$hashKey": "object:4986"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=107",
+              "$$hashKey": "object:4987"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=108",
+              "$$hashKey": "object:4988"
+            },
+            {
+              "jobUrl": "http://ip-172-31-47-186.ec2.internal:4040/jobs/job?id=109",
+              "$$hashKey": "object:4989"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794593604218_1865805928",
+      "id": "paragraph_1794593604218_1865805928",
+      "dateCreated": "2026-11-13T18:13:24+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:1782",
+      "dateFinished": "2026-11-13T18:21:33+0000",
+      "dateStarted": "2026-11-13T18:21:18+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "training 349590\nvalidation 122801\ntesting 123476\nSAVED SUCCESSFULLY\nLocation: s3a://inf2006-g12-ml/task3/volatility_v1\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%spark.pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2026-11-13T18:21:18+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1794594078242_1249647497",
+      "id": "paragraph_1794594078242_1249647497",
+      "dateCreated": "2026-11-13T18:21:18+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:3926"
+    }
+  ],
+  "name": "INF2006_Task3_Volatility_Labels",
+  "id": "2N7YVVRDT",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.11.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/INF2006_Task3_Volatility_Labels"
+}

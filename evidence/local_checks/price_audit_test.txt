@@ -1,0 +1,20 @@
+Price audit mapper/reducer local test
+Date: Thu Oct 29 12:53:11 +08 2026
+Input: /tmp/price_audit_test.csv
+
+=== Mapper + reducer output ===
+MALFORMED|stdin|invalid_date	1
+MALFORMED|stdin|wrong_column_count	1
+OUT_OF_SCOPE|stdin	1
+RAW|stdin	6
+REJECT|stdin|close_outside_range	1
+REJECT|stdin|null_field	1
+ROWS|stdin|AAA|2017	2
+ROWS|stdin|BBB|2017	1
+STATUS|stdin|2017|ACCEPTED_CANDIDATE	1
+STATUS|stdin|2017|REJECTED	2
+
+=== Headerless single-row test ===
+RAW|stdin	1
+ROWS|stdin|AAA|2017	1
+STATUS|stdin|2017|ACCEPTED_CANDIDATE	1

@@ -1,0 +1,44 @@
+{
+  "run_id": "20261116T092814Z",
+  "spark_version": "3.5.5-amzn-1",
+  "on_cluster": true,
+  "inputs": {
+    "prices": "s3://inf2006-g12-2500837/task2/cleaned/prices",
+    "gdelt_daily_features": "s3://inf2006-g12-2500837/task2/cleaned/gdelt/daily_features"
+  },
+  "row_counts": {
+    "prices": 605887,
+    "gdelt_dates": 150,
+    "scored_ticker_days": 595789,
+    "returns_nulled_as_artefacts": 6,
+    "q2_joined_days": 100
+  },
+  "parameters": {
+    "window": 20,
+    "z_high": 2.0,
+    "z_low": -2.0,
+    "max_abs_ret": 0.5,
+    "groups": 3
+  },
+  "stage_seconds": {
+    "load_and_check": 10.8,
+    "q1_compute": 13.1,
+    "q2_compute": 2.0
+  },
+  "total_seconds": 101.6,
+  "outputs": [
+    "q1_class_summary.csv",
+    "q1_monthly_flags.csv",
+    "q1_monthly_high_share.png",
+    "q1_volume_class_and_zbucket.png",
+    "q1_zbucket_summary.csv",
+    "q2_block_composition.csv",
+    "q2_controlled_by_today_vol.csv",
+    "q2_joined_daily.csv",
+    "q2_news_volume_groups.csv",
+    "q2_next_day_vol_by_news_group.png",
+    "q2_spearman_checks.csv",
+    "q2_today_vs_next_day_vol.png",
+    "q2_tone_groups.csv"
+  ]
+}
