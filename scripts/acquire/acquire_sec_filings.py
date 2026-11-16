@@ -25,7 +25,7 @@ Examples:
   python3 acquire_sec_filings.py --inventory SEC_Filing_Inventory.csv \
       --cross-check "SEC_Filing_Inventory(SEC filings).xlsx" --out /mnt/raw/sec_edgar --dry-run
   # dev sample, then full run
-  export SEC_USER_AGENT="Daniel Tay 2501690@sit.singaporetech.edu.sg"
+  export SEC_USER_AGENT="Your Name your@email"
   python3 acquire_sec_filings.py --inventory SEC_Filing_Inventory.csv --out /mnt/raw/sec_edgar --limit 20
   python3 acquire_sec_filings.py --inventory SEC_Filing_Inventory.csv --out /mnt/raw/sec_edgar
 """

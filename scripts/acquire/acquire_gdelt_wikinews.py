@@ -21,7 +21,7 @@ Re-running with the same --acq-date resumes: files already present with the publ
 checksum are skipped. Stdlib only (Python 3.8+), works on Windows and the EMR primary node.
 
 Examples (PowerShell):
-  $env:SEC_USER_AGENT = 'Daniel Tay 2501690@sit.singaporetech.edu.sg'
+  $env:SEC_USER_AGENT = 'Your Name your@email'
   python scripts\\acquire\\acquire_gdelt_wikinews.py --dry-run          # list sizes only
   python scripts\\acquire\\acquire_gdelt_wikinews.py --only gdelt --gdelt-start 20150701 --gdelt-end 20170630
   python scripts\\acquire\\acquire_gdelt_wikinews.py --only wikinews --wikinews-dump 20261001
