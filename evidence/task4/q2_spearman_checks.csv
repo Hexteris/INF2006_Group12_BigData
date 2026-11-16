@@ -1,0 +1,8 @@
+pair,spearman_rho,p_value,n_days
+event_count vs next-day vol,-0.024,,100
+avg_tone vs next-day vol,-0.476,,100
+event_count vs next-day vol | today vol,0.028,,100
+avg_tone vs next-day vol | today vol,-0.259,,100
+today vol vs next-day vol (volatility clustering),0.449,,100
+WITHIN-BLOCK event_count vs next-day vol | today vol,0.046,,100
+WITHIN-BLOCK avg_tone vs next-day vol | today vol,-0.066,,100
