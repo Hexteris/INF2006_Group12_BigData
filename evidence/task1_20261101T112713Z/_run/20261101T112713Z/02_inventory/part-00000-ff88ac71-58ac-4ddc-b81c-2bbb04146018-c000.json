@@ -1,5 +1,0 @@
-{"source":"prices","version":"v1_2013-2017","acq_date":"2026-10-28","expected_files":1,"hdfs_files":1,"hdfs_bytes":29580549,"min_repl":2,"max_repl":2,"hdfs_path":"/corpus/raw/prices/v1_2013-2017/acq_2026-10-28","files_ok":true}
-{"source":"sec_inventory","version":"v1","acq_date":"2026-10-28","expected_files":1,"hdfs_files":1,"hdfs_bytes":51751,"min_repl":2,"max_repl":2,"hdfs_path":"/corpus/raw/sec_inventory/v1/acq_2026-10-28","files_ok":true}
-{"source":"sec_edgar","version":"v1","acq_date":"2026-10-28","expected_files":311,"hdfs_files":311,"hdfs_bytes":2777408405,"min_repl":2,"max_repl":2,"hdfs_path":"/corpus/raw/sec_edgar/v1/acq_2026-10-28","files_ok":true}
-{"source":"wikinews","version":"20261001_meta-history","acq_date":"2026-10-29","expected_files":2,"hdfs_files":2,"hdfs_bytes":662002512,"min_repl":2,"max_repl":2,"hdfs_path":"/corpus/raw/wikinews/20261001_meta-history/acq_2026-10-29","files_ok":true}
-{"source":"gdelt","version":"v1_events_2015-2017","acq_date":"2026-10-29","expected_files":731,"hdfs_files":731,"hdfs_bytes":9611684528,"min_repl":2,"max_repl":2,"hdfs_path":"/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29","files_ok":true}

@@ -35,7 +35,7 @@ Agreed names let each stage be written before the previous one is finished. Chan
 |---|---|
 | `raw_prices` rows | 619,040 |
 | `out_of_scope_prices` | 13,130 (dates 2018-01-02 to 2018-02-07) |
-| `rejected_prices` | 23 (listed in `evidence/local_checks/price_anomaly_detail.txt`) |
+| `rejected_prices` | 23 (listed in `evidence/task1/local_checks/price_anomaly_detail.txt`) |
 | `cleaned_prices` | **605,887** (spec's accepted-bar count) |
 | raw = cleaned + rejected + out_of_scope | 619,040 = 605,887 + 23 + 13,130 |
 | `sec_filings` | 311 rows, 303 CIKs |

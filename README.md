@@ -25,7 +25,7 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 | `notebooks/INF2006_G12_task1.ipynb` | Task 1 notebook exported from EMR (full evidence run) | Task 1 |
 | `notebooks/INF2006_G12_stage_corpus.ipynb` | Copy-paste SSH cells: stage all 5 sources S3 → HDFS `/corpus/raw` with sha256 checks | Task 1 |
 | `config/` | EMR configuration used by `project-up.ps1` | Task 1 |
-| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings) | everyone |
+| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task, e.g. `evidence/task1/` (run results, screenshots, cluster records, local checks) | everyone |
 | `project-up.ps1`, `project-down.ps1` | Launch / terminate the reference cluster | everyone |
 
 ## Working rules

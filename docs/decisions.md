@@ -33,7 +33,7 @@ Each entry: what was decided, the evidence behind it, and where that evidence is
 
 **Evidence**
 - Failed launch `j-06143052K1KL7TE7PUW2`: state `TERMINATED_WITH_ERRORS`, code `VALIDATION_ERROR`
-- Working cluster: `evidence/cluster_j-00703753JKXXC2HG7Y9X_20261101-190507.json`
+- Working cluster: `evidence/task1/cluster/cluster_j-00703753JKXXC2HG7Y9X_20261101-190507.json`
 - Config: `config/instance-groups.json`
 
 ---
@@ -47,7 +47,7 @@ Each entry: what was decided, the evidence behind it, and where that evidence is
 **Decision.** Accept the default for Task 1. **Tasks 2–4 must set `%%configure -f {"driverMemory": "2g"}` as their first cell** to match the spec's reference configuration for pipeline runs.
 
 **Evidence**
-- Configuration: `evidence/task1_20261101T112713Z/_run/00_cluster_config/part-*.json` (`driverMemory: 1000M`)
+- Configuration: `evidence/task1/run_20261101T112713Z/_run/00_cluster_config/part-*.json` (`driverMemory: 1000M`)
 - Successful run: all profiling scans completed (SEC 18.4 s, GDELT 349.8 s, Wikinews 648.6 s)
 
 ---
@@ -61,8 +61,8 @@ Each entry: what was decided, the evidence behind it, and where that evidence is
 **Decision.** Use the mirror as a fallback when the primary host is unavailable. The bytes are identical (sha1 match), so provenance is maintained.
 
 **Evidence**
-- Download manifest: `evidence/task1_20261101T112713Z/_run/01_manifests_copied/part-*.json`
-- Publisher checksums: `evidence/task1_20261101T112713Z/_run/07_publisher_checksums/part-*.json`
+- Download manifest: `evidence/task1/run_20261101T112713Z/_run/01_manifests_copied/part-*.json`
+- Publisher checksums: `evidence/task1/run_20261101T112713Z/_run/07_publisher_checksums/part-*.json`
 
 ---
 
@@ -80,9 +80,9 @@ Each entry: what was decided, the evidence behind it, and where that evidence is
 - `DATEADDED` equals file date for every line.
 
 **Evidence**
-- Reconciliation: `evidence/task1_20261101T112713Z/gdelt/20261101T112713Z/07_reconciliation_to_spec/part-*.json`
-- Quality counts: `evidence/task1_20261101T112713Z/gdelt/20261101T112713Z/03_quality_counts/part-*.json`
-- Date lag: `evidence/task1_20261101T112713Z/gdelt/20261101T112713Z/04_event_date_lag/part-*.json`
+- Reconciliation: `evidence/task1/run_20261101T112713Z/gdelt/07_reconciliation_to_spec/part-*.json`
+- Quality counts: `evidence/task1/run_20261101T112713Z/gdelt/03_quality_counts/part-*.json`
+- Date lag: `evidence/task1/run_20261101T112713Z/gdelt/04_event_date_lag/part-*.json`
 
 ---
 

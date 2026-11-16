@@ -1,4 +1,0 @@
-{"source":"prices","time_field":"trading date (ET)","first":"2013-02-08","last":"2018-02-07","size":"505 tickers"}
-{"source":"sec_edgar","time_field":"acceptance date (ET)","first":"2013-01-14","last":"2017-12-20","size":"311 filings"}
-{"source":"gdelt","time_field":"file date = DATEADDED","first":"2015-07-01","last":"2017-06-30","size":"144,207,180 lines"}
-{"source":"wikinews","time_field":"revision timestamp (UTC)","first":"2004-11-08T08:11:42Z","last":"2026-09-30T13:50:02Z","size":"1,954,230 revisions"}

@@ -1,7 +1,0 @@
-{"check":"nonpositive_price","value":"0"}
-{"check":"high_lt_low","value":"1"}
-{"check":"open_outside_range","value":"4"}
-{"check":"close_outside_range","value":"9"}
-{"check":"negative_volume","value":"0"}
-{"check":"zero_volume","value":"4"}
-{"check":"fractional_volume","value":"0"}

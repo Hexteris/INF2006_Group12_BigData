@@ -1,5 +1,0 @@
-{"source":"gdelt","records":731,"bytes":9611684528,"sha256_equal":731,"match_yes":731,"first_staged_utc":"2026-11-01T08:54:19Z","last_staged_utc":"2026-11-01T08:54:19Z"}
-{"source":"prices","records":1,"bytes":29580549,"sha256_equal":1,"match_yes":1,"first_staged_utc":"2026-11-01T08:21:35Z","last_staged_utc":"2026-11-01T08:21:35Z"}
-{"source":"sec_edgar","records":311,"bytes":2777408405,"sha256_equal":311,"match_yes":311,"first_staged_utc":"2026-11-01T08:31:06Z","last_staged_utc":"2026-11-01T08:31:06Z"}
-{"source":"sec_inventory","records":1,"bytes":51751,"sha256_equal":1,"match_yes":1,"first_staged_utc":"2026-11-01T08:21:58Z","last_staged_utc":"2026-11-01T08:21:58Z"}
-{"source":"wikinews","records":2,"bytes":662002512,"sha256_equal":2,"match_yes":2,"first_staged_utc":"2026-11-01T08:31:36Z","last_staged_utc":"2026-11-01T08:31:36Z"}

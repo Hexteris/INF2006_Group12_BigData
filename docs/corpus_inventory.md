@@ -9,10 +9,10 @@ Column meanings are in `docs/data_dictionary.md`. Evidence paths are relative to
 | Source | HDFS path (`/corpus/raw/…`) | Files | Bytes | Rows / items | sha256 | Retrieved (UTC) | Origin |
 |---|---|---|---|---|---|---|---|
 | S1 prices | `prices/v1_2013-2017/acq_2026-10-28/all_stocks_5yr.csv` | 1 | 29,580,549 | 619,040 rows, 505 tickers, 2013-02-08 to 2018-02-07 | `6aea253cd19de60b568143991aaf1fa482456565c389205658d236e595e716cf` | 2026-10-28T06:05:40Z | `https://raw.githubusercontent.com/plotly/datasets/53cd4f5c9e682f59a9b86b6229aa304e570e09dc/all_stocks_5yr.csv` (commit dated 2020-10-05; `master` served identical bytes) |
-| S2 SEC filings | `sec_edgar/v1/acq_2026-10-28/*.txt` | 311 | 2,777,408,405 | 311 filings (156 10-K, 155 10-Q), 303 issuers, filed 2013-01-14 to 2017-12-20 | per file in `evidence/task1_20261101T112713Z/_run/01_manifests_copied/part-*.json`. Corpus digest `5af6cd49ab21588c791863b823e0845c156d45fa839c339d435569e8726a3b2c`. | 2026-10-28T06:06:40Z – 06:09:48Z | The 311 URLs listed in S3, from `www.sec.gov/Archives` |
+| S2 SEC filings | `sec_edgar/v1/acq_2026-10-28/*.txt` | 311 | 2,777,408,405 | 311 filings (156 10-K, 155 10-Q), 303 issuers, filed 2013-01-14 to 2017-12-20 | per file in `evidence/task1/run_20261101T112713Z/_run/01_manifests_copied/part-*.json`. Corpus digest `5af6cd49ab21588c791863b823e0845c156d45fa839c339d435569e8726a3b2c`. | 2026-10-28T06:06:40Z – 06:09:48Z | The 311 URLs listed in S3, from `www.sec.gov/Archives` |
 | S3 SEC inventory | `sec_inventory/v1/acq_2026-10-28/SEC_Filing_Inventory.csv` | 1 | 51,751 | 311 rows | `3227f5464490a97eb37c97255181adf9f950739e40c661ba4cf1f62ca5f2df9a` | Course download; uploaded to S3 2026-10-28 | Course page (CSV twin of the official .xlsx, sha256 `cb640a32…f19926`; 0 differences) |
-| S4 GDELT | `gdelt/v1_events_2015-2017/acq_2026-10-29/*.zip` | 731 | 9,611,684,528 | 144,207,180 lines, 731 daily archives 2015-07-01 to 2017-06-30 | per file in `evidence/task1_20261101T112713Z/gdelt/20261101T112713Z/01_files_and_bytes/part-*.json` | 2026-10-29T08:29:33Z – 09:04:35Z | GDELT Event Database daily exports, 2015-07-01 to 2017-06-30 |
-| S5 Wikinews | `wikinews/20261001_meta-history/acq_2026-10-29/*.bz2` | 2 | 662,002,512 | 1,954,230 revisions, 265,900 pages, 2004-11-08T08:11:42Z to 2026-09-30T13:50:02Z | per file in `evidence/task1_20261101T112713Z/wikinews/20261101T112713Z/01_per_file/part-*.json` | 2026-10-29T08:34:08Z – 08:36:23Z | Wikimedia meta-history dump; host `dumps.wikimedia.org` returned 404, mirror `mirror.accum.se` served the files |
+| S4 GDELT | `gdelt/v1_events_2015-2017/acq_2026-10-29/*.zip` | 731 | 9,611,684,528 | 144,207,180 lines, 731 daily archives 2015-07-01 to 2017-06-30 | per file in `evidence/task1/run_20261101T112713Z/gdelt/01_files_and_bytes/part-*.json` | 2026-10-29T08:29:33Z – 09:04:35Z | GDELT Event Database daily exports, 2015-07-01 to 2017-06-30 |
+| S5 Wikinews | `wikinews/20261001_meta-history/acq_2026-10-29/*.bz2` | 2 | 662,002,512 | 1,954,230 revisions, 265,900 pages, 2004-11-08T08:11:42Z to 2026-09-30T13:50:02Z | per file in `evidence/task1/run_20261101T112713Z/wikinews/01_per_file/part-*.json` | 2026-10-29T08:34:08Z – 08:36:23Z | Wikimedia meta-history dump; host `dumps.wikimedia.org` returned 404, mirror `mirror.accum.se` served the files |
 | **Total** | | **1,046** | **13,080,727,745** | | | | |
 
 **HDFS footprint.** 13.08 GB logical, 26.16 GB with replication 2. That is about 3% of the 188.87 GB configured HDFS capacity. The manifests add about 0.4 MB.
@@ -21,12 +21,12 @@ Column meanings are in `docs/data_dictionary.md`. Evidence paths are relative to
 
 | Step | Check | Result | Evidence |
 |---|---|---|---|
-| Download | HTTP status, bytes, sha256 recorded per file | 311/311 SEC at HTTP 200 on the first attempt, 0 unavailable. Prices, GDELT and Wikinews at HTTP 200. | `evidence/task1_20261101T112713Z/_run/01_manifests_copied/part-*.json` |
-| Publisher checksums | Published hash vs downloaded file | GDELT md5 731/731, Wikinews sha1 2/2 matched. Prices pinned commit. | `evidence/task1_20261101T112713Z/_run/07_publisher_checksums/part-*.json` |
+| Download | HTTP status, bytes, sha256 recorded per file | 311/311 SEC at HTTP 200 on the first attempt, 0 unavailable. Prices, GDELT and Wikinews at HTTP 200. | `evidence/task1/run_20261101T112713Z/_run/01_manifests_copied/part-*.json` |
+| Publisher checksums | Published hash vs downloaded file | GDELT md5 731/731, Wikinews sha1 2/2 matched. Prices pinned commit. | `evidence/task1/run_20261101T112713Z/_run/07_publisher_checksums/part-*.json` |
 | Wikinews mirror fallback | Primary host unavailable | `dumps.wikimedia.org` returned 404 four times (2026-10-29 08:34:08–08:34:16Z), then `mirror.accum.se` served both files (08:35:47–08:36:23Z) | Same download manifest |
-| S3 → HDFS | Local vs HDFS read-back bytes and sha256 per file | 1,046/1,046 match | `evidence/task1_20261101T112713Z/_run/03_staging_self_check/part-*.json` |
-| Download → HDFS | Download-time sha256 vs HDFS sha256 | `acquired=1046 staged=1046 hdfs_matches_acquisition=1046` | `evidence/task1_20261101T112713Z/_run/06_provenance_chain/part-*.json` |
-| Content checks | Each filing's own header vs the inventory; GDELT/Wikinews parsing | accession, form, filing date and CIK each match 311/311; 0 problem files; GDELT 0 zip errors; Wikinews 0 truncated | `evidence/task1_20261101T112713Z/sec_edgar/20261101T112713Z/01_content_summary/part-*.json`, `evidence/task1_20261101T112713Z/gdelt/20261101T112713Z/01_files_and_bytes/part-*.json` |
+| S3 → HDFS | Local vs HDFS read-back bytes and sha256 per file | 1,046/1,046 match | `evidence/task1/run_20261101T112713Z/_run/03_staging_self_check/part-*.json` |
+| Download → HDFS | Download-time sha256 vs HDFS sha256 | `acquired=1046 staged=1046 hdfs_matches_acquisition=1046` | `evidence/task1/run_20261101T112713Z/_run/06_provenance_chain/part-*.json` |
+| Content checks | Each filing's own header vs the inventory; GDELT/Wikinews parsing | accession, form, filing date and CIK each match 311/311; 0 problem files; GDELT 0 zip errors; Wikinews 0 truncated | `evidence/task1/run_20261101T112713Z/sec_edgar/01_content_summary/part-*.json`, `evidence/task1/run_20261101T112713Z/gdelt/01_files_and_bytes/part-*.json` |
 | Re-acquisition | Second independent download, sha256 compared | **prices 1/1 and SEC 311/311 identical** | Previous run evidence |
 | Replication | `hdfs dfs -stat %r` | 2 for every source | Staging summaries |
 
@@ -34,11 +34,11 @@ Column meanings are in `docs/data_dictionary.md`. Evidence paths are relative to
 
 | Item | Value | Evidence |
 |---|---|---|
-| Cluster | `j-00703753JKXXC2HG7Y9X`, emr-7.10.0, Spark 3.5.5-amzn-1 | `evidence/cluster_j-00703753JKXXC2HG7Y9X_20261101-190507.json`, notebook cell 1 |
-| Config checks | replication 2, 2 live datanodes, 2 executors × 2 cores × 6g, 2g overhead, **1000M driver**, dynamic allocation off: all PASS | `evidence/task1_20261101T112713Z/_run/00_cluster_config/part-*.json` |
+| Cluster | `j-00703753JKXXC2HG7Y9X`, emr-7.10.0, Spark 3.5.5-amzn-1 | `evidence/task1/cluster/cluster_j-00703753JKXXC2HG7Y9X_20261101-190507.json`, notebook cell 1 |
+| Config checks | replication 2, 2 live datanodes, 2 executors × 2 cores × 6g, 2g overhead, **1000M driver**, dynamic allocation off: all PASS | `evidence/task1/run_20261101T112713Z/_run/00_cluster_config/part-*.json` |
 | Storage | 100 GiB gp3 per core node (spec: 100 GiB) | `config/instance-groups.json` |
 | Launch config | `config/emr-configurations.json`, `config/instance-groups.json`, `project-up.ps1` | repo |
-| Profiling run | YARN `application_1793529609230_0007`, run ID `20261101T112713Z` | `notebooks/INF2006_G12_task1.ipynb`, `evidence/task1_20261101T112713Z/` |
+| Profiling run | YARN `application_1793529609230_0007`, run ID `20261101T112713Z` | `notebooks/INF2006_G12_task1.ipynb`, `evidence/task1/run_20261101T112713Z/` |
 
 ## 4. How to acquire the same inputs again
 
@@ -68,7 +68,7 @@ Reported separately from pipeline runtime, as the spec requires.
 
 | Step | Time (s) | Evidence |
 |---|---|---|
-| Prices download | 1 | `evidence/task1_20261101T112713Z/_run/10_timings/part-*.json` |
+| Prices download | 1 | `evidence/task1/run_20261101T112713Z/_run/10_timings/part-*.json` |
 | SEC download | 21 | |
 | GDELT download | 145 | |
 | Wikinews download | 4 | |
