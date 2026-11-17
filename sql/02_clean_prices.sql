@@ -1,6 +1,6 @@
 USE g12;
 
-CREATE VIEW price_parsed AS
+CREATE OR REPLACE VIEW price_parsed AS
 SELECT
     `date`, `open`, `high`, `low`, `close`, `volume`, `name`,
     CAST(TRIM(`date`) AS DATE) AS trade_date,
@@ -11,7 +11,7 @@ SELECT
     CAST(TRIM(`volume`) AS BIGINT) AS volume_value
 FROM raw_prices;
 
-CREATE VIEW price_validation AS
+CREATE OR REPLACE VIEW price_validation AS
 SELECT *,
     YEAR(trade_date) AS year,
     CASE
@@ -42,7 +42,7 @@ SELECT *,
     END AS reject_reason
 FROM price_parsed;
 
-CREATE TABLE cleaned_prices (
+CREATE TABLE IF NOT EXISTS cleaned_prices (
     ticker STRING,
     trade_date DATE,
     open_price DOUBLE,
@@ -55,7 +55,7 @@ PARTITIONED BY (year INT)
 STORED AS PARQUET
 LOCATION '/corpus/cleaned/prices/';
 
-CREATE TABLE rejected_prices (
+CREATE TABLE IF NOT EXISTS rejected_prices (
     `date` STRING,
     `open` STRING,
     `high` STRING,
@@ -68,7 +68,7 @@ CREATE TABLE rejected_prices (
 STORED AS PARQUET
 LOCATION '/corpus/rejected/prices/';
 
-CREATE TABLE out_of_scope_prices (
+CREATE TABLE IF NOT EXISTS out_of_scope_prices (
     `date` STRING,
     `open` STRING,
     `high` STRING,
@@ -83,13 +83,13 @@ LOCATION '/corpus/out_of_scope/prices/';
 INSERT OVERWRITE TABLE out_of_scope_prices
 SELECT `date`, `open`, `high`, `low`, `close`, `volume`, `name`
 FROM price_validation
-WHERE trade_date > CAST('2017-12-31' AS DATE);
+WHERE trade_date > CAST('2017-12-29' AS DATE);
 
 INSERT OVERWRITE TABLE rejected_prices
 SELECT `date`, `open`, `high`, `low`, `close`, `volume`, `name`, reject_reason
 FROM price_validation
 WHERE reject_reason IS NOT NULL
-  AND (trade_date IS NULL OR trade_date <= CAST('2017-12-31' AS DATE));
+  AND (trade_date IS NULL OR trade_date <= CAST('2017-12-29' AS DATE));
 
 SET hive.exec.dynamic.partition=true;
 SET hive.exec.dynamic.partition.mode=nonstrict;
@@ -100,7 +100,7 @@ SELECT
     low_value, close_value, volume_value, year
 FROM price_validation
 WHERE trade_date BETWEEN CAST('2013-01-01' AS DATE)
-                     AND CAST('2017-12-31' AS DATE)
+                     AND CAST('2017-12-29' AS DATE)
   AND reject_reason IS NULL;
 
 SELECT 'cleaned_prices' AS table_name, COUNT(*) AS row_count
