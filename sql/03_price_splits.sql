@@ -1,4 +1,3 @@
-```sql
 USE g12;
 
 CREATE TABLE IF NOT EXISTS training_prices (
@@ -66,4 +65,4 @@ FROM validation_prices;
 SELECT 'testing' AS dataset, COUNT(*) AS row_count,
        MIN(trade_date) AS first_date, MAX(trade_date) AS last_date
 FROM testing_prices;
-```
+
