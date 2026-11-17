@@ -1,0 +1,6 @@
+{"source":"gdelt","host":"data.gdeltproject.org","status":"ok","attempts":731,"first_utc":"2026-10-29T08:29:33Z","last_utc":"2026-10-29T09:04:35Z"}
+{"source":"prices","host":"raw.githubusercontent.com","status":"ok","attempts":1,"first_utc":"2026-10-28T06:05:40Z","last_utc":"2026-10-28T06:05:40Z"}
+{"source":"sec_edgar","host":"www.sec.gov","status":"ok","attempts":311,"first_utc":"2026-10-28T06:06:40Z","last_utc":"2026-10-28T06:09:48Z"}
+{"source":"sec_inventory","host":"course page (CSV twin of the official .xlsx)","status":"ok","attempts":1}
+{"source":"wikinews","host":"dumps.wikimedia.org","status":"unavailable","attempts":4,"first_utc":"2026-10-29T08:34:08Z","last_utc":"2026-10-29T08:34:16Z"}
+{"source":"wikinews","host":"mirror.accum.se","status":"ok","attempts":2,"first_utc":"2026-10-29T08:35:47Z","last_utc":"2026-10-29T08:36:23Z"}

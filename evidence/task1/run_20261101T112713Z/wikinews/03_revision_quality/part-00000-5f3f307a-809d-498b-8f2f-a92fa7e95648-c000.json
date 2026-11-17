@@ -1,0 +1,11 @@
+{"check":"revisions","value":"1954230"}
+{"check":"distinct_revision_ids","value":"1954230"}
+{"check":"missing_revision_id","value":"0"}
+{"check":"revisions_without_page","value":"0"}
+{"check":"invalid_or_missing_timestamp","value":"0"}
+{"check":"first_timestamp","value":"2004-11-08T08:11:42Z"}
+{"check":"last_timestamp","value":"2026-09-30T13:50:02Z"}
+{"check":"contributor_deleted","value":"543"}
+{"check":"text_deleted","value":"2531"}
+{"check":"text_bytes_unknown","value":"0"}
+{"check":"empty_text","value":"5392"}

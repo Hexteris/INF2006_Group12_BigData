@@ -1,8 +1,6 @@
 # Stage contracts (PROPOSED: team to confirm)
 
-Agreed names let each stage be written before the previous one is finished. Change a name here first,
-then in code. `<ACQ>` is the acquisition date (`YYYY-MM-DD`); `<RUN>` is a UTC run ID (`YYYYMMDDTHHMMSSZ`).
-Hive database: **`g12`**. All HDFS writes use replication 2.
+Agreed names let each stage be written before the previous one is finished. Change a name here first, then in code. `<ACQ>` is the acquisition date (`YYYY-MM-DD`); `<RUN>` is a UTC run ID (`YYYYMMDDTHHMMSSZ`). Hive database: **`g12`**. All HDFS writes use replication 2.
 
 ## HDFS layout
 
@@ -30,7 +28,6 @@ Hive database: **`g12`**. All HDFS writes use replication 2.
 | `g12.rejected_prices` | Parquet | `/corpus/rejected/prices/` | the 7 raw `STRING` columns + `reject_reason STRING` |
 | `g12.out_of_scope_prices` | Parquet | `/corpus/out_of_scope/prices/` | the 7 raw `STRING` columns |
 | `g12.sec_filings` | EXTERNAL, text (TSV) | `/corpus/staged/sec_parsed/...` | `cik STRING, accession STRING, form STRING, filed_date DATE, acceptance_et TIMESTAMP, period_of_report DATE, has_xbrl BOOLEAN, main_doc_chars BIGINT, ...` (B to finalise) |
-| `g12.sec_price_link` | Parquet | | `cik STRING, accession STRING, ticker STRING, available_from DATE` |
 
 ## Reconciliation targets (from Task 1)
 
@@ -38,19 +35,28 @@ Hive database: **`g12`**. All HDFS writes use replication 2.
 |---|---|
 | `raw_prices` rows | 619,040 |
 | `out_of_scope_prices` | 13,130 (dates 2018-01-02 to 2018-02-07) |
-| `rejected_prices` | 23 (listed in `evidence/local_checks/price_anomaly_detail.txt`) |
+| `rejected_prices` | 23 (listed in `evidence/task1/local_checks/price_anomaly_detail.txt`) |
 | `cleaned_prices` | **605,887** (spec's accepted-bar count) |
 | raw = cleaned + rejected + out_of_scope | 619,040 = 605,887 + 23 + 13,130 |
 | `sec_filings` | 311 rows, 303 CIKs |
-| `sec_price_link` | 11 rows (10 inside price dates) |
+| **GDELT raw lines** | **144,207,180** |
+| **Wikinews revisions** | **1,954,230** |
+| **Wikinews pages** | **265,900** |
+
+## Raw paths (Task 1)
+
+| Source | HDFS path |
+|---|---|
+| prices | `/corpus/raw/prices/v1_2013-2017/acq_2026-10-28/` |
+| sec_edgar | `/corpus/raw/sec_edgar/v1/acq_2026-10-28/` |
+| sec_inventory | `/corpus/raw/sec_inventory/v1/acq_2026-10-28/` |
+| gdelt | `/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/` |
+| wikinews | `/corpus/raw/wikinews/20261001_meta-history/acq_2026-10-29/` |
 
 ## Rules each stage must respect
 
-- **Rejection reasons** (one per row, first match wins): `null_field`, `high_lt_low`, `open_outside_range`,
-  `close_outside_range`, `zero_volume`.
+- **Rejection reasons** (one per row, first match wins): `null_field`, `high_lt_low`, `open_outside_range`, `close_outside_range`, `zero_volume`.
 - **No filling from the future.** Gaps stay gaps.
-- **Filing availability:** from `acceptance_et`; before 09:30 ET → that trading day's open, otherwise the
-  next trading day. Never `filed_date`.
-- **Splits:** train = targets fully inside 2013–2015, val = 2016, test = 2017. A row is kept only if its
-  target's outcome falls inside the same period. Fit imputers/scalers on train only.
+- **Filing availability:** from `acceptance_et`; before 09:30 ET → that trading day's open, otherwise the next trading day. Never `filed_date`.
+- **Splits:** train = targets fully inside 2013–2015, val = 2016, test = 2017. A row is kept only if its target's outcome falls inside the same period. Fit imputers/scalers on train only.
 - Predictive features exclude `ticker`, dates and anything derived from the target window.

@@ -1,0 +1,5 @@
+{"relationship":"sec_inventory -> sec_edgar","key":"accession + CIK + form","status":"SUPPORTED","evidence":"311/311 headers match the inventory"}
+{"relationship":"sec_edgar -> prices","key":"none (no ticker in either)","status":"NOT SUPPORTED","evidence":"inventory has no ticker; documented limitation"}
+{"relationship":"prices <-> gdelt","key":"date only","status":"BY DATE","evidence":"505 trading days have a GDELT file; no ticker in GDELT"}
+{"relationship":"prices <-> wikinews","key":"date only","status":"BY DATE","evidence":"revision timestamps vs trading dates; no ticker in Wikinews"}
+{"relationship":"sec_edgar <-> prices","key":"acceptance date -> next trading day","status":"BY DATE","evidence":"availability rule, not an entity link"}

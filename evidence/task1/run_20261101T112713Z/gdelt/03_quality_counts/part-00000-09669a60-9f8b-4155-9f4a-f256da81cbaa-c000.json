@@ -1,0 +1,16 @@
+{"check":"rows_with_58_fields","value":"144207180"}
+{"check":"bad_event_id","value":"0"}
+{"check":"duplicate_event_id_within_file","value":"0"}
+{"check":"invalid_sqldate","value":"0"}
+{"check":"non_utf8_lines","value":"0"}
+{"check":"empty_actor1code","value":"13164100"}
+{"check":"empty_actor2code","value":"38493957"}
+{"check":"empty_eventcode","value":"0"}
+{"check":"empty_actiongeo_country","value":"3567789"}
+{"check":"empty_sourceurl","value":"0"}
+{"check":"empty_avgtone","value":"0"}
+{"check":"non_numeric_goldstein_mentions_tone","value":"689"}
+{"check":"quadclass_not_1_to_4","value":"0"}
+{"check":"actiongeo_lat_long_out_of_range","value":"17651"}
+{"check":"dateadded_differs_from_file_date","value":"0"}
+{"check":"year_field_differs_from_sqldate","value":"0"}

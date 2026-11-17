@@ -1,0 +1,13 @@
+{"source":"prices","file":"acquisition_manifest.csv","bytes":1214,"result":"copied"}
+{"source":"sec_inventory","file":"inventory_sha256_laptop.txt","bytes":92,"result":"copied"}
+{"source":"sec_edgar","file":"sec_acquisition_summary.txt","bytes":630,"result":"copied"}
+{"source":"sec_edgar","file":"sec_download_manifest.csv","bytes":129442,"result":"copied"}
+{"source":"sec_edgar","file":"sec_inventory_checks.csv","bytes":35,"result":"copied"}
+{"source":"sec_edgar","file":"sec_unavailable.csv","bytes":208,"result":"copied"}
+{"source":"wikinews","file":"acquisition_summary.txt","bytes":370,"result":"copied"}
+{"source":"wikinews","file":"download_manifest.csv","bytes":3100,"result":"copied"}
+{"source":"wikinews","file":"wikinews_dumpstatus.json","bytes":22245,"result":"copied"}
+{"source":"gdelt","file":"acquisition_summary.txt","bytes":374,"result":"copied"}
+{"source":"gdelt","file":"download_manifest.csv","bytes":289025,"result":"copied"}
+{"source":"gdelt","file":"gdelt_filesizes.txt","bytes":162079,"result":"copied"}
+{"source":"gdelt","file":"gdelt_md5sums.txt","bytes":291492,"result":"copied"}
