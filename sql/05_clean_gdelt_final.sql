@@ -1,7 +1,6 @@
 USE g12;
 
--- 1. Parse raw GDELT fields into appropriate data types.
-CREATE VIEW gdelt_parsed AS
+CREATE OR REPLACE VIEW gdelt_parsed AS
 SELECT
     TRIM(GLOBALEVENTID) AS event_id,
 
@@ -57,8 +56,7 @@ SELECT
 FROM raw_gdelt;
 
 
--- 2. Classify invalid records.
-CREATE VIEW gdelt_classified AS
+CREATE OR REPLACE VIEW gdelt_classified AS
 SELECT *,
     CASE
         WHEN event_id IS NULL OR event_id = ''
@@ -105,8 +103,8 @@ SELECT *,
 FROM gdelt_parsed;
 
 
--- 3. Store rejected records separately.
-CREATE TABLE rejected_gdelt (
+-- Store rejected records separately.
+CREATE TABLE IF NOT EXISTS rejected_gdelt (
     event_id STRING,
     event_date DATE,
     available_date DATE,
@@ -114,11 +112,11 @@ CREATE TABLE rejected_gdelt (
     reject_reason STRING
 )
 STORED AS PARQUET
-LOCATION '/corpus/cleaned/gdelt/rejected/';
+LOCATION '/corpus/rejected/gdelt/';
 
 
--- 4. Store accepted and cleaned events.
-CREATE TABLE cleaned_gdelt_events (
+--  Store accepted and cleaned events.
+CREATE TABLE IF NOT EXISTS cleaned_gdelt_events (
     event_id STRING,
     event_date DATE,
     available_date DATE,
@@ -144,7 +142,7 @@ STORED AS PARQUET
 LOCATION '/corpus/cleaned/gdelt/events/';
 
 
--- 5. Write rejected records.
+-- Write rejected records.
 INSERT OVERWRITE TABLE rejected_gdelt
 SELECT
     event_id,
@@ -156,7 +154,7 @@ FROM gdelt_classified
 WHERE reject_reason IS NOT NULL;
 
 
--- 6. Write accepted records.
+-- Write accepted records.
 INSERT OVERWRITE TABLE cleaned_gdelt_events
 SELECT
     event_id,
@@ -183,8 +181,8 @@ FROM gdelt_classified
 WHERE reject_reason IS NULL;
 
 
--- 7. Aggregate daily news features by availability date.
-CREATE TABLE daily_gdelt_features (
+--Aggregate daily news features by availability date.
+CREATE TABLE IF NOT EXISTS daily_gdelt_features (
     available_date DATE,
     event_count BIGINT,
     avg_goldstein DOUBLE,
@@ -212,7 +210,7 @@ FROM cleaned_gdelt_events
 GROUP BY available_date;
 
 
--- 8. Report cleaning results.
+-- Report cleaning results.
 SELECT 'raw_gdelt' AS table_name, COUNT(*) AS row_count
 FROM raw_gdelt;
 
