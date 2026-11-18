@@ -25,6 +25,8 @@ if [ -z "$CID" ]; then
   if ! aws s3api head-bucket --bucket "$BUCKET" --region "$REGION" 2>/dev/null; then
     echo "Creating bucket s3://$BUCKET ..."; aws s3 mb "s3://$BUCKET" --region "$REGION" || { echo "Could not create bucket."; exit 1; }
   fi
+  # Task 3 (Spark ML) needs NumPy on every node: stage the bootstrap script in the bucket.
+  aws s3 cp install-numpy.sh "s3://$BUCKET/bootstrap/install-numpy.sh" --region "$REGION" || { echo "Could not upload install-numpy.sh"; exit 1; }
   CFG=$(mktemp -t g12-emr-config).json
   python3 - "$BUCKET" "$CFG" <<'PY'
 import json, sys
@@ -37,6 +39,7 @@ PY
   CID=$(aws emr create-cluster --name "$NAME" --release-label "$RELEASE" \
         --applications Name=Hadoop Name=Hive Name=Spark Name=Livy Name=JupyterHub \
         --instance-groups "file://config/instance-groups.json" --configurations "file://$CFG" \
+        --bootstrap-actions Path="s3://$BUCKET/bootstrap/install-numpy.sh",Name=install-numpy \
         --ec2-attributes KeyName="$KEY" --ebs-root-volume-size 30 --use-default-roles \
         --log-uri "s3://$BUCKET/emr-logs/" --auto-termination-policy IdleTimeout=$IDLE \
         --tags "project=INF2006-G12" --region "$REGION" --query ClusterId --output text) \
