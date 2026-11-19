@@ -7,7 +7,7 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 | 1. Corpus | **Done** (acquisition 2026-10-28/29) | Daniel |
 | 2. Pipeline | Not started | B (Streaming + Hive), C (PySpark) |
 | 3. Model | **Done** (EMR runs 2026-11-18/19; see "Task 3: how to run") | Xin Huei |
-| 4. Analytics | Not started | E |
+| 4. Analytics | **Done** (EMR run 2026-11-17; see "Task 4: how to run") | Damien |
 
 **Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, `docs/decisions.md`, and `docs/contracts.md` (agreed paths and table names).
 
@@ -25,6 +25,7 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 | `notebooks/INF2006_G12_task1.ipynb` | Task 1 notebook exported from EMR (full evidence run) | Task 1 |
 | `notebooks/INF2006_G12_stage_corpus.ipynb` | Copy-paste SSH cells: stage all 5 sources S3 → HDFS `/corpus/raw` with sha256 checks | Task 1 |
 | `notebooks/INF2006_G12_task3_volatility_labels.ipynb`, `..._task3_direction.ipynb`, `..._task3_volatility.ipynb` | Task 3 notebooks exported from EMR (labels, direction model, volatility model) | Task 3 |
+| `notebooks/INF2006_G12_task4_analytics.ipynb` | Task 4 analytics notebook exported from EMR (Q1 volume, Q2 news, Q3 model reliability); outputs in `evidence/task4/` | Task 4 |
 | `task3_saved_models/<task>/<RUN_ID>/model` | Saved Spark ML `PipelineModel`s for the two final Task 3 models | Task 3 |
 | `config/` | EMR configuration used by `project-up.ps1` | Task 1 |
 | `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task, e.g. `evidence/task1/` (run results, screenshots, cluster records, local checks) | everyone |
@@ -147,6 +148,17 @@ Full instructions and expected results are in report Appendix A (Part 4, Task 3 
 | Volatility | `20261118T151322Z` | 0.745 / 0.640 (rule 0.703 / 0.620) | PASSED, 123,476 rows, max difference 0.0 |
 
 Saved models: `task3_saved_models/<task>/<RUN_ID>/model`. Metrics, settings and reload records: `evidence/task3/<task>/<RUN_ID>/`. Cluster records: `evidence/task3/cluster/`.
+
+## Task 4: how to run
+
+Full guide: `docs/task4_run_guide.md` (inputs, steps, expected results, troubleshooting). Summary:
+
+1. Launch the cluster (`project-up`), open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload `notebooks/INF2006_G12_task4_analytics.ipynb`.
+2. In the parameters cell set `PRICES_PATH` and `GDELT_PATH` to the S3 copy of the Task 2 output (HDFS is empty on a new cluster). In the Q3 inputs cell set `T3_BASE` and the two Task 3 run IDs. In the last cell set `EVIDENCE_BUCKET` to your own bucket.
+3. Run all cells in order (about 6 minutes). Expected: 605,887 price rows and 150 GDELT dates (PASS), 595,789 scored ticker-days, 100 joined news days, and Q3 prediction counts 123,476 (volatility) and 126,001 (direction).
+4. The last cell copies the outputs to `s3://<bucket>/evidence/task4_<RUN_ID>/`. Download them into `evidence/task4/` before `project-down`.
+
+Our run: `evidence/task4/run_manifest.json` (run `20261116T164719Z`, 345 s, 13 CSV and 7 PNG files).
 
 ## 5. The assessed run
 
