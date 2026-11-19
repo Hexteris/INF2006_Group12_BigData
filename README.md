@@ -6,7 +6,7 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 |---|---|---|
 | 1. Corpus | **Done** (acquisition 2026-10-28/29) | Daniel |
 | 2. Pipeline | Not started | B (Streaming + Hive), C (PySpark) |
-| 3. Model | Not started | D |
+| 3. Model | **Done** (EMR runs 2026-11-18/19; see "Task 3: how to run") | Xin Huei |
 | 4. Analytics | Not started | E |
 
 **Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, `docs/decisions.md`, and `docs/contracts.md` (agreed paths and table names).
@@ -24,9 +24,11 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 | `notebooks/sections/` | PySpark notebook sections as `# %%` `.py` files, one per task/topic | C, D, E |
 | `notebooks/INF2006_G12_task1.ipynb` | Task 1 notebook exported from EMR (full evidence run) | Task 1 |
 | `notebooks/INF2006_G12_stage_corpus.ipynb` | Copy-paste SSH cells: stage all 5 sources S3 → HDFS `/corpus/raw` with sha256 checks | Task 1 |
+| `notebooks/INF2006_G12_task3_volatility_labels.ipynb`, `..._task3_direction.ipynb`, `..._task3_volatility.ipynb` | Task 3 notebooks exported from EMR (labels, direction model, volatility model) | Task 3 |
+| `task3_saved_models/<task>/<RUN_ID>/model` | Saved Spark ML `PipelineModel`s for the two final Task 3 models | Task 3 |
 | `config/` | EMR configuration used by `project-up.ps1` | Task 1 |
 | `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task, e.g. `evidence/task1/` (run results, screenshots, cluster records, local checks) | everyone |
-| `project-up.ps1`, `project-down.ps1` | Launch / terminate the reference cluster | everyone |
+| `project-up.ps1`, `project-down.ps1` | Launch / terminate the reference cluster (adds the `install-numpy.sh` bootstrap) | everyone |
 
 ## Working rules
 
@@ -118,6 +120,33 @@ Each member uses their own Learner Lab account. The data is reproducible, so you
    JupyterHub: `https://localhost:9443` (user `jovyan`, password `jupyter`).
 6. Save evidence **before** shutting down (job IDs, counts, logs), e.g. `aws s3 cp --recursive <dir> s3://$B/evidence/<task>/`, then on the laptop `aws s3 sync s3://<bucket>/evidence/ evidence/` and commit. HDFS and the primary node are deleted with the cluster.
 7. `.\project-down.ps1`, then **End Lab**.
+
+## Task 3: how to run
+
+Full instructions and expected results are in report Appendix A (Part 4, Task 3 step; Part 5, reload check).
+
+1. Launch: `.\project-up.ps1 -Bucket <bucket>`. The script uploads `install-numpy.sh` to `s3://<bucket>/bootstrap/` and adds it as a bootstrap action (Spark ML needs NumPy on every node).
+2. Open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload the three Task 3 notebooks from `notebooks/`. Set `BUCKET` in the first code cell of each. Inputs are the Task 2 outputs `task2/model_ready_v1` and `task2/cleaned/cleaned/prices` in that bucket.
+3. Run them **one at a time** (Kernel → Shutdown between notebooks, because each Spark session holds most of the cluster's YARN memory):
+
+   | Order | Notebook | Expected result |
+   |---|---|---|
+   | 1 | `INF2006_G12_task3_volatility_labels.ipynb` | Writes `task3/volatility_v1`; 349,590 / 122,801 / 123,476 rows; threshold about 0.01593 |
+   | 2 | `INF2006_G12_task3_direction.ipynb` | Winner `logistic_full_r01`; 2017 test AUC 0.513 |
+   | 3 | `INF2006_G12_task3_volatility.ipynb` | Winner `logistic_extra`; 2017 test AUC 0.745 |
+
+   Each model notebook writes `model/`, `predictions/`, `metrics/`, `settings/` and `test_features/` to `s3://<bucket>/task3final/<task>/<RUN_ID>/`.
+4. **Fresh-session reload check:** after Run All, do Kernel → Restart and run **only the last cell**. It loads the saved `PipelineModel` without retraining, re-scores every 2017 test row and compares it with the saved predictions (tolerance 1e-9). Expected: `RELOAD CHECK PASSED`.
+5. Download each notebook (File → Download as → Notebook) so the outputs are saved in it, then `.\project-down.ps1`.
+
+**Our runs (evidence in `evidence/task3/`):**
+
+| Task | RUN_ID | 2017 AUC / balanced accuracy | Reload check |
+|---|---|---|---|
+| Direction | `20261118T150036Z` | 0.513 / 0.511 (baseline 0.500 / 0.500) | PASSED, 126,001 rows, max difference 0.0 |
+| Volatility | `20261118T151322Z` | 0.745 / 0.640 (rule 0.703 / 0.620) | PASSED, 123,476 rows, max difference 0.0 |
+
+Saved models: `task3_saved_models/<task>/<RUN_ID>/model`. Metrics, settings and reload records: `evidence/task3/<task>/<RUN_ID>/`. Cluster records: `evidence/task3/cluster/`.
 
 ## 5. The assessed run
 
