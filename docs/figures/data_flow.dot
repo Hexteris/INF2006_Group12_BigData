@@ -1,0 +1,47 @@
+digraph G {
+  rankdir=TB; newrank=true; splines=spline; nodesep=0.3; ranksep=0.42; pad=0.2; dpi=220;
+  fontname="Inter"; fontsize=12;
+  node [shape=box, style="rounded,filled", fontname="Inter", fontsize=11, color="#4b5563", fillcolor="#ffffff", penwidth=1.1, margin="0.12,0.07"];
+  edge [color="#6b7280", fontname="Inter", fontsize=9, fontcolor="#374151", penwidth=1.1, arrowsize=0.7];
+
+  subgraph cluster_src { label="Sources in S3 (acquired 28–29 Oct 2026)"; style="rounded,filled"; fillcolor="#f3f4f6"; color="#d1d5db"; fontsize=11;
+    prices [label="Daily prices CSV\n505 tickers"];
+    gdelt  [label="GDELT events\n731 daily zips, 9.61 GB"];
+    other  [label="SEC filings (311), Wikinews (2)\nprofiled in Task 1 only", fillcolor="#f9fafb", fontcolor="#6b7280", color="#9ca3af"];
+  }
+  subgraph cluster_emr { label="AWS EMR 7.10.0: 1 primary + 2 core m5.xlarge, HDFS replication 2"; labelloc=b; style="rounded"; color="#9ca3af"; fontsize=11;
+    subgraph cluster_t1 { label="Task 1: corpus"; labelloc=t; style="rounded,filled"; fillcolor="#eff6ff"; color="#93c5fd";
+      stage [label="Staging notebook\nS3 → HDFS, sha256 re-check"];
+      raw   [label="HDFS /corpus/raw\n1,046 files, 13.08 GB", shape=cylinder];
+      prof  [label="PySpark profiling\nraw-data quality checks"];
+    }
+    subgraph cluster_t2 { label="Task 2: pipeline"; labelloc=t; style="rounded,filled"; fillcolor="#ecfdf5"; color="#6ee7b7";
+      stream [label="Hadoop Streaming\nGDELT parse + validate\nprice audit"];
+      hive   [label="Hive\nclean / rejected / out-of-scope\nsplits, daily GDELT features\nreconciliation"];
+      feat   [label="PySpark\nwindow features, targets\nchronological splits"];
+    }
+    ready [label="Model-ready tables (Hive / Parquet)\ntrain 2013–15 · validate 2016 · test 2017", shape=cylinder, fillcolor="#ecfdf5", color="#10b981"];
+    subgraph cluster_t3 { label="Task 3: model"; labelloc=t; style="rounded,filled"; fillcolor="#fff7ed"; color="#fdba74";
+      ml   [label="Spark ML PipelineModel\nImputer → Scaler → LogReg\nvolatility + direction"];
+      pred [label="Saved models, 2017 predictions\nfresh-session reload check", shape=cylinder];
+    }
+    subgraph cluster_t4 { label="Task 4: analytics"; labelloc=t; style="rounded,filled"; fillcolor="#f5f3ff"; color="#c4b5fd";
+      ana [label="PySpark analytics\nQ1 volume · Q2 news · Q3 model reliability"];
+    }
+  }
+  out [label="Report evidence: CSV tables, charts, run manifests", shape=note, fillcolor="#fefce8", color="#ca8a04"];
+
+  {rank=same; prices; gdelt; other}
+  {rank=same; stage; raw; prof}
+  {rank=same; stream; hive; feat}
+  {rank=same; ml; pred}
+
+  prices -> stage; gdelt -> stage; other -> stage [style=dashed, color="#9ca3af"];
+  stage -> raw; raw -> prof;
+  raw -> stream [label=" GDELT zips"]; raw -> hive [label=" price CSV"];
+  stream -> hive; hive -> feat [label="Hive tables"]; feat -> ready;
+  ready -> ml [label=" fit on 2013–15,\n select on 2016"]; ml -> pred [label="score 2017 once"];
+  ready -> ana; pred -> ana;
+  hive -> ana [label=" cleaned prices,\n GDELT daily", constraint=false];
+  ana -> out; prof -> out [style=dashed, constraint=false];
+}

@@ -1,13 +1,14 @@
 # INF2006 Group 12: Big Data Project
 
-End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikinews → HDFS corpus → Hadoop Streaming / Hive / PySpark pipeline → Spark ML model → analytics.
+End-to-end pipeline on AWS EMR: five raw sources staged in an HDFS corpus (Task 1); daily prices and GDELT → Hadoop Streaming / Hive / PySpark pipeline (Task 2) → Spark ML model (Task 3) → analytics (Task 4). Data flow: `docs/figures/data_flow.png`. Full run guide: `runbooks/RUN_GUIDE_G12.ipynb`.
 
 | Task | Status | Owner |
 |---|---|---|
 | 1. Corpus | **Done** (acquisition 2026-10-28/29) | Daniel |
-| 2. Pipeline | Not started | B (Streaming + Hive), C (PySpark) |
+| 2. Pipeline | **Done** (single-pass run 2026-11-08/09, 150 GDELT dates; code in `task2/code/`, logs in `evidence/task2/run_20261108-09/`) | Jasper (Hive), Jinghong (Streaming + PySpark) |
 | 3. Model | **Done** (EMR runs 2026-11-18/19; see "Task 3: how to run") | Xin Huei |
-| 4. Analytics | **Done** (EMR run 2026-11-17; see "Task 4: how to run") | Damien |
+| 4. Analytics | **Done** (final EMR run `20261120T075457Z`; see "Task 4: how to run") | Damien |
+| Section 6 timed runs | **To do**: `task2_driver/`, run guide Step 3 (dev ×3, full ×3, full alternative ×3) | team |
 
 **Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, `docs/decisions.md`, and `docs/contracts.md` (agreed paths and table names).
 
@@ -20,16 +21,20 @@ End-to-end pipeline on AWS EMR: daily stock prices + SEC filings + GDELT + Wikin
 | `scripts/profile/` | Read-only quality checks | Task 1 |
 | `scripts/cluster/verify_cluster.sh` | Check a running cluster matches the reference config | Task 1 |
 | `scripts/streaming/` | Hadoop Streaming mappers and reducers | B |
-| `sql/` | Hive `.sql` files, run in numeric order | B |
-| `notebooks/sections/` | PySpark notebook sections as `# %%` `.py` files, one per task/topic | C, D, E |
+| `sql/` | Hive `.sql` files, run in numeric order (cleaned-up copy of `task2/code/SQL/`) | Task 2 |
+| `task2/code/` | Code of the 8–9 Nov Task 2 run: Streaming, batch scripts, Hive SQL as executed, PySpark scripts | Task 2 |
+| `task2_driver/` | Bash-kernel driver for the timed Task 2 runs (Section 6), `run_matrix.sh`, `train_task3.py` | Task 2 / Section 6 |
+| `runbooks/RUN_GUIDE_G12.ipynb` | Step-by-step rerun guide for Tasks 1–4 and the timed runs | everyone |
+| `docs/figures/` | Report figures (data-flow diagram and its Graphviz source) | everyone |
+| `scripts/package/` | `build_submission_zip.sh` and the submission checklist | everyone |
 | `notebooks/INF2006_G12_task1.ipynb` | Task 1 notebook exported from EMR (full evidence run) | Task 1 |
 | `notebooks/INF2006_G12_stage_corpus.ipynb` | Copy-paste SSH cells: stage all 5 sources S3 → HDFS `/corpus/raw` with sha256 checks | Task 1 |
 | `notebooks/INF2006_G12_task3_volatility_labels.ipynb`, `..._task3_direction.ipynb`, `..._task3_volatility.ipynb` | Task 3 notebooks exported from EMR (labels, direction model, volatility model) | Task 3 |
 | `notebooks/INF2006_G12_task4_analytics.ipynb` | Task 4 analytics notebook exported from EMR (Q1 volume, Q2 news, Q3 model reliability); outputs in `evidence/task4/` | Task 4 |
 | `task3_saved_models/<task>/<RUN_ID>/model` | Saved Spark ML `PipelineModel`s for the two final Task 3 models | Task 3 |
 | `config/` | EMR configuration used by `project-up.ps1` | Task 1 |
-| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task, e.g. `evidence/task1/` (run results, screenshots, cluster records, local checks) | everyone |
-| `project-up.ps1`, `project-down.ps1` | Launch / terminate the reference cluster (adds the `install-numpy.sh` bootstrap) | everyone |
+| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task: `task1/`, `task2/` (job IDs and logs), `task2_screenshots/`, `task3/`, `task4/`, and `task2_runs/` once the timed runs are done | everyone |
+| `project-up.ps1`, `project-down.ps1` (`.sh` on macOS/Linux) | Launch / terminate the reference cluster (adds the `install-numpy.sh` bootstrap) | everyone |
 
 ## Working rules
 
@@ -154,12 +159,12 @@ Saved models: `task3_saved_models/<task>/<RUN_ID>/model`. Metrics, settings and 
 Full guide: `docs/task4_run_guide.md` (inputs, steps, expected results, troubleshooting). Summary:
 
 1. Launch the cluster (`project-up`), open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload `notebooks/INF2006_G12_task4_analytics.ipynb`.
-2. In the parameters cell set `PRICES_PATH` and `GDELT_PATH` to the S3 copy of the Task 2 output (HDFS is empty on a new cluster). In the Q3 inputs cell set `T3_BASE` and the two Task 3 run IDs. In the last cell set `EVIDENCE_BUCKET` to your own bucket.
-3. Run all cells in order (about 6 minutes). Expected: 605,887 price rows and 150 GDELT dates (PASS), 595,789 scored ticker-days, 100 joined news days, and Q3 prediction counts 123,476 (volatility) and 126,001 (direction).
+2. In code cell 3 set `BUCKET = "s3://<bucket>"`. The price, GDELT, Task 2 split and Task 3 prediction paths and the evidence upload all follow from it (HDFS is empty on a new cluster).
+3. Run all cells in order (about 1 minute). Expected: 605,887 price rows and 150 GDELT dates (PASS), 595,789 scored ticker-days, 100 joined news days, and Q3 prediction counts 123,476 (volatility) and 126,001 (direction).
 4. The last cell copies the outputs to `s3://<bucket>/evidence/task4_<RUN_ID>/`. Download them into `evidence/task4/` before `project-down`.
 
-Our run: `evidence/task4/run_manifest.json` (run `20261116T164719Z`, 345 s, 13 CSV and 7 PNG files).
+Our final run: `evidence/task4/run_manifest.json` (run `20261120T075457Z`, 64.5 s, 13 CSV and 7 PNG files). The first run (`20261116T164719Z`, 345 s) is in `evidence/task4/previous_runs/`.
 
 ## 5. The assessed run
 
-The final timed run, exported notebook and saved model are produced once, in Daniel's account, from the merged `main` branch. Members join by screen share or SSH. Development runs in your own account are supporting evidence only.
+The timed runs for Section 6 (`task2_driver/`, run guide Step 3) are produced once, in one account, from the merged `main` branch. Members join by screen share or SSH. Development runs in your own account are supporting evidence only.
