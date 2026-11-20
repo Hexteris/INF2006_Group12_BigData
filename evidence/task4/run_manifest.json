@@ -1,0 +1,81 @@
+{
+  "run_id": "20261120T075457Z",
+  "spark_version": "3.5.5-amzn-1",
+  "on_cluster": true,
+  "inputs": {
+    "prices": "s3://inf2006-g12-2500837/task2/cleaned/prices",
+    "gdelt_daily_features": "s3://inf2006-g12-2500837/task2/cleaned/gdelt/daily_features",
+    "task3_predictions": {
+      "volatility": "s3://inf2006-g12-2500837/task3/task3final/volatility/20261118T151322Z/predictions",
+      "direction": "s3://inf2006-g12-2500837/task3/task3final/direction/20261118T150036Z/predictions"
+    }
+  },
+  "row_counts": {
+    "prices": 605887,
+    "gdelt_dates": 150,
+    "scored_ticker_days": 595789,
+    "returns_nulled_as_artefacts": 6,
+    "q2_joined_days": 100
+  },
+  "q3": {
+    "prediction_paths": {
+      "volatility": "s3://inf2006-g12-2500837/task3/task3final/volatility/20261118T151322Z/predictions",
+      "direction": "s3://inf2006-g12-2500837/task3/task3final/direction/20261118T150036Z/predictions"
+    },
+    "model_ready_path": "s3://inf2006-g12-2500837/task3/task2/model_ready_v1",
+    "prediction_rows": {
+      "volatility": 123476,
+      "direction": 126001
+    },
+    "volatility_20d_training_quartiles": [
+      0.009436717344855508,
+      0.012147118541576903,
+      0.01606341920165972
+    ],
+    "rule_cutoffs": {
+      "volatility": 0.01606341920165972,
+      "direction": 0.0
+    },
+    "majority_class": {
+      "volatility": 0.0,
+      "direction": 1.0
+    }
+  },
+  "parameters": {
+    "window": 20,
+    "z_high": 2.0,
+    "z_low": -2.0,
+    "max_abs_ret": 0.5,
+    "groups": 3
+  },
+  "stage_seconds": {
+    "load_and_check": 10.6,
+    "q1_compute": 12.6,
+    "q2_compute": 5.0,
+    "q3_load": 10.1,
+    "q3_compute": 15.5
+  },
+  "total_seconds": 64.5,
+  "outputs": [
+    "q1_class_summary.csv",
+    "q1_monthly_flags.csv",
+    "q1_monthly_high_share.png",
+    "q1_volume_class_and_zbucket.png",
+    "q1_zbucket_summary.csv",
+    "q2_block_composition.csv",
+    "q2_controlled_by_today_vol.csv",
+    "q2_joined_daily.csv",
+    "q2_news_volume_groups.csv",
+    "q2_next_day_vol_by_news_group.png",
+    "q2_spearman_checks.csv",
+    "q2_today_vs_next_day_vol.png",
+    "q2_tone_groups.csv",
+    "q3_auc_by_volatility_quartile.png",
+    "q3_balanced_accuracy_by_month.png",
+    "q3_confusion_matrices.png",
+    "q3_model_minus_rule_gaps.csv",
+    "q3_month_metrics.csv",
+    "q3_overall_metrics.csv",
+    "q3_volbucket_metrics.csv"
+  ]
+}
