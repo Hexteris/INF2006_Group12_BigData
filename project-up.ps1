@@ -10,6 +10,7 @@
       dfs.replication=2; Spark 2 executors x 2 cores x 6g, 2g overhead,
       2g driver, dynamic allocation off                              (config/emr-configurations.json)
       Apps: Hadoop, Hive, Spark, Livy, JupyterHub (JupyterHub's PySpark kernel runs through Livy)
+      Bootstrap: install-numpy.sh (NumPy 1.26.4 on every node; uploaded to s3://<bucket>/bootstrap/)
 
     Usage:
         .\project-up.ps1 -Bucket inf2006-bigdata                  # launch + connect
@@ -70,6 +71,10 @@ if (-not $ClusterId) {
         if ($LASTEXITCODE -ne 0) { Write-Host "Could not create bucket." -ForegroundColor Red; exit 1 }
     }
 
+    # Task 3 (Spark ML) needs NumPy on every node: stage the bootstrap script in the bucket.
+    aws s3 cp "install-numpy.sh" "s3://$Bucket/bootstrap/install-numpy.sh" --region $Region
+    if ($LASTEXITCODE -ne 0) { Write-Host "Could not upload install-numpy.sh to s3://$Bucket/bootstrap/." -ForegroundColor Red; exit 1 }
+
     # Merge the committed config with the bucket-specific JupyterHub persistence setting.
     $cfg = Get-Content "config\emr-configurations.json" -Raw | ConvertFrom-Json
     $cfg = @($cfg) + [pscustomobject]@{
@@ -90,6 +95,7 @@ if (-not $ClusterId) {
         --applications $apps `
         --instance-groups "file://config/instance-groups.json" `
         --configurations "file://$cfgFile" `
+        --bootstrap-actions "Path=s3://$Bucket/bootstrap/install-numpy.sh,Name=install-numpy" `
         --ec2-attributes KeyName=$KeyName `
         --ebs-root-volume-size 30 `
         --use-default-roles `

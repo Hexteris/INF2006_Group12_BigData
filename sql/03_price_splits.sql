@@ -1,6 +1,6 @@
 USE g12;
 
-CREATE TABLE training_prices (
+CREATE TABLE IF NOT EXISTS training_prices (
     ticker STRING,
     trade_date DATE,
     open_price DOUBLE,
@@ -12,7 +12,7 @@ CREATE TABLE training_prices (
 STORED AS PARQUET
 LOCATION '/corpus/splits/prices/training';
 
-CREATE TABLE validation_prices (
+CREATE TABLE IF NOT EXISTS validation_prices (
     ticker STRING,
     trade_date DATE,
     open_price DOUBLE,
@@ -24,7 +24,7 @@ CREATE TABLE validation_prices (
 STORED AS PARQUET
 LOCATION '/corpus/splits/prices/validation';
 
-CREATE TABLE testing_prices (
+CREATE TABLE IF NOT EXISTS testing_prices (
     ticker STRING,
     trade_date DATE,
     open_price DOUBLE,
@@ -52,7 +52,7 @@ INSERT OVERWRITE TABLE testing_prices
 SELECT ticker, trade_date, open_price, high_price,
        low_price, close_price, volume
 FROM cleaned_prices
-WHERE trade_date BETWEEN '2017-01-01' AND '2017-12-31';
+WHERE trade_date BETWEEN '2017-01-01' AND '2017-12-29';
 
 SELECT 'training' AS dataset, COUNT(*) AS row_count,
        MIN(trade_date) AS first_date, MAX(trade_date) AS last_date
@@ -65,3 +65,4 @@ FROM validation_prices;
 SELECT 'testing' AS dataset, COUNT(*) AS row_count,
        MIN(trade_date) AS first_date, MAX(trade_date) AS last_date
 FROM testing_prices;
+

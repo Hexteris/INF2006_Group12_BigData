@@ -1,8 +1,0 @@
-{"stage": "validation_2016", "name": "logistic_base_r01", "auc": 0.53094, "balanced_accuracy": 0.52586, "cutoff": 0.54, "auc_early": 0.51425, "auc_late": 0.54273, "worst_half_auc": 0.51425, "seconds": 10.6}
-{"stage": "validation_2016", "name": "logistic_trend_r01", "auc": 0.51837, "balanced_accuracy": 0.51625, "cutoff": 0.55, "auc_early": 0.50388, "auc_late": 0.5316, "worst_half_auc": 0.50388, "seconds": 12.5}
-{"stage": "validation_2016", "name": "logistic_market_r01", "auc": 0.49833, "balanced_accuracy": 0.51037, "cutoff": 0.56, "auc_early": 0.48819, "auc_late": 0.51053, "worst_half_auc": 0.48819, "seconds": 14.0}
-{"stage": "validation_2016", "name": "logistic_market_r10", "auc": 0.50701, "balanced_accuracy": 0.51328, "cutoff": 0.55, "auc_early": 0.49788, "auc_late": 0.51488, "worst_half_auc": 0.49788, "seconds": 12.3}
-{"stage": "validation_2016", "name": "logistic_full_r01", "auc": 0.55605, "balanced_accuracy": 0.54744, "cutoff": 0.54, "auc_early": 0.53563, "auc_late": 0.58338, "worst_half_auc": 0.53563, "seconds": 15.9}
-{"stage": "validation_2016", "name": "logistic_full_r10", "auc": 0.54698, "balanced_accuracy": 0.54086, "cutoff": 0.55, "auc_early": 0.52968, "auc_late": 0.56752, "worst_half_auc": 0.52968, "seconds": 13.2}
-{"stage": "validation_2016", "name": "gbt_market", "auc": 0.5453, "balanced_accuracy": 0.54058, "cutoff": 0.56, "auc_early": 0.52694, "auc_late": 0.5612, "worst_half_auc": 0.52694, "seconds": 43.6}
-{"stage": "test_2017", "name": "logistic_full_r01_FINAL_TEST_2017", "n": 126001, "auc": 0.51325, "balanced_accuracy": 0.51055, "accuracy": 0.49199, "f1": 0.44687, "recall": 0.36423, "specificity": 0.65686, "tn": 36134, "fp": 18876, "fn": 45134, "tp": 25857}

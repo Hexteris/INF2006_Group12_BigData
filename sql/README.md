@@ -1,3 +1,4 @@
+
 # Hive Queries (Owner: B)
 
 These scripts implement Role B's Hive SQL processing for Task 2.
@@ -16,7 +17,7 @@ The scripts register raw datasets, perform data cleaning and validation, separat
 | `02_clean_prices.sql` | Clean and validate stock prices; separate rejected and out-of-scope records | `g12.cleaned_prices`, `g12.rejected_prices`, `g12.out_of_scope_prices` |
 | `03_price_splits.sql` | Create chronological training, validation and testing datasets | `g12.training_prices`, `g12.validation_prices`, `g12.testing_prices` |
 | `04_gdelt_tables.sql` | Register processed GDELT event records as a Hive external table | `g12.raw_gdelt` |
-| `05_clean_gdelt.sql` | Clean GDELT records, separate rejected records and generate daily analytical features | `g12.cleaned_gdelt_events`, `g12.rejected_gdelt`, `g12.daily_gdelt_features` |
+| `05_clean_gdelt_final.sql` | Clean GDELT records, separate rejected records and generate daily analytical features | `g12.cleaned_gdelt_events`, `g12.rejected_gdelt`, `g12.daily_gdelt_features` |
 | `06_reconcile_prices.sql` | Verify stock price row counts, rejected records and data reconciliation | PASS/FAIL reconciliation results |
 
 ## Environment and input requirements
@@ -31,7 +32,7 @@ Each team may use its own AWS Learner Lab S3 bucket. The directory structure and
 
 The raw stock price dataset must be staged in HDFS at:
 
-`/corpus/raw/prices/v1_2013-2017/acq_2026-11-04`
+`/corpus/raw/prices/v1_2013-2017/acq_2026-10-28`
 
 This is the input location used by `01_raw_tables.sql`.
 
@@ -70,7 +71,7 @@ GDELT processing must be completed by Hadoop Streaming before executing the Hive
 ```bash
 hive -f sql/04_gdelt_tables.sql
 
-hive -f sql/05_clean_gdelt.sql
+hive -f sql/05_clean_gdelt_final.sql
 ```
 
 Ensure that the GDELT daily feature aggregation uses the record availability date (`DATEADDED`) to prevent future-information leakage.
@@ -83,7 +84,7 @@ The cleaned stock price dataset is divided chronologically:
 |---|---|
 | Training | 2013–2015 |
 | Validation | 2016 |
-| Testing | 2017 |
+| Testing | 2017 (up to 29 December) |
 
 No random shuffling is applied.
 
@@ -91,4 +92,10 @@ No random shuffling is applied.
 
 The stock price cleaning process separates records into three categories:
 
-- Cleaned records: valid
+- Cleaned records: valid records retained for downstream processing.
+- Rejected records: records containing invalid or missing values that fail validation rules.
+- Out-of-scope records: records outside the project's specified date range.
+
+The reconciliation script compares the raw, cleaned, rejected and out-of-scope row counts to verify that all raw records are accounted for.
+
+For GDELT, the cleaning script separates accepted and rejected event records based on field validation and generates daily analytical features using the record availability date.
