@@ -146,8 +146,7 @@ Aggregate in Hive or Spark first, then plot only the small results with matplotl
 
 **Step 5.1. Write a timing driver** that runs the full pipeline from staged HDFS raw data to verified outputs. It uses fresh output paths each run and logs stage timings, YARN app IDs, bytes, rows, `hdfs dfsadmin -report` disk use and peak executor memory.
 
-**Step 5.2. Run 3 repetitions each** for: dev profile on the reference config, full profile on the reference config, and full profile on one alternative. Report the median and range.
-**Why the alternative is `spark.sql.shuffle.partitions` = 200 → 16 (or AQE coalescing):** The data has about 0.6 M rows, so 200 shuffle partitions mostly add scheduling overhead. This is a software change, so hardware, replication and storage stay fixed, as the spec requires. If there is no speedup, report that, because the spec counts it as a valid finding.
+**Step 5.2. Run 3 repetitions each** for the dev and full profiles on the reference config. Report the median and range.
 
 ---
 

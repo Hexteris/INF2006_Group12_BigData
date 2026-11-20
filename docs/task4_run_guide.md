@@ -14,8 +14,7 @@ Every path is derived from `BUCKET` in code cell 3; each can be overridden with 
 | Task 3 predictions (Q3) | `<BUCKET>/task3/task3final/direction/20261118T150036Z/predictions` and `.../volatility/20261118T151322Z/predictions` | `G12_PRED_DIR`, `G12_PRED_VOL` |
 | Evidence upload (last cell) | `<BUCKET>/evidence/task4_<RUN_ID>/` | |
 
-Task 3's notebooks read prices from `task2/cleaned/cleaned/prices`; check which prefix exists with
-`aws s3 ls s3://<BUCKET>/task2/cleaned/`. The notebook cannot read another account's bucket (Access Denied), so copy
+Task 3's notebooks read prices from the same `task2/cleaned/prices` prefix. The notebook cannot read another account's bucket (Access Denied), so copy
 the inputs into your own bucket first.
 
 ## Steps

@@ -29,7 +29,7 @@ Each line is a requirement from the brief's "Submission requirements" and report
 | Required numbered headings 1–7, in order; References; Appendices A–D | Read the headings in the PDF | Damien |
 | Main text ≤ 3,000 words, count stated on the cover | Count Sections 1–7 without captions, references or appendices; update the cover line | Damien |
 | Section 1 labelled data-flow diagram | Figure 1.1 present (`docs/figures/data_flow.png`) | Damien |
-| Section 6: all repetitions, medians and ranges, dev vs full, reference vs alternative, memory and disk, failures | No `[X]` or `[fill]` left; numbers match `evidence/task2_runs/aggregate_report.md` | Task 2 + whoever runs the matrix |
+| Section 6: all repetitions, medians and ranges, dev vs full, memory and disk, failures | No `[X]` or `[fill]` left; numbers match `evidence/task2_runs/aggregate_report.md` | Task 2 + whoever runs the matrix |
 | No `[TBD]`, `[CHECK]`, `[X]` or "[… owners: …]" placeholders anywhere | Search the Doc for `[` | everyone |
 | Appendix A: setup, data access, dependencies, configuration, notebook filenames and run order | A teammate follows it on a fresh cluster | Daniel |
 | Appendix A: data versions, training cutoff, software versions, random seeds, saved-model locations | All five are stated | Daniel, Xin Huei |

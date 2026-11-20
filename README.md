@@ -8,7 +8,7 @@ End-to-end pipeline on AWS EMR: five raw sources staged in an HDFS corpus (Task 
 | 2. Pipeline | **Done** (single-pass run 2026-11-08/09, 150 GDELT dates; code in `task2/code/`, logs in `evidence/task2/run_20261108-09/`) | Jasper (Hive), Jinghong (Streaming + PySpark) |
 | 3. Model | **Done** (EMR runs 2026-11-18/19; see "Task 3: how to run") | Xin Huei |
 | 4. Analytics | **Done** (final EMR run `20261120T075457Z`; see "Task 4: how to run") | Damien |
-| Section 6 timed runs | **To do**: `task2_driver/`, run guide Step 3 (dev ×3, full ×3, full alternative ×3) | team |
+| Section 6 timed runs | **Done** (20 Nov: dev ×3, full ×3; `evidence/task2_runs/`) | Daniel |
 
 **Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, `docs/decisions.md`, and `docs/contracts.md` (agreed paths and table names).
 
@@ -132,7 +132,7 @@ Each member uses their own Learner Lab account. The data is reproducible, so you
 Full instructions and expected results are in report Appendix A (Part 4, Task 3 step; Part 5, reload check).
 
 1. Launch: `.\project-up.ps1 -Bucket <bucket>`. The script uploads `install-numpy.sh` to `s3://<bucket>/bootstrap/` and adds it as a bootstrap action (Spark ML needs NumPy on every node).
-2. Open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload the three Task 3 notebooks from `notebooks/`. Set `BUCKET` in the first code cell of each. Inputs are the Task 2 outputs `task2/model_ready_v1` and `task2/cleaned/cleaned/prices` in that bucket.
+2. Open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload the three Task 3 notebooks from `notebooks/`. Set `BUCKET` in the first code cell of each. Inputs are the Task 2 outputs `task2/model_ready_v1` and `task2/cleaned/prices` in that bucket.
 3. Run them **one at a time** (Kernel → Shutdown between notebooks, because each Spark session holds most of the cluster's YARN memory):
 
    | Order | Notebook | Expected result |
