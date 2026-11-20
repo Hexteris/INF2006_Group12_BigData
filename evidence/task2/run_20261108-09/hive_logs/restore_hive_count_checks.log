@@ -1,0 +1,52 @@
+Hive Session ID = a89230d9-5327-45ab-936a-68a701c2948a
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.575 seconds
+Query ID = hadoop_20261109063149_a8a8632b-1be3-4287-9f52-e4037a5964b4
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794204729986_0010)
+
+Map 1: -/-	Map 10: -/-	Map 12: -/-	Map 14: -/-	Map 16: -/-	Map 18: -/-	Map 20: -/-	Map 22: -/-	Map 4: -/-	Map 6: -/-	Map 8: -/-	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 10: 0/1	Map 12: 0/1	Map 14: 0/1	Map 16: 0/15	Map 18: 0/13	Map 20: 0/1	Map 22: 0/1	Map 4: 0/1	Map 6: 0/1	Map 8: 0/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 10: 0/1	Map 12: 0/1	Map 14: 0/1	Map 16: 0/15	Map 18: 0/13	Map 20: 0/1	Map 22: 0/1	Map 4: 0/1	Map 6: 0/1	Map 8: 0/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 10: 0/1	Map 12: 0/1	Map 14: 0/1	Map 16: 0/15	Map 18: 0/13	Map 20: 0/1	Map 22: 0/1	Map 4: 0/1	Map 6: 0(+1)/1	Map 8: 0(+1)/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 10: 0(+1)/1	Map 12: 0/1	Map 14: 0/1	Map 16: 0/15	Map 18: 0/13	Map 20: 0/1	Map 22: 0(+1)/1	Map 4: 0/1	Map 6: 0(+1)/1	Map 8: 0(+1)/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0(+1)/2	Map 10: 0(+1)/1	Map 12: 1/1	Map 14: 0(+1)/1	Map 16: 0/15	Map 18: 0/13	Map 20: 0(+1)/1	Map 22: 0(+1)/1	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 1(+1)/2	Map 10: 0(+1)/1	Map 12: 1/1	Map 14: 1/1	Map 16: 0(+1)/15	Map 18: 0/13	Map 20: 0(+1)/1	Map 22: 0(+1)/1	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 0(+1)/1	Map 12: 1/1	Map 14: 1/1	Map 16: 0(+2)/15	Map 18: 0/13	Map 20: 0(+1)/1	Map 22: 0(+1)/1	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 0(+1)/1	Map 12: 1/1	Map 14: 1/1	Map 16: 0(+2)/15	Map 18: 0/13	Map 20: 0(+1)/1	Map 22: 0(+1)/1	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 0(+1)/1	Map 12: 1/1	Map 14: 1/1	Map 16: 0(+3)/15	Map 18: 0/13	Map 20: 0(+1)/1	Map 22: 1/1	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 0(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 2(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 2(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 4(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 6(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 7(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 8(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 9(+6)/15	Map 18: 0/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 0(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 1(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 3(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 4(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 5(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 7(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 10(+5)/15	Map 18: 9(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 11(+4)/15	Map 18: 10(+2)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 13(+2)/15	Map 18: 12(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0/1	Reducer 13: 0/1	Reducer 15: 0/1	Reducer 17: 0/1	Reducer 19: 0/1	Reducer 2: 0/1	Reducer 21: 0/1	Reducer 23: 0/1	Reducer 5: 0(+1)/1	Reducer 7: 0(+1)/1	Reducer 9: 0(+1)/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 15/15	Map 18: 12(+1)/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 0(+1)/1	Reducer 13: 1/1	Reducer 15: 1/1	Reducer 17: 1/1	Reducer 19: 0(+1)/1	Reducer 2: 1/1	Reducer 21: 1/1	Reducer 23: 1/1	Reducer 5: 1/1	Reducer 7: 1/1	Reducer 9: 1/1	
+Map 1: 2/2	Map 10: 1/1	Map 12: 1/1	Map 14: 1/1	Map 16: 15/15	Map 18: 13/13	Map 20: 1/1	Map 22: 1/1	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 11: 1/1	Reducer 13: 1/1	Reducer 15: 1/1	Reducer 17: 1/1	Reducer 19: 1/1	Reducer 2: 1/1	Reducer 21: 1/1	Reducer 23: 1/1	Reducer 5: 1/1	Reducer 7: 1/1	Reducer 9: 1/1	
+OK
+testing_prices	126031
+validation_prices	125316
+cleaned_prices	605887
+training_prices	354540
+daily_gdelt_features	150
+out_of_scope_prices	13130
+rejected_gdelt	247
+rejected_prices	23
+raw_prices	619040
+raw_gdelt	29042290
+cleaned_gdelt_events	29042043
+Time taken: 33.101 seconds, Fetched: 11 row(s)

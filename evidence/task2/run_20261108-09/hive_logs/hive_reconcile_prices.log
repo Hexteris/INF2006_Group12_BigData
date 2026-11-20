@@ -1,0 +1,75 @@
+Hive Session ID = 91f757ed-0e78-4f12-b863-795950d3da4b
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.561 seconds
+Query ID = hadoop_20261108113139_cfdea424-2a84-4879-a4ee-371101cc51c0
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0039)
+
+Map 1: -/-	Map 4: -/-	Map 6: -/-	Map 8: -/-	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 4: 0/1	Map 6: 0/1	Map 8: 0/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 4: 0/1	Map 6: 0/1	Map 8: 0/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0/2	Map 4: 0/1	Map 6: 0(+1)/1	Map 8: 0(+1)/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0(+2)/2	Map 4: 0(+1)/1	Map 6: 0(+1)/1	Map 8: 0(+1)/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0(+2)/2	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 0(+1)/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 0/1	Reducer 9: 0/1	
+Map 1: 0(+2)/2	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 1/1	Reducer 9: 0(+1)/1	
+Map 1: 0(+2)/2	Map 4: 0(+1)/1	Map 6: 1/1	Map 8: 1/1	Reducer 2: 0/1	Reducer 5: 0/1	Reducer 7: 1/1	Reducer 9: 1/1	
+Map 1: 2/2	Map 4: 1/1	Map 6: 1/1	Map 8: 1/1	Reducer 2: 1/1	Reducer 5: 1/1	Reducer 7: 1/1	Reducer 9: 1/1	
+OK
+rejected_prices	23	23	PASS
+cleaned_prices	605887	605887	PASS
+raw_prices	619040	619040	PASS
+out_of_scope_prices	13130	13130	PASS
+Time taken: 14.934 seconds, Fetched: 4 row(s)
+Warning: Map Join MAPJOIN[36][bigTable=?] in task 'Reducer 2' is a cross product
+Warning: Map Join MAPJOIN[35][bigTable=?] in task 'Reducer 2' is a cross product
+Warning: Map Join MAPJOIN[37][bigTable=?] in task 'Reducer 8' is a cross product
+Query ID = hadoop_20261108113155_2eac40c6-3bd1-4437-bee3-1cfecaa3f557
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0039)
+
+Map 1: -/-	Map 3: -/-	Map 5: -/-	Map 7: -/-	Reducer 2: 0/1	Reducer 4: 0/1	Reducer 6: 0/1	Reducer 8: 0/1	
+Map 1: 0(+2)/2	Map 3: 0(+1)/1	Map 5: 1/1	Map 7: 0(+1)/1	Reducer 2: 0/1	Reducer 4: 0/1	Reducer 6: 0(+1)/1	Reducer 8: 0/1	
+Map 1: 2/2	Map 3: 1/1	Map 5: 1/1	Map 7: 1/1	Reducer 2: 1/1	Reducer 4: 1/1	Reducer 6: 1/1	Reducer 8: 1/1	
+OK
+619040	605887	23	13130	619040	0	PASS
+Time taken: 1.996 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108113157_badd878f-7aca-4f16-8da0-5514061346ce
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0039)
+
+Map 1: -/-	Reducer 2: 0/2	Reducer 3: 0/1	
+Map 1: 1/1	Reducer 2: 0(+2)/2	Reducer 3: 0/1	
+Map 1: 1/1	Reducer 2: 2/2	Reducer 3: 1/1	
+OK
+close_outside_range	8
+high_lt_low	1
+null_field	11
+open_outside_range	3
+Time taken: 1.101 seconds, Fetched: 4 row(s)
+Query ID = hadoop_20261108113158_fdafd8fa-b370-4558-a72a-18016523624c
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0039)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+1)/1	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+2013-02-08	2017-12-29	605887
+Time taken: 1.053 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108113159_dfed6b99-c618-45cf-88c9-63021e65b65c
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0039)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+2018-01-02	2018-02-07	13130
+Time taken: 0.954 seconds, Fetched: 1 row(s)

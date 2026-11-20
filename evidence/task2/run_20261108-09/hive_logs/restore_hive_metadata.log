@@ -1,0 +1,31 @@
+Hive Session ID = 06d506cd-2663-4e3e-a857-9c6c8634b5f2
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.588 seconds
+OK
+Time taken: 0.103 seconds
+OK
+Partitions not in metastore:	cleaned_prices:year=2013	cleaned_prices:year=2014	cleaned_prices:year=2015	cleaned_prices:year=2016	cleaned_prices:year=2017
+Repair: Added partition to metastore cleaned_prices:year=2015
+Repair: Added partition to metastore cleaned_prices:year=2016
+Repair: Added partition to metastore cleaned_prices:year=2013
+Repair: Added partition to metastore cleaned_prices:year=2017
+Repair: Added partition to metastore cleaned_prices:year=2014
+Time taken: 0.22 seconds, Fetched: 6 row(s)
+OK
+Time taken: 0.038 seconds
+OK
+Time taken: 0.035 seconds
+OK
+Time taken: 0.055 seconds
+OK
+Time taken: 0.043 seconds
+OK
+Time taken: 0.049 seconds
+OK
+Time taken: 0.053 seconds
+OK
+Time taken: 0.047 seconds
+OK
+Time taken: 0.042 seconds

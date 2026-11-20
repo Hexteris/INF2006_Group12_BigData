@@ -1,0 +1,89 @@
+Hive Session ID = 3a4ac5f3-d2a0-40bc-9474-664780f20dfc
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.569 seconds
+OK
+Time taken: 1.894 seconds
+OK
+Time taken: 0.363 seconds
+OK
+Time taken: 0.082 seconds
+OK
+Time taken: 0.209 seconds
+OK
+Time taken: 0.069 seconds
+Query ID = hadoop_20261108112808_d21feaeb-1bc1-49cf-9614-d06356cfe313
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	
+Map 1: 0/2	
+Map 1: 0(+1)/2	
+Map 1: 0(+2)/2	
+Map 1: 1(+1)/2	
+Map 1: 2/2	
+Loading data to table g12.out_of_scope_prices
+OK
+Time taken: 9.092 seconds
+Query ID = hadoop_20261108112817_c0f10c5e-e997-4298-b5d7-f4979b173cab
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	
+Map 1: 0(+2)/2	
+Map 1: 2/2	
+Loading data to table g12.rejected_prices
+OK
+Time taken: 2.41 seconds
+Query ID = hadoop_20261108112819_8d82d79d-df91-426b-9744-16b8dd5ab962
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	Reducer 2: 0/2	
+Map 1: 0(+2)/2	Reducer 2: 0/2	
+Map 1: 1(+1)/2	Reducer 2: 0(+1)/2	
+Map 1: 2/2	Reducer 2: 0(+2)/2	
+Map 1: 2/2	Reducer 2: 1(+1)/2	
+Map 1: 2/2	Reducer 2: 2/2	
+Loading data to table g12.cleaned_prices partition (year=null)
+
+
+	 Time taken to load dynamic partitions: 0.207 seconds
+	 Time taken for adding to write entity : 0.001 seconds
+OK
+Time taken: 5.898 seconds
+Query ID = hadoop_20261108112825_eadff99f-244a-428d-931c-bbfd616a9daf
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 0(+1)/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+cleaned_prices	605887
+Time taken: 0.908 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108112826_aa2259ae-98c5-471d-959c-dda4265a4fb6
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+rejected_prices	23
+Time taken: 0.478 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108112827_563b818b-2fd5-4367-abde-7d2c24343559
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0035)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+out_of_scope_prices	13130
+Time taken: 0.509 seconds, Fetched: 1 row(s)

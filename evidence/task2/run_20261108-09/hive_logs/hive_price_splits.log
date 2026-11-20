@@ -1,0 +1,77 @@
+Hive Session ID = e2c93d08-536a-4f31-854f-352cf62af941
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.543 seconds
+OK
+Time taken: 0.14 seconds
+OK
+Time taken: 0.028 seconds
+OK
+Time taken: 0.032 seconds
+Query ID = hadoop_20261108113012_273694d3-cc8d-4ba5-9626-609a31c331a4
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	
+Map 1: 0/1	
+Map 1: 0/1	
+Map 1: 0(+1)/1	
+Map 1: 0(+1)/1	
+Map 1: 1/1	
+Loading data to table g12.training_prices
+OK
+Time taken: 12.2 seconds
+Query ID = hadoop_20261108113024_faca3973-0347-42b8-945c-362e6f9ceaa8
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	
+Map 1: 0(+1)/1	
+Map 1: 1/1	
+Loading data to table g12.validation_prices
+OK
+Time taken: 1.401 seconds
+Query ID = hadoop_20261108113025_4e08d932-e5eb-4428-8dac-91a320c9ff43
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	
+Map 1: 0(+1)/1	
+Map 1: 1/1	
+Loading data to table g12.testing_prices
+OK
+Time taken: 1.335 seconds
+Query ID = hadoop_20261108113027_06a282da-729f-46f8-bcc1-050d1d5643f9
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+training	354540	2013-02-08	2015-12-31
+Time taken: 0.807 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108113028_51ace13d-c043-474c-8243-ea253ac384b3
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+validation	125316	2016-01-04	2016-12-30
+Time taken: 0.459 seconds, Fetched: 1 row(s)
+Query ID = hadoop_20261108113028_bac9b876-2976-477c-a859-9ddba7821df9
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1794125803062_0038)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+OK
+testing	126031	2017-01-03	2017-12-29
+Time taken: 0.385 seconds, Fetched: 1 row(s)

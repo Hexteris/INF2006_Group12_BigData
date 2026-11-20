@@ -1,0 +1,588 @@
+==================================================
+REMAINING GDELT BATCH PROCESSING
+Batches: 020 055 056 057
+Started: Sun Nov  8 10:43:32 UTC 2026
+Log: /home/hadoop/gdelt_batch_logs/remaining_20261108_104332.log
+==================================================
+ZIP archives found: 731
+Pre-flight checks passed.
+
+
+==================================================
+BATCH 020 | Archive index 204 | Count 10
+Started: Sun Nov  8 10:44:30 UTC 2026
+==================================================
+Processed 20160121.export.CSV.zip: 240,629 lines
+Processed 20160122.export.CSV.zip: 229,845 lines
+Processed 20160123.export.CSV.zip: 148,711 lines
+Processed 20160124.export.CSV.zip: 133,979 lines
+Processed 20160125.export.CSV.zip: 204,838 lines
+Processed 20160126.export.CSV.zip: 222,230 lines
+Processed 20160127.export.CSV.zip: 234,605 lines
+Processed 20160128.export.CSV.zip: 237,972 lines
+Processed 20160129.export.CSV.zip: 213,970 lines
+Processed 20160130.export.CSV.zip: 146,618 lines
+
+BATCH SUMMARY
+Archives: 10
+Total lines: 2,013,397
+Uncompressed size: 723.41 MiB
+Manifest: /tmp/gdelt_remaining_work/batch_020/batch_020_manifest.json
+Batch: 020
+Archives: 10
+Date range: 20160121 to 20160130
+Input records: 2,013,397
+Date-range validation passed.
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.2-amzn-2.jar] /tmp/streamjob12587791173774765175.jar tmpDir=null
+2026-11-08 10:44:40,602 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:44:40,731 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:44:40,774 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:44:40,775 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:44:40,970 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1794125803062_0014
+2026-11-08 10:44:41,283 INFO lzo.GPLNativeCodeLoader: Loaded native gpl library
+2026-11-08 10:44:41,285 INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library [hadoop-lzo rev 049362b7cf53ff5f739d6b1532457f2c6cd495e8]
+2026-11-08 10:44:41,328 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-11-08 10:44:41,339 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.68.218:9866
+2026-11-08 10:44:41,340 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.66.74:9866
+2026-11-08 10:44:41,375 INFO mapreduce.JobSubmitter: number of splits:8
+2026-11-08 10:44:41,596 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1794125803062_0014
+2026-11-08 10:44:41,596 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-11-08 10:44:41,756 INFO conf.Configuration: resource-types.xml not found
+2026-11-08 10:44:41,756 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-11-08 10:44:41,811 INFO impl.YarnClientImpl: Submitted application application_1794125803062_0014
+2026-11-08 10:44:41,842 INFO mapreduce.Job: The url to track the job: http://ip-172-31-72-137.ec2.internal:20888/proxy/application_1794125803062_0014/
+2026-11-08 10:44:41,844 INFO mapreduce.Job: Running job: job_1794125803062_0014
+2026-11-08 10:44:47,914 INFO mapreduce.Job: Job job_1794125803062_0014 running in uber mode : false
+2026-11-08 10:44:47,915 INFO mapreduce.Job:  map 0% reduce 0%
+2026-11-08 10:45:06,056 INFO mapreduce.Job:  map 25% reduce 0%
+2026-11-08 10:45:11,083 INFO mapreduce.Job:  map 45% reduce 0%
+2026-11-08 10:45:17,114 INFO mapreduce.Job:  map 56% reduce 0%
+2026-11-08 10:45:18,121 INFO mapreduce.Job:  map 65% reduce 0%
+2026-11-08 10:45:19,127 INFO mapreduce.Job:  map 75% reduce 0%
+2026-11-08 10:45:23,149 INFO mapreduce.Job:  map 100% reduce 0%
+2026-11-08 10:45:35,205 INFO mapreduce.Job:  map 100% reduce 20%
+2026-11-08 10:45:37,214 INFO mapreduce.Job:  map 100% reduce 41%
+2026-11-08 10:45:39,224 INFO mapreduce.Job:  map 100% reduce 70%
+2026-11-08 10:45:41,241 INFO mapreduce.Job:  map 100% reduce 72%
+2026-11-08 10:45:43,251 INFO mapreduce.Job:  map 100% reduce 75%
+2026-11-08 10:45:50,282 INFO mapreduce.Job:  map 100% reduce 100%
+2026-11-08 10:45:51,292 INFO mapreduce.Job: Job job_1794125803062_0014 completed successfully
+2026-11-08 10:45:51,383 INFO mapreduce.Job: Counters: 56
+	File System Counters
+		FILE: Number of bytes read=278460433
+		FILE: Number of bytes written=560859586
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=758715675
+		HDFS: Number of bytes written=1089338267
+		HDFS: Number of read operations=44
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=8
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Killed map tasks=1
+		Killed reduce tasks=1
+		Launched map tasks=8
+		Launched reduce tasks=5
+		Data-local map tasks=8
+		Total time spent by all maps in occupied slots (ms)=548348928
+		Total time spent by all reduces in occupied slots (ms)=460462080
+		Total time spent by all map tasks (ms)=178499
+		Total time spent by all reduce tasks (ms)=74945
+		Total vcore-milliseconds taken by all map tasks=178499
+		Total vcore-milliseconds taken by all reduce tasks=74945
+		Total megabyte-milliseconds taken by all map tasks=548348928
+		Total megabyte-milliseconds taken by all reduce tasks=460462080
+	Map-Reduce Framework
+		Map input records=2013397
+		Map output records=2013397
+		Map output bytes=1121551279
+		Map output materialized bytes=278445937
+		Input split bytes=1080
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10
+		Reduce shuffle bytes=278445937
+		Reduce input records=2013397
+		Reduce output records=2013407
+		Spilled Records=4026794
+		Shuffled Maps =32
+		Failed Shuffles=0
+		Merged Map outputs=32
+		GC time elapsed (ms)=639
+		CPU time spent (ms)=156060
+		Physical memory (bytes) snapshot=7605817344
+		Virtual memory (bytes) snapshot=65192398848
+		Total committed heap usage (bytes)=6970933248
+		Peak Map Physical memory (bytes)=548671488
+		Peak Map Virtual memory (bytes)=4768727040
+		Peak Reduce Physical memory (bytes)=1030746112
+		Peak Reduce Virtual memory (bytes)=7465144320
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=758714595
+	File Output Format Counters 
+		Bytes Written=1089338267
+2026-11-08 10:45:51,383 INFO streaming.StreamJob: Output directory: /user/hadoop/task2/gdelt/streaming_output/batch_020
+INPUT RECORDS: 2,013,397
+VALID RECORDS: 2,013,397
+REJECTED RECORDS: 0
+AUDIT SUMMARIES: 10
+INVALID OUTPUT LINES: 0
+All record reconciliation checks passed.
+58-column validation passed. Rows: 2013397
+Deleted /user/hadoop/task2/gdelt/raw/batch_020.tsv
+Deleted /user/hadoop/task2/gdelt/streaming_output/batch_020
+
+BATCH 020 COMPLETED SUCCESSFULLY.
+Verified valid records: 2013397
+Local evidence retained in: /tmp/gdelt_remaining_work/batch_020
+-rw-r--r--   2 hadoop hdfsadmingroup    127.0 M 2026-11-08 10:47 /corpus/processed/gdelt/events/batch_020.tsv.gz
+Finished: Sun Nov  8 10:47:43 UTC 2026
+
+==================================================
+BATCH 055 | Archive index 550 | Count 10
+Started: Sun Nov  8 10:47:43 UTC 2026
+==================================================
+Processed 20170101.export.CSV.zip: 97,865 lines
+Processed 20170102.export.CSV.zip: 124,953 lines
+Processed 20170103.export.CSV.zip: 175,886 lines
+Processed 20170104.export.CSV.zip: 198,065 lines
+Processed 20170105.export.CSV.zip: 204,162 lines
+Processed 20170106.export.CSV.zip: 201,467 lines
+Processed 20170107.export.CSV.zip: 134,129 lines
+Processed 20170108.export.CSV.zip: 119,111 lines
+Processed 20170109.export.CSV.zip: 199,288 lines
+Processed 20170110.export.CSV.zip: 219,808 lines
+
+BATCH SUMMARY
+Archives: 10
+Total lines: 1,674,734
+Uncompressed size: 607.37 MiB
+Manifest: /tmp/gdelt_remaining_work/batch_055/batch_055_manifest.json
+Batch: 055
+Archives: 10
+Date range: 20170101 to 20170110
+Input records: 1,674,734
+Date-range validation passed.
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.2-amzn-2.jar] /tmp/streamjob3216935934190699865.jar tmpDir=null
+2026-11-08 10:47:52,947 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:47:53,091 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:47:53,136 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:47:53,136 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:47:53,348 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1794125803062_0015
+2026-11-08 10:47:53,775 INFO lzo.GPLNativeCodeLoader: Loaded native gpl library
+2026-11-08 10:47:53,777 INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library [hadoop-lzo rev 049362b7cf53ff5f739d6b1532457f2c6cd495e8]
+2026-11-08 10:47:53,817 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-11-08 10:47:53,830 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.68.218:9866
+2026-11-08 10:47:53,831 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.66.74:9866
+2026-11-08 10:47:53,949 INFO mapreduce.JobSubmitter: number of splits:8
+2026-11-08 10:47:54,162 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1794125803062_0015
+2026-11-08 10:47:54,162 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-11-08 10:47:54,345 INFO conf.Configuration: resource-types.xml not found
+2026-11-08 10:47:54,346 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-11-08 10:47:54,391 INFO impl.YarnClientImpl: Submitted application application_1794125803062_0015
+2026-11-08 10:47:54,417 INFO mapreduce.Job: The url to track the job: http://ip-172-31-72-137.ec2.internal:20888/proxy/application_1794125803062_0015/
+2026-11-08 10:47:54,418 INFO mapreduce.Job: Running job: job_1794125803062_0015
+2026-11-08 10:48:00,488 INFO mapreduce.Job: Job job_1794125803062_0015 running in uber mode : false
+2026-11-08 10:48:00,489 INFO mapreduce.Job:  map 0% reduce 0%
+2026-11-08 10:48:15,603 INFO mapreduce.Job:  map 25% reduce 0%
+2026-11-08 10:48:22,654 INFO mapreduce.Job:  map 37% reduce 0%
+2026-11-08 10:48:23,659 INFO mapreduce.Job:  map 49% reduce 0%
+2026-11-08 10:48:28,694 INFO mapreduce.Job:  map 75% reduce 0%
+2026-11-08 10:48:30,703 INFO mapreduce.Job:  map 100% reduce 0%
+2026-11-08 10:48:41,756 INFO mapreduce.Job:  map 100% reduce 25%
+2026-11-08 10:48:44,769 INFO mapreduce.Job:  map 100% reduce 50%
+2026-11-08 10:48:45,774 INFO mapreduce.Job:  map 100% reduce 72%
+2026-11-08 10:48:51,802 INFO mapreduce.Job:  map 100% reduce 75%
+2026-11-08 10:48:56,823 INFO mapreduce.Job:  map 100% reduce 100%
+2026-11-08 10:48:56,829 INFO mapreduce.Job: Job job_1794125803062_0015 completed successfully
+2026-11-08 10:48:56,919 INFO mapreduce.Job: Counters: 56
+	File System Counters
+		FILE: Number of bytes read=234117928
+		FILE: Number of bytes written=472204566
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=637047073
+		HDFS: Number of bytes written=911815675
+		HDFS: Number of read operations=44
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=8
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Killed map tasks=1
+		Killed reduce tasks=1
+		Launched map tasks=8
+		Launched reduce tasks=5
+		Data-local map tasks=8
+		Total time spent by all maps in occupied slots (ms)=484724736
+		Total time spent by all reduces in occupied slots (ms)=413577216
+		Total time spent by all map tasks (ms)=157788
+		Total time spent by all reduce tasks (ms)=67314
+		Total vcore-milliseconds taken by all map tasks=157788
+		Total vcore-milliseconds taken by all reduce tasks=67314
+		Total megabyte-milliseconds taken by all map tasks=484724736
+		Total megabyte-milliseconds taken by all reduce tasks=413577216
+	Map-Reduce Framework
+		Map input records=1674734
+		Map output records=1674734
+		Map output bytes=938610081
+		Map output materialized bytes=234133436
+		Input split bytes=1080
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10
+		Reduce shuffle bytes=234133436
+		Reduce input records=1674734
+		Reduce output records=1674744
+		Spilled Records=3349468
+		Shuffled Maps =32
+		Failed Shuffles=0
+		Merged Map outputs=32
+		GC time elapsed (ms)=610
+		CPU time spent (ms)=114290
+		Physical memory (bytes) snapshot=7405502464
+		Virtual memory (bytes) snapshot=65197842432
+		Total committed heap usage (bytes)=6740246528
+		Peak Map Physical memory (bytes)=554876928
+		Peak Map Virtual memory (bytes)=4774109184
+		Peak Reduce Physical memory (bytes)=930516992
+		Peak Reduce Virtual memory (bytes)=7474954240
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=637045993
+	File Output Format Counters 
+		Bytes Written=911815675
+2026-11-08 10:48:56,919 INFO streaming.StreamJob: Output directory: /user/hadoop/task2/gdelt/streaming_output/batch_055
+INPUT RECORDS: 1,674,734
+VALID RECORDS: 1,674,734
+REJECTED RECORDS: 0
+AUDIT SUMMARIES: 10
+INVALID OUTPUT LINES: 0
+All record reconciliation checks passed.
+58-column validation passed. Rows: 1674734
+Deleted /user/hadoop/task2/gdelt/raw/batch_055.tsv
+Deleted /user/hadoop/task2/gdelt/streaming_output/batch_055
+
+BATCH 055 COMPLETED SUCCESSFULLY.
+Verified valid records: 1674734
+Local evidence retained in: /tmp/gdelt_remaining_work/batch_055
+-rw-r--r--   2 hadoop hdfsadmingroup    106.9 M 2026-11-08 10:49 /corpus/processed/gdelt/events/batch_055.tsv.gz
+Finished: Sun Nov  8 10:50:43 UTC 2026
+
+==================================================
+BATCH 056 | Archive index 560 | Count 10
+Started: Sun Nov  8 10:50:43 UTC 2026
+==================================================
+Processed 20170111.export.CSV.zip: 221,814 lines
+Processed 20170112.export.CSV.zip: 235,886 lines
+Processed 20170113.export.CSV.zip: 227,125 lines
+Processed 20170114.export.CSV.zip: 143,802 lines
+Processed 20170115.export.CSV.zip: 129,561 lines
+Processed 20170116.export.CSV.zip: 203,778 lines
+Processed 20170117.export.CSV.zip: 235,659 lines
+Processed 20170118.export.CSV.zip: 256,842 lines
+Processed 20170119.export.CSV.zip: 250,568 lines
+Processed 20170120.export.CSV.zip: 229,688 lines
+
+BATCH SUMMARY
+Archives: 10
+Total lines: 2,134,723
+Uncompressed size: 776.98 MiB
+Manifest: /tmp/gdelt_remaining_work/batch_056/batch_056_manifest.json
+Batch: 056
+Archives: 10
+Date range: 20170111 to 20170120
+Input records: 2,134,723
+Date-range validation passed.
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.2-amzn-2.jar] /tmp/streamjob6256133479286254314.jar tmpDir=null
+2026-11-08 10:50:53,248 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:50:53,392 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:50:53,434 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:50:53,435 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:50:53,653 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1794125803062_0016
+2026-11-08 10:50:54,145 INFO lzo.GPLNativeCodeLoader: Loaded native gpl library
+2026-11-08 10:50:54,147 INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library [hadoop-lzo rev 049362b7cf53ff5f739d6b1532457f2c6cd495e8]
+2026-11-08 10:50:54,182 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-11-08 10:50:54,197 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.66.74:9866
+2026-11-08 10:50:54,197 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.68.218:9866
+2026-11-08 10:50:54,285 INFO mapreduce.JobSubmitter: number of splits:8
+2026-11-08 10:50:54,479 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1794125803062_0016
+2026-11-08 10:50:54,479 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-11-08 10:50:54,631 INFO conf.Configuration: resource-types.xml not found
+2026-11-08 10:50:54,631 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-11-08 10:50:54,682 INFO impl.YarnClientImpl: Submitted application application_1794125803062_0016
+2026-11-08 10:50:54,706 INFO mapreduce.Job: The url to track the job: http://ip-172-31-72-137.ec2.internal:20888/proxy/application_1794125803062_0016/
+2026-11-08 10:50:54,707 INFO mapreduce.Job: Running job: job_1794125803062_0016
+2026-11-08 10:51:00,774 INFO mapreduce.Job: Job job_1794125803062_0016 running in uber mode : false
+2026-11-08 10:51:00,775 INFO mapreduce.Job:  map 0% reduce 0%
+2026-11-08 10:51:17,907 INFO mapreduce.Job:  map 13% reduce 0%
+2026-11-08 10:51:18,913 INFO mapreduce.Job:  map 25% reduce 0%
+2026-11-08 10:51:22,933 INFO mapreduce.Job:  map 39% reduce 0%
+2026-11-08 10:51:23,938 INFO mapreduce.Job:  map 44% reduce 0%
+2026-11-08 10:51:28,972 INFO mapreduce.Job:  map 51% reduce 0%
+2026-11-08 10:51:29,976 INFO mapreduce.Job:  map 54% reduce 0%
+2026-11-08 10:51:31,986 INFO mapreduce.Job:  map 59% reduce 0%
+2026-11-08 10:51:32,992 INFO mapreduce.Job:  map 75% reduce 0%
+2026-11-08 10:51:33,997 INFO mapreduce.Job:  map 88% reduce 0%
+2026-11-08 10:51:35,001 INFO mapreduce.Job:  map 100% reduce 0%
+2026-11-08 10:51:50,073 INFO mapreduce.Job:  map 100% reduce 61%
+2026-11-08 10:51:52,083 INFO mapreduce.Job:  map 100% reduce 69%
+2026-11-08 10:51:56,100 INFO mapreduce.Job:  map 100% reduce 72%
+2026-11-08 10:52:00,117 INFO mapreduce.Job:  map 100% reduce 75%
+2026-11-08 10:52:07,157 INFO mapreduce.Job:  map 100% reduce 100%
+2026-11-08 10:52:08,166 INFO mapreduce.Job: Job job_1794125803062_0016 completed successfully
+2026-11-08 10:52:08,239 INFO mapreduce.Job: Counters: 56
+	File System Counters
+		FILE: Number of bytes read=299095863
+		FILE: Number of bytes written=602181091
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=814794872
+		HDFS: Number of bytes written=1165161132
+		HDFS: Number of read operations=44
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=8
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Killed map tasks=1
+		Killed reduce tasks=1
+		Launched map tasks=8
+		Launched reduce tasks=5
+		Data-local map tasks=8
+		Total time spent by all maps in occupied slots (ms)=555715584
+		Total time spent by all reduces in occupied slots (ms)=510480384
+		Total time spent by all map tasks (ms)=180897
+		Total time spent by all reduce tasks (ms)=83086
+		Total vcore-milliseconds taken by all map tasks=180897
+		Total vcore-milliseconds taken by all reduce tasks=83086
+		Total megabyte-milliseconds taken by all map tasks=555715584
+		Total megabyte-milliseconds taken by all reduce tasks=510480384
+	Map-Reduce Framework
+		Map input records=2134723
+		Map output records=2134723
+		Map output bytes=1199315360
+		Map output materialized bytes=299132025
+		Input split bytes=1080
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10
+		Reduce shuffle bytes=299132025
+		Reduce input records=2134723
+		Reduce output records=2134733
+		Spilled Records=4269446
+		Shuffled Maps =32
+		Failed Shuffles=0
+		Merged Map outputs=32
+		GC time elapsed (ms)=758
+		CPU time spent (ms)=170850
+		Physical memory (bytes) snapshot=7654748160
+		Virtual memory (bytes) snapshot=65219911680
+		Total committed heap usage (bytes)=6996099072
+		Peak Map Physical memory (bytes)=554192896
+		Peak Map Virtual memory (bytes)=4777021440
+		Peak Reduce Physical memory (bytes)=966033408
+		Peak Reduce Virtual memory (bytes)=7476838400
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=814793792
+	File Output Format Counters 
+		Bytes Written=1165161132
+2026-11-08 10:52:08,239 INFO streaming.StreamJob: Output directory: /user/hadoop/task2/gdelt/streaming_output/batch_056
+INPUT RECORDS: 2,134,723
+VALID RECORDS: 2,134,723
+REJECTED RECORDS: 0
+AUDIT SUMMARIES: 10
+INVALID OUTPUT LINES: 0
+All record reconciliation checks passed.
+58-column validation passed. Rows: 2134723
+Deleted /user/hadoop/task2/gdelt/raw/batch_056.tsv
+Deleted /user/hadoop/task2/gdelt/streaming_output/batch_056
+
+BATCH 056 COMPLETED SUCCESSFULLY.
+Verified valid records: 2134723
+Local evidence retained in: /tmp/gdelt_remaining_work/batch_056
+-rw-r--r--   2 hadoop hdfsadmingroup    136.8 M 2026-11-08 10:53 /corpus/processed/gdelt/events/batch_056.tsv.gz
+Finished: Sun Nov  8 10:54:06 UTC 2026
+
+==================================================
+BATCH 057 | Archive index 570 | Count 10
+Started: Sun Nov  8 10:54:06 UTC 2026
+==================================================
+Processed 20170121.export.CSV.zip: 157,544 lines
+Processed 20170122.export.CSV.zip: 134,877 lines
+Processed 20170123.export.CSV.zip: 211,589 lines
+Processed 20170124.export.CSV.zip: 241,016 lines
+Processed 20170125.export.CSV.zip: 248,845 lines
+Processed 20170126.export.CSV.zip: 248,664 lines
+Processed 20170127.export.CSV.zip: 233,337 lines
+Processed 20170128.export.CSV.zip: 163,198 lines
+Processed 20170129.export.CSV.zip: 166,349 lines
+Processed 20170130.export.CSV.zip: 263,106 lines
+
+BATCH SUMMARY
+Archives: 10
+Total lines: 2,068,525
+Uncompressed size: 752.09 MiB
+Manifest: /tmp/gdelt_remaining_work/batch_057/batch_057_manifest.json
+Batch: 057
+Archives: 10
+Date range: 20170121 to 20170130
+Input records: 2,068,525
+Date-range validation passed.
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.2-amzn-2.jar] /tmp/streamjob2718837171842541758.jar tmpDir=null
+2026-11-08 10:54:16,196 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:54:16,319 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:54:16,365 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-72-137.ec2.internal/172.31.72.137:8032
+2026-11-08 10:54:16,366 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-72-137.ec2.internal/172.31.72.137:10200
+2026-11-08 10:54:16,569 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1794125803062_0017
+2026-11-08 10:54:17,021 INFO lzo.GPLNativeCodeLoader: Loaded native gpl library
+2026-11-08 10:54:17,023 INFO lzo.LzoCodec: Successfully loaded & initialized native-lzo library [hadoop-lzo rev 049362b7cf53ff5f739d6b1532457f2c6cd495e8]
+2026-11-08 10:54:17,062 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-11-08 10:54:17,074 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.66.74:9866
+2026-11-08 10:54:17,074 INFO net.NetworkTopology: Adding a new node: /default-rack/172.31.68.218:9866
+2026-11-08 10:54:17,182 INFO mapreduce.JobSubmitter: number of splits:8
+2026-11-08 10:54:17,387 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1794125803062_0017
+2026-11-08 10:54:17,387 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-11-08 10:54:17,573 INFO conf.Configuration: resource-types.xml not found
+2026-11-08 10:54:17,574 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-11-08 10:54:17,633 INFO impl.YarnClientImpl: Submitted application application_1794125803062_0017
+2026-11-08 10:54:17,656 INFO mapreduce.Job: The url to track the job: http://ip-172-31-72-137.ec2.internal:20888/proxy/application_1794125803062_0017/
+2026-11-08 10:54:17,657 INFO mapreduce.Job: Running job: job_1794125803062_0017
+2026-11-08 10:54:23,742 INFO mapreduce.Job: Job job_1794125803062_0017 running in uber mode : false
+2026-11-08 10:54:23,743 INFO mapreduce.Job:  map 0% reduce 0%
+2026-11-08 10:54:41,906 INFO mapreduce.Job:  map 25% reduce 0%
+2026-11-08 10:54:46,943 INFO mapreduce.Job:  map 28% reduce 0%
+2026-11-08 10:54:47,948 INFO mapreduce.Job:  map 38% reduce 0%
+2026-11-08 10:54:52,972 INFO mapreduce.Job:  map 40% reduce 0%
+2026-11-08 10:54:53,979 INFO mapreduce.Job:  map 48% reduce 0%
+2026-11-08 10:54:59,009 INFO mapreduce.Job:  map 76% reduce 0%
+2026-11-08 10:55:00,014 INFO mapreduce.Job:  map 96% reduce 0%
+2026-11-08 10:55:01,018 INFO mapreduce.Job:  map 100% reduce 0%
+2026-11-08 10:55:13,071 INFO mapreduce.Job:  map 100% reduce 25%
+2026-11-08 10:55:18,095 INFO mapreduce.Job:  map 100% reduce 64%
+2026-11-08 10:55:19,100 INFO mapreduce.Job:  map 100% reduce 69%
+2026-11-08 10:55:24,123 INFO mapreduce.Job:  map 100% reduce 75%
+2026-11-08 10:55:29,143 INFO mapreduce.Job:  map 100% reduce 97%
+2026-11-08 10:55:32,155 INFO mapreduce.Job:  map 100% reduce 100%
+2026-11-08 10:55:32,161 INFO mapreduce.Job: Job job_1794125803062_0017 completed successfully
+2026-11-08 10:55:32,250 INFO mapreduce.Job: Counters: 56
+	File System Counters
+		FILE: Number of bytes read=286270143
+		FILE: Number of bytes written=576458848
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=788924407
+		HDFS: Number of bytes written=1128178111
+		HDFS: Number of read operations=44
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=8
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Killed map tasks=1
+		Killed reduce tasks=1
+		Launched map tasks=8
+		Launched reduce tasks=5
+		Data-local map tasks=8
+		Total time spent by all maps in occupied slots (ms)=620630016
+		Total time spent by all reduces in occupied slots (ms)=466206720
+		Total time spent by all map tasks (ms)=202028
+		Total time spent by all reduce tasks (ms)=75880
+		Total vcore-milliseconds taken by all map tasks=202028
+		Total vcore-milliseconds taken by all reduce tasks=75880
+		Total megabyte-milliseconds taken by all map tasks=620630016
+		Total megabyte-milliseconds taken by all reduce tasks=466206720
+	Map-Reduce Framework
+		Map input records=2068525
+		Map output records=2068525
+		Map output bytes=1161273171
+		Map output materialized bytes=286235507
+		Input split bytes=1080
+		Combine input records=0
+		Combine output records=0
+		Reduce input groups=10
+		Reduce shuffle bytes=286235507
+		Reduce input records=2068525
+		Reduce output records=2068535
+		Spilled Records=4137050
+		Shuffled Maps =32
+		Failed Shuffles=0
+		Merged Map outputs=32
+		GC time elapsed (ms)=958
+		CPU time spent (ms)=162360
+		Physical memory (bytes) snapshot=7806615552
+		Virtual memory (bytes) snapshot=65207504896
+		Total committed heap usage (bytes)=7230980096
+		Peak Map Physical memory (bytes)=569028608
+		Peak Map Virtual memory (bytes)=4772786176
+		Peak Reduce Physical memory (bytes)=1063305216
+		Peak Reduce Virtual memory (bytes)=7473418240
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=788923327
+	File Output Format Counters 
+		Bytes Written=1128178111
+2026-11-08 10:55:32,250 INFO streaming.StreamJob: Output directory: /user/hadoop/task2/gdelt/streaming_output/batch_057
+INPUT RECORDS: 2,068,525
+VALID RECORDS: 2,068,525
+REJECTED RECORDS: 0
+AUDIT SUMMARIES: 10
+INVALID OUTPUT LINES: 0
+All record reconciliation checks passed.
+58-column validation passed. Rows: 2068525
+Deleted /user/hadoop/task2/gdelt/raw/batch_057.tsv
+Deleted /user/hadoop/task2/gdelt/streaming_output/batch_057
+
+BATCH 057 COMPLETED SUCCESSFULLY.
+Verified valid records: 2068525
+Local evidence retained in: /tmp/gdelt_remaining_work/batch_057
+-rw-r--r--   2 hadoop hdfsadmingroup    129.9 M 2026-11-08 10:56 /corpus/processed/gdelt/events/batch_057.tsv.gz
+Finished: Sun Nov  8 10:57:27 UTC 2026
+
+==================================================
+ALL FOUR REMAINING BATCHES COMPLETED SUCCESSFULLY
+Finished: Sun Nov  8 10:57:27 UTC 2026
+==================================================
+Processed event files:
+-rw-r--r--   2 hadoop hdfsadmingroup    127.0 M 2026-11-08 10:47 /corpus/processed/gdelt/events/batch_020.tsv.gz
+-rw-r--r--   2 hadoop hdfsadmingroup    106.9 M 2026-11-08 10:49 /corpus/processed/gdelt/events/batch_055.tsv.gz
+-rw-r--r--   2 hadoop hdfsadmingroup    136.8 M 2026-11-08 10:53 /corpus/processed/gdelt/events/batch_056.tsv.gz
+-rw-r--r--   2 hadoop hdfsadmingroup    129.9 M 2026-11-08 10:56 /corpus/processed/gdelt/events/batch_057.tsv.gz
+Audit files:
+-rw-r--r--   2 hadoop hdfsadmingroup      1.4 K 2026-11-08 10:47 /corpus/audit/gdelt/batch_020_audit.jsonl
+-rw-r--r--   2 hadoop hdfsadmingroup      1.5 K 2026-11-08 10:47 /corpus/audit/gdelt/batch_020_manifest.json
+-rw-r--r--   2 hadoop hdfsadmingroup      1.4 K 2026-11-08 10:50 /corpus/audit/gdelt/batch_055_audit.jsonl
+-rw-r--r--   2 hadoop hdfsadmingroup      1.5 K 2026-11-08 10:50 /corpus/audit/gdelt/batch_055_manifest.json
+-rw-r--r--   2 hadoop hdfsadmingroup      1.4 K 2026-11-08 10:53 /corpus/audit/gdelt/batch_056_audit.jsonl
+-rw-r--r--   2 hadoop hdfsadmingroup      1.5 K 2026-11-08 10:53 /corpus/audit/gdelt/batch_056_manifest.json
+-rw-r--r--   2 hadoop hdfsadmingroup      1.4 K 2026-11-08 10:56 /corpus/audit/gdelt/batch_057_audit.jsonl
+-rw-r--r--   2 hadoop hdfsadmingroup      1.5 K 2026-11-08 10:56 /corpus/audit/gdelt/batch_057_manifest.json
+Log: /home/hadoop/gdelt_batch_logs/remaining_20261108_104332.log
