@@ -1,0 +1,123 @@
+26/11/20 11:00:11 INFO EMRParamSideChannel: Setting FGAC mode to false
+26/11/20 11:00:11 INFO SparkContext: Running Spark version 3.5.5-amzn-1
+26/11/20 11:00:11 INFO SparkContext: OS info Linux, 6.1.189-236.400.amzn2023.x86_64, amd64
+26/11/20 11:00:11 INFO SparkContext: Java version 17.0.21
+26/11/20 11:00:11 INFO ResourceUtils: ==============================================================
+26/11/20 11:00:11 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/11/20 11:00:11 INFO ResourceUtils: ==============================================================
+26/11/20 11:00:11 INFO SparkContext: Submitted application: task2_features_g12_dev_reference_r3_20261120t105238z
+26/11/20 11:00:11 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 2, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: , memoryOverhead -> name: memoryOverhead, amount: 2048, script: , vendor: , executorType -> name: executorType, amount: 1, script: , vendor: , memory -> name: memory, amount: 6144, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/20 11:00:11 INFO ResourceProfile: Limiting resource is cpus at 2 tasks per executor
+26/11/20 11:00:11 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/11/20 11:00:11 INFO ResourceProfile: User executor ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 2, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: , memoryOverhead -> name: memoryOverhead, amount: 2048, script: , vendor: , executorType -> name: executorType, amount: 1, script: , vendor: , memory -> name: memory, amount: 6144, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/11/20 11:00:11 INFO ResourceProfile: Limiting resource is cpus at 2 tasks per executor
+26/11/20 11:00:11 INFO ResourceProfileManager: Added ResourceProfile id: 1
+26/11/20 11:00:11 INFO SecurityManager: Changing view acls to: hadoop
+26/11/20 11:00:11 INFO SecurityManager: Changing modify acls to: hadoop
+26/11/20 11:00:11 INFO SecurityManager: Changing view acls groups to: 
+26/11/20 11:00:11 INFO SecurityManager: Changing modify acls groups to: 
+26/11/20 11:00:11 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: hadoop; groups with view permissions: EMPTY; users with modify permissions: hadoop; groups with modify permissions: EMPTY
+26/11/20 11:00:11 INFO Utils: Successfully started service 'sparkDriver' on port 37635.
+26/11/20 11:00:11 INFO SparkEnv: Registering MapOutputTracker
+26/11/20 11:00:11 INFO SparkEnv: Registering BlockManagerMaster
+26/11/20 11:00:11 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/11/20 11:00:11 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/11/20 11:00:11 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/11/20 11:00:11 INFO DiskBlockManager: Created local directory at /mnt/tmp/blockmgr-aa2b84ce-898d-4c7d-befd-d3b6e94111b0
+26/11/20 11:00:11 INFO MemoryStore: MemoryStore started with capacity 1048.8 MiB
+26/11/20 11:00:11 INFO SparkEnv: Registering OutputCommitCoordinator
+26/11/20 11:00:11 INFO SubResultCacheManager: Sub-result caches are disabled.
+26/11/20 11:00:11 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/11/20 11:00:11 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/11/20 11:00:12 INFO DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-30-82.ec2.internal/172.31.30.82:8032
+26/11/20 11:00:12 INFO Configuration: resource-types.xml not found
+26/11/20 11:00:12 INFO ResourceUtils: Unable to find 'resource-types.xml'.
+26/11/20 11:00:12 INFO Client: Verifying our application has not requested more than the maximum memory capability of the cluster (12288 MB per container)
+26/11/20 11:00:12 INFO Client: Will allocate AM container, with 896 MB memory including 384 MB overhead
+26/11/20 11:00:12 INFO Client: Setting up container launch context for our AM
+26/11/20 11:00:12 INFO Client: Setting up the launch environment for our AM container
+26/11/20 11:00:12 INFO Client: Preparing resources for our AM container
+26/11/20 11:00:12 WARN Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOME.
+26/11/20 11:00:14 INFO Client: Uploading resource file:/mnt/tmp/spark-123317d8-fddc-446f-8f5a-860b87d259a2/__spark_libs__651035224680797244.zip -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/__spark_libs__651035224680797244.zip
+26/11/20 11:00:14 INFO Client: Uploading resource file:/etc/spark/conf.dist/hive-site.xml -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/hive-site.xml
+26/11/20 11:00:14 INFO Client: Uploading resource file:/etc/hudi/conf.dist/hudi-defaults.conf -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/hudi-defaults.conf
+26/11/20 11:00:15 INFO Client: Uploading resource file:/usr/lib/spark/python/lib/pyspark.zip -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/pyspark.zip
+26/11/20 11:00:15 INFO Client: Uploading resource file:/usr/lib/spark/python/lib/py4j-0.10.9.7-src.zip -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/py4j-0.10.9.7-src.zip
+26/11/20 11:00:15 INFO Client: Uploading resource file:/mnt/tmp/spark-123317d8-fddc-446f-8f5a-860b87d259a2/__spark_conf__17590646603041624433.zip -> hdfs://ip-172-31-30-82.ec2.internal:8020/user/hadoop/.sparkStaging/application_1795167376377_0036/__spark_conf__.zip
+26/11/20 11:00:15 INFO SecurityManager: Changing view acls to: hadoop
+26/11/20 11:00:15 INFO SecurityManager: Changing modify acls to: hadoop
+26/11/20 11:00:15 INFO SecurityManager: Changing view acls groups to: 
+26/11/20 11:00:15 INFO SecurityManager: Changing modify acls groups to: 
+26/11/20 11:00:15 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: hadoop; groups with view permissions: EMPTY; users with modify permissions: hadoop; groups with modify permissions: EMPTY
+26/11/20 11:00:15 INFO Client: Submitting application application_1795167376377_0036 to ResourceManager
+26/11/20 11:00:15 INFO YarnClientImpl: Submitted application application_1795167376377_0036
+26/11/20 11:00:16 INFO Client: Application report for application_1795167376377_0036 (state: ACCEPTED)
+26/11/20 11:00:16 INFO Client: 
+	 client token: N/A
+	 diagnostics: AM container is launched, waiting for AM container to Register with RM
+	 ApplicationMaster host: N/A
+	 ApplicationMaster RPC port: -1
+	 queue: root.default
+	 start time: 1795172415263
+	 final status: UNDEFINED
+	 tracking URL: http://ip-172-31-30-82.ec2.internal:20888/proxy/application_1795167376377_0036/
+	 user: hadoop
+26/11/20 11:00:20 INFO YarnClientSchedulerBackend: Add WebUI Filter. org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter, Map(PROXY_HOSTS -> ip-172-31-30-82.ec2.internal, PROXY_URI_BASES -> http://ip-172-31-30-82.ec2.internal:20888/proxy/application_1795167376377_0036), /proxy/application_1795167376377_0036
+26/11/20 11:00:20 INFO Client: Application report for application_1795167376377_0036 (state: RUNNING)
+26/11/20 11:00:20 INFO Client: 
+	 client token: N/A
+	 diagnostics: N/A
+	 ApplicationMaster host: 172.31.17.214
+	 ApplicationMaster RPC port: -1
+	 queue: root.default
+	 start time: 1795172415263
+	 final status: UNDEFINED
+	 tracking URL: http://ip-172-31-30-82.ec2.internal:20888/proxy/application_1795167376377_0036/
+	 user: hadoop
+26/11/20 11:00:20 INFO YarnClientSchedulerBackend: Application application_1795167376377_0036 has started running.
+26/11/20 11:00:20 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 42089.
+26/11/20 11:00:20 INFO NettyBlockTransferService: Server created on ip-172-31-30-82.ec2.internal:42089
+26/11/20 11:00:20 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/11/20 11:00:20 INFO BlockManager: external shuffle service port = 7337
+26/11/20 11:00:20 INFO YarnSchedulerBackend$YarnSchedulerEndpoint: ApplicationMaster registered as NettyRpcEndpointRef(spark-client://YarnAM)
+26/11/20 11:00:20 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, ip-172-31-30-82.ec2.internal, 42089, None)
+26/11/20 11:00:20 INFO BlockManagerMasterEndpoint: Registering block manager ip-172-31-30-82.ec2.internal:42089 with 1048.8 MiB RAM, BlockManagerId(driver, ip-172-31-30-82.ec2.internal, 42089, None)
+26/11/20 11:00:20 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, ip-172-31-30-82.ec2.internal, 42089, None)
+26/11/20 11:00:20 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, ip-172-31-30-82.ec2.internal, 42089, None)
+26/11/20 11:00:20 INFO SingleEventLogFileWriter: Logging events to hdfs:/var/log/spark/apps/application_1795167376377_0036.inprogress
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /jobs: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /jobs/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /jobs/job: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /jobs/job/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/stage: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/stage/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/pool: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/pool/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /storage: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /storage/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /storage/rdd: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /storage/rdd/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /environment: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /environment/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors/threadDump: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors/threadDump/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors/heapHistogram: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /executors/heapHistogram/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /static: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /api: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /jobs/job/kill: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /stages/stage/kill: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO ServerInfo: Adding filter to /metrics/json: org.apache.hadoop.yarn.server.webproxy.amfilter.AmIpFilter
+26/11/20 11:00:20 INFO YarnClientSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+26/11/20 11:00:21 WARN HiveConf: HiveConf of name hive.server2.thrift.url does not exist
+26/11/20 11:00:24 WARN SparkStringUtils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 'spark.sql.debug.maxToStringFields'.
+26/11/20 11:00:39 WARN SessionState: METASTORE_FILTER_HOOK will be ignored, since hive.security.authorization.manager is set to instance of HiveAuthorizerFactory.
+training {"features_rows": 35328, "null_counts_before_dropna": {"open_price": 0, "high_price": 0, "low_price": 0, "close_price": 0, "volume": 0, "daily_return": 49, "return_5d": 245, "volatility_20d": 980, "volume_change_1d": 49, "intraday_range": 0, "volume_ratio_20d": 980, "mkt_return_1d": 48, "mkt_volatility_20d": 960, "gdelt_event_count": 34887, "gdelt_avg_tone": 34887, "gdelt_avg_goldstein": 34887, "gdelt_total_mentions": 34887}, "model_ready": {"rows": 34348, "first_date": "2013-03-11", "last_date": "2015-12-23", "tickers": 49, "label_1": 18910, "rows_with_gdelt": 441}, "dropped_for_missing_values": 980}
+validation {"features_rows": 12103, "null_counts_before_dropna": {"open_price": 0, "high_price": 0, "low_price": 0, "close_price": 0, "volume": 0, "daily_return": 0, "return_5d": 0, "volatility_20d": 0, "volume_change_1d": 0, "intraday_range": 0, "volume_ratio_20d": 0, "mkt_return_1d": 0, "mkt_volatility_20d": 0, "gdelt_event_count": 12103, "gdelt_avg_tone": 12103, "gdelt_avg_goldstein": 12103, "gdelt_total_mentions": 12103}, "model_ready": {"rows": 12103, "first_date": "2016-01-04", "last_date": "2016-12-22", "tickers": 49, "label_1": 6706, "rows_with_gdelt": 0}, "dropped_for_missing_values": 0}
+testing {"features_rows": 12317, "null_counts_before_dropna": {"open_price": 0, "high_price": 0, "low_price": 0, "close_price": 0, "volume": 0, "daily_return": 1, "return_5d": 5, "volatility_20d": 18, "volume_change_1d": 1, "intraday_range": 0, "volume_ratio_20d": 18, "mkt_return_1d": 0, "mkt_volatility_20d": 0, "gdelt_event_count": 12317, "gdelt_avg_tone": 12317, "gdelt_avg_goldstein": 12317, "gdelt_total_mentions": 12317}, "model_ready": {"rows": 12299, "first_date": "2017-01-03", "last_date": "2017-12-29", "tickers": 49, "label_1": 7202, "rows_with_gdelt": 0}, "dropped_for_missing_values": 18}
+split_report {"testing": {"split": "testing", "period_rows": 12317, "excluded_no_complete_target": 0, "excluded_target_crosses_period_end": 0, "kept": 12317}, "training": {"split": "training", "period_rows": 35573, "excluded_no_complete_target": 0, "excluded_target_crosses_period_end": 245, "kept": 35328}, "validation": {"split": "validation", "period_rows": 12348, "excluded_no_complete_target": 0, "excluded_target_crosses_period_end": 245, "kept": 12103}}

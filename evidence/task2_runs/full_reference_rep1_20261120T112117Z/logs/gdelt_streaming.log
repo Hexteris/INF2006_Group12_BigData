@@ -1,0 +1,66 @@
+packageJobJar: [] [/usr/lib/hadoop/hadoop-streaming-3.4.1-amzn-2.jar] /tmp/streamjob14948285886890788678.jar tmpDir=null
+2026-11-20 11:22:54,493 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-30-82.ec2.internal/172.31.30.82:8032
+2026-11-20 11:22:54,617 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-30-82.ec2.internal/172.31.30.82:10200
+2026-11-20 11:22:54,670 INFO client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at ip-172-31-30-82.ec2.internal/172.31.30.82:8032
+2026-11-20 11:22:54,671 INFO client.AHSProxy: Connecting to Application History server at ip-172-31-30-82.ec2.internal/172.31.30.82:10200
+2026-11-20 11:22:54,851 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/hadoop/.staging/job_1795167376377_0041
+2026-11-20 11:22:55,177 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-11-20 11:22:55,252 INFO mapreduce.JobSubmitter: number of splits:6
+2026-11-20 11:22:55,428 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1795167376377_0041
+2026-11-20 11:22:55,429 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-11-20 11:22:55,566 INFO conf.Configuration: resource-types.xml not found
+2026-11-20 11:22:55,567 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-11-20 11:22:55,614 INFO impl.YarnClientImpl: Submitted application application_1795167376377_0041
+2026-11-20 11:22:55,637 INFO mapreduce.Job: The url to track the job: http://ip-172-31-30-82.ec2.internal:20888/proxy/application_1795167376377_0041/
+2026-11-20 11:22:55,638 INFO mapreduce.Job: Running job: job_1795167376377_0041
+2026-11-20 11:23:01,701 INFO mapreduce.Job: Job job_1795167376377_0041 running in uber mode : false
+2026-11-20 11:23:01,702 INFO mapreduce.Job:  map 0% reduce 0%
+2026-11-20 11:24:20,166 INFO mapreduce.Job:  map 33% reduce 0%
+2026-11-20 11:24:23,181 INFO mapreduce.Job:  map 83% reduce 0%
+2026-11-20 11:24:24,187 INFO mapreduce.Job:  map 100% reduce 0%
+2026-11-20 11:28:22,022 INFO mapreduce.Job: Job job_1795167376377_0041 completed successfully
+2026-11-20 11:28:22,099 INFO mapreduce.Job: Counters: 37
+	File System Counters
+		FILE: Number of bytes read=0
+		FILE: Number of bytes written=1969788
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=46454
+		HDFS: Number of bytes written=1308401918
+		HDFS: Number of read operations=42
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=12
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=6
+		Other local map tasks=6
+		Total time spent by all maps in occupied slots (ms)=4955212800
+		Total time spent by all reduces in occupied slots (ms)=0
+		Total time spent by all map tasks (ms)=1613025
+		Total vcore-milliseconds taken by all map tasks=1613025
+		Total megabyte-milliseconds taken by all map tasks=4955212800
+	Map-Reduce Framework
+		Map input records=150
+		Map output records=29042440
+		Input split bytes=774
+		Spilled Records=0
+		Failed Shuffles=0
+		Merged Map outputs=0
+		GC time elapsed (ms)=467
+		CPU time spent (ms)=856730
+		Physical memory (bytes) snapshot=2198511616
+		Virtual memory (bytes) snapshot=27198013440
+		Total committed heap usage (bytes)=1572864000
+		Peak Map Physical memory (bytes)=676880384
+		Peak Map Virtual memory (bytes)=11160846336
+	GDELT
+		archives=150
+		rejected_rows=0
+		rows_read=29042290
+		valid_rows=29042290
+	File Input Format Counters 
+		Bytes Read=45680
+	File Output Format Counters 
+		Bytes Written=1308401918
+2026-11-20 11:28:22,099 INFO streaming.StreamJob: Output directory: /corpus/runs/full_reference_rep1_20261120T112117Z/streaming/gdelt

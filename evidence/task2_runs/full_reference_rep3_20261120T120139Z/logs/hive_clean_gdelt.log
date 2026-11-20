@@ -1,0 +1,209 @@
+Hive Session ID = 9e104978-88d3-4549-9737-b29bc8b6b759
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.603 seconds
+OK
+Time taken: 1.924 seconds
+OK
+Time taken: 0.077 seconds
+OK
+Time taken: 0.08 seconds
+OK
+Time taken: 0.17 seconds
+OK
+Time taken: 0.252 seconds
+OK
+Time taken: 0.124 seconds
+OK
+Time taken: 0.024 seconds
+OK
+Time taken: 0.029 seconds
+Query ID = hadoop_20261120121034_212fa289-0cbd-498a-bb71-3dfbaca02004
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0063)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0/6	Reducer 2: 0/1	
+Map 1: 0(+1)/6	Reducer 2: 0/1	
+Map 1: 0(+2)/6	Reducer 2: 0/1	
+Map 1: 0(+5)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 1(+5)/6	Reducer 2: 0/1	
+Map 1: 1(+5)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 4(+2)/6	Reducer 2: 0(+1)/1	
+Map 1: 6/6	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.rejected_gdelt
+OK
+Time taken: 110.839 seconds
+Query ID = hadoop_20261120121225_1bfbadae-d939-4845-9734-56fd392e01bc
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0063)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+5)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 1(+5)/6	Reducer 2: 0(+1)/1	
+Map 1: 1(+5)/6	Reducer 2: 0(+1)/1	
+Map 1: 3(+3)/6	Reducer 2: 0(+1)/1	
+Map 1: 6/6	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.rejected_gdelt_structural
+OK
+Time taken: 14.409 seconds
+Query ID = hadoop_20261120121239_bc25a4f7-daf8-4827-88fb-b525756c1fe8
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0063)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 0(+6)/6	Reducer 2: 0/1	
+Map 1: 1(+5)/6	Reducer 2: 0(+1)/1	
+Map 1: 1(+5)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 2(+4)/6	Reducer 2: 0(+1)/1	
+Map 1: 3(+3)/6	Reducer 2: 0(+1)/1	
+Map 1: 3(+3)/6	Reducer 2: 0(+1)/1	
+Map 1: 4(+2)/6	Reducer 2: 0(+1)/1	
+Map 1: 5(+1)/6	Reducer 2: 0(+1)/1	
+Map 1: 5(+1)/6	Reducer 2: 0(+1)/1	
+Map 1: 6/6	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.cleaned_gdelt_events
+OK
+Time taken: 245.191 seconds
+OK
+Time taken: 0.035 seconds
+Query ID = hadoop_20261120121645_75fdc42e-c998-499c-8ac4-b5e5b606b3ef
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0063)
+
+Map 1: -/-	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 0(+4)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 0(+5)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 0(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 1(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 2(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 3(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 4(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 6(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 7(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 8(+6)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 9(+5)/14	Reducer 2: 0/26	Reducer 3: 0/1	
+Map 1: 11(+3)/14	Reducer 2: 0(+3)/4	Reducer 3: 0/1	
+Map 1: 12(+2)/14	Reducer 2: 0(+4)/4	Reducer 3: 0/1	
+Map 1: 14/14	Reducer 2: 0(+4)/4	Reducer 3: 0/1	
+Map 1: 14/14	Reducer 2: 2(+2)/4	Reducer 3: 0(+1)/1	
+Map 1: 14/14	Reducer 2: 4/4	Reducer 3: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.daily_gdelt_features
+OK
+Time taken: 19.421 seconds

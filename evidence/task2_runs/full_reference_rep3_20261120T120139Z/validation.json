@@ -1,0 +1,116 @@
+{
+  "db": "g12_full_reference_r3_20261120t120139z",
+  "checks": [
+    {
+      "check": "training dates inside period",
+      "status": "PASS",
+      "detail": "2013-02-08..2015-12-23 expected within 2013-01-01..2015-12-31"
+    },
+    {
+      "check": "training target window ends inside period",
+      "status": "PASS",
+      "detail": "max future_trade_date=2015-12-31 limit=2015-12-31"
+    },
+    {
+      "check": "training no duplicate ticker/date",
+      "status": "PASS",
+      "detail": "duplicate keys=0"
+    },
+    {
+      "check": "training no null/NaN/inf in features and targets",
+      "status": "PASS",
+      "detail": "bad cells=0"
+    },
+    {
+      "check": "training label is 0/1",
+      "status": "PASS",
+      "detail": "invalid labels=0"
+    },
+    {
+      "check": "training no leakage columns in model-ready",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "check": "training Hive split rows = kept + excluded",
+      "status": "PASS",
+      "detail": "hive=354540 kept=352065 no_target=0 crosses_end=2475"
+    },
+    {
+      "check": "validation dates inside period",
+      "status": "PASS",
+      "detail": "2016-01-04..2016-12-22 expected within 2016-01-01..2016-12-31"
+    },
+    {
+      "check": "validation target window ends inside period",
+      "status": "PASS",
+      "detail": "max future_trade_date=2016-12-30 limit=2016-12-31"
+    },
+    {
+      "check": "validation no duplicate ticker/date",
+      "status": "PASS",
+      "detail": "duplicate keys=0"
+    },
+    {
+      "check": "validation no null/NaN/inf in features and targets",
+      "status": "PASS",
+      "detail": "bad cells=0"
+    },
+    {
+      "check": "validation label is 0/1",
+      "status": "PASS",
+      "detail": "invalid labels=0"
+    },
+    {
+      "check": "validation no leakage columns in model-ready",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "check": "validation Hive split rows = kept + excluded",
+      "status": "PASS",
+      "detail": "hive=125316 kept=122821 no_target=0 crosses_end=2495"
+    },
+    {
+      "check": "testing dates inside period",
+      "status": "PASS",
+      "detail": "2017-01-03..2017-12-29 expected within 2017-01-01..2017-12-31"
+    },
+    {
+      "check": "testing target window ends inside period",
+      "status": "PASS",
+      "detail": "max future_trade_date=2018-01-08 limit=2099-12-31"
+    },
+    {
+      "check": "testing no duplicate ticker/date",
+      "status": "PASS",
+      "detail": "duplicate keys=0"
+    },
+    {
+      "check": "testing no null/NaN/inf in features and targets",
+      "status": "PASS",
+      "detail": "bad cells=0"
+    },
+    {
+      "check": "testing label is 0/1",
+      "status": "PASS",
+      "detail": "invalid labels=0"
+    },
+    {
+      "check": "testing no leakage columns in model-ready",
+      "status": "PASS",
+      "detail": "found=[]"
+    },
+    {
+      "check": "testing Hive split rows = kept + excluded",
+      "status": "PASS",
+      "detail": "hive=126031 kept=126031 no_target=0 crosses_end=0"
+    },
+    {
+      "check": "periods are chronological and disjoint",
+      "status": "PASS",
+      "detail": "[('2013-02-08', '2015-12-23'), ('2016-01-04', '2016-12-22'), ('2017-01-03', '2017-12-29')]"
+    }
+  ],
+  "failed": []
+}

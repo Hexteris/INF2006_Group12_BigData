@@ -1,0 +1,171 @@
+{
+  "db": "g12_full_reference_r3_20261120t120139z",
+  "params": {
+    "db": "g12_full_reference_r3_20261120t120139z",
+    "out": "/corpus/runs/full_reference_rep3_20261120T120139Z",
+    "local_json": "/home/hadoop/task2_runs/full_reference_rep3_20261120T120139Z/features_summary.json",
+    "use_2018_labels": 1,
+    "min_vol_window": 20,
+    "gdelt_lag_days": 1
+  },
+  "horizon_sessions": 5,
+  "periods": {
+    "training": [
+      "2013-01-01",
+      "2015-12-31"
+    ],
+    "validation": [
+      "2016-01-01",
+      "2016-12-31"
+    ],
+    "testing": [
+      "2017-01-01",
+      "2017-12-31"
+    ]
+  },
+  "core_features": [
+    "open_price",
+    "high_price",
+    "low_price",
+    "close_price",
+    "volume",
+    "daily_return",
+    "return_5d",
+    "volatility_20d",
+    "volume_change_1d",
+    "intraday_range",
+    "volume_ratio_20d",
+    "mkt_return_1d",
+    "mkt_volatility_20d"
+  ],
+  "gdelt_features": [
+    "gdelt_event_count",
+    "gdelt_avg_tone",
+    "gdelt_avg_goldstein",
+    "gdelt_total_mentions",
+    "gdelt_available"
+  ],
+  "targets": [
+    "label",
+    "future_return_5d",
+    "future_volatility_5d"
+  ],
+  "split_report": {
+    "testing": {
+      "split": "testing",
+      "period_rows": 126031,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 0,
+      "kept": 126031
+    },
+    "training": {
+      "split": "training",
+      "period_rows": 354540,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 2475,
+      "kept": 352065
+    },
+    "validation": {
+      "split": "validation",
+      "period_rows": 125316,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 2495,
+      "kept": 122821
+    }
+  },
+  "splits": {
+    "training": {
+      "features_rows": 352065,
+      "null_counts_before_dropna": {
+        "open_price": 0,
+        "high_price": 0,
+        "low_price": 0,
+        "close_price": 0,
+        "volume": 0,
+        "daily_return": 495,
+        "return_5d": 2475,
+        "volatility_20d": 9900,
+        "volume_change_1d": 495,
+        "intraday_range": 0,
+        "volume_ratio_20d": 9900,
+        "mkt_return_1d": 476,
+        "mkt_volatility_20d": 9520,
+        "gdelt_event_count": 321566,
+        "gdelt_avg_tone": 321566,
+        "gdelt_avg_goldstein": 321566,
+        "gdelt_total_mentions": 321566
+      },
+      "model_ready": {
+        "rows": 342165,
+        "first_date": "2013-03-11",
+        "last_date": "2015-12-23",
+        "tickers": 495,
+        "label_1": 185726,
+        "rows_with_gdelt": 30444
+      },
+      "dropped_for_missing_values": 9900
+    },
+    "validation": {
+      "features_rows": 122821,
+      "null_counts_before_dropna": {
+        "open_price": 0,
+        "high_price": 0,
+        "low_price": 0,
+        "close_price": 0,
+        "volume": 0,
+        "daily_return": 4,
+        "return_5d": 20,
+        "volatility_20d": 75,
+        "volume_change_1d": 4,
+        "intraday_range": 0,
+        "volume_ratio_20d": 75,
+        "mkt_return_1d": 0,
+        "mkt_volatility_20d": 0,
+        "gdelt_event_count": 113400,
+        "gdelt_avg_tone": 113400,
+        "gdelt_avg_goldstein": 113400,
+        "gdelt_total_mentions": 113400
+      },
+      "model_ready": {
+        "rows": 122746,
+        "first_date": "2016-01-04",
+        "last_date": "2016-12-22",
+        "tickers": 498,
+        "label_1": 67231,
+        "rows_with_gdelt": 9403
+      },
+      "dropped_for_missing_values": 75
+    },
+    "testing": {
+      "features_rows": 126031,
+      "null_counts_before_dropna": {
+        "open_price": 0,
+        "high_price": 0,
+        "low_price": 0,
+        "close_price": 0,
+        "volume": 0,
+        "daily_return": 6,
+        "return_5d": 30,
+        "volatility_20d": 118,
+        "volume_change_1d": 6,
+        "intraday_range": 0,
+        "volume_ratio_20d": 118,
+        "mkt_return_1d": 0,
+        "mkt_volatility_20d": 0,
+        "gdelt_event_count": 116032,
+        "gdelt_avg_tone": 116032,
+        "gdelt_avg_goldstein": 116032,
+        "gdelt_total_mentions": 116032
+      },
+      "model_ready": {
+        "rows": 125913,
+        "first_date": "2017-01-03",
+        "last_date": "2017-12-29",
+        "tickers": 504,
+        "label_1": 70945,
+        "rows_with_gdelt": 9980
+      },
+      "dropped_for_missing_values": 118
+    }
+  }
+}

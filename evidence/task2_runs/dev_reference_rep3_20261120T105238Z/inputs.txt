@@ -1,0 +1,6 @@
+profile=dev
+prices_input_dir=/corpus/profiles/dev/prices
+prices_bytes=2953963
+gdelt_archives=14
+gdelt_zip_bytes=182001943
+dev_tickers=50

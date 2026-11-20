@@ -1,0 +1,14 @@
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150701.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150702.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150703.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150704.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150705.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150706.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150707.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150708.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150709.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150710.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150711.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150712.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150713.export.CSV.zip
+/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29/20150714.export.CSV.zip

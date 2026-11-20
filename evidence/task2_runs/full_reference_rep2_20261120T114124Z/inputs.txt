@@ -1,0 +1,5 @@
+profile=full
+prices_input_dir=/corpus/raw/prices/v1_2013-2017/acq_2026-10-28
+prices_bytes=29580549
+gdelt_archives=150
+gdelt_zip_bytes=1925290170

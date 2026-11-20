@@ -1,0 +1,26 @@
+{
+  "run_name": "full_reference_rep1_20261120T112117Z",
+  "profile": "full",
+  "config": "reference",
+  "rep": 1,
+  "run_id": "20261120T112117Z",
+  "started_utc": "2026-11-20T11:22:40Z",
+  "hive_db": "g12_full_reference_r1_20261120t112117z",
+  "hdfs_output": "/corpus/runs/full_reference_rep1_20261120T112117Z",
+  "profile_dir": "/corpus/profiles/full",
+  "inputs": {
+    "prices_file": "/corpus/raw/prices/v1_2013-2017/acq_2026-10-28/all_stocks_5yr.csv",
+    "gdelt_dir": "/corpus/raw/gdelt_task2_150"
+  },
+  "resource_settings": {
+    "spark": "2 executors x 2 cores x 6g heap + 2g overhead, driver 2g, dynamic allocation off",
+    "spark.sql.shuffle.partitions": 200,
+    "streaming_lines_per_map": 25,
+    "dev_tickers": 50,
+    "dev_gdelt_archives": 14,
+    "use_2018_labels": 1,
+    "sample_secs": 30
+  },
+  "software_versions_file": "software_versions.txt",
+  "assets_checksums_file": "assets_sha256.txt"
+}

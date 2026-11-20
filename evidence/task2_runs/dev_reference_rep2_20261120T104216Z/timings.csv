@@ -1,0 +1,10 @@
+run_name,profile,config,rep,stage,engine,start_utc,end_utc,seconds,exit_code,app_ids
+dev_reference_rep2_20261120T104216Z,dev,reference,2,gdelt_streaming,streaming,2026-11-20T10:43:56Z,2026-11-20T10:45:19Z,83.3,0,application_1795167376377_0021 job_1795167376377_0021
+dev_reference_rep2_20261120T104216Z,dev,reference,2,hive_raw_tables,hive,2026-11-20T10:45:23Z,2026-11-20T10:45:33Z,9.9,0,
+dev_reference_rep2_20261120T104216Z,dev,reference,2,hive_clean_prices,hive,2026-11-20T10:45:37Z,2026-11-20T10:46:05Z,28.4,0,application_1795167376377_0023
+dev_reference_rep2_20261120T104216Z,dev,reference,2,hive_price_splits,hive,2026-11-20T10:46:09Z,2026-11-20T10:46:36Z,26.6,0,application_1795167376377_0024
+dev_reference_rep2_20261120T104216Z,dev,reference,2,hive_clean_gdelt,hive,2026-11-20T10:46:39Z,2026-11-20T10:49:04Z,145.3,0,application_1795167376377_0025
+dev_reference_rep2_20261120T104216Z,dev,reference,2,hive_reconcile,hive,2026-11-20T10:49:10Z,2026-11-20T10:49:44Z,34.5,0,
+dev_reference_rep2_20261120T104216Z,dev,reference,2,spark_features,pyspark,2026-11-20T10:49:48Z,2026-11-20T10:50:30Z,42.1,0,application_1795167376377_0027
+dev_reference_rep2_20261120T104216Z,dev,reference,2,spark_validate,pyspark,2026-11-20T10:50:34Z,2026-11-20T10:51:04Z,30.2,0,application_1795167376377_0028
+dev_reference_rep2_20261120T104216Z,dev,reference,2,train,pyspark,2026-11-20T10:51:07Z,2026-11-20T10:52:22Z,75.0,0,application_1795167376377_0029

@@ -1,0 +1,45 @@
+config loaded: bucket=inf2006-bigdata stage=/mnt/g12/stage sources=5 staging=[prices sec_inventory sec_edgar wikinews gdelt]
+override: staging=[prices gdelt]
+stage_source defined
+
+######## prices start 2026-11-20T09:43:53Z
+== prices: s3://inf2006-bigdata/PRICE/ -> /corpus/raw/prices/v1_2013-2017/acq_2026-10-28
+[1/5] download 1 files, 28 MiB
+[2/5] local sha256
+[3/5] hdfs put
+[4/5] HDFS read-back sha256
+[5/5] record
+source=prices version=v1_2013-2017 acq=2026-10-28 s3=s3://inf2006-bigdata/PRICE/
+hdfs=/corpus/raw/prices/v1_2013-2017/acq_2026-10-28
+files_expected=1 files_local=1 files_hdfs=1 mismatches=0 replication_not_2=0
+download_s=1 put_s=5 readback_s=4
+hdfs_du(bytes, bytes_with_replicas, path)=29580549  59161098  /corpus/raw/prices/v1_2013-2017/acq_2026-10-28
+OK: prices staged and verified -> /corpus/raw/_manifests/prices/v1_2013-2017/acq_2026-10-28
+######## prices end 2026-11-20T09:44:13Z rc=0 total_s=19.868574918
+
+######## gdelt start 2026-11-20T09:44:13Z
+== gdelt: s3://inf2006-bigdata/GDELT/ -> /corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29
+[1/5] download 731 files, 9166 MiB
+[2/5] local sha256
+[3/5] hdfs put
+[4/5] HDFS read-back sha256
+[5/5] record
+source=gdelt version=v1_events_2015-2017 acq=2026-10-29 s3=s3://inf2006-bigdata/GDELT/
+hdfs=/corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29
+files_expected=731 files_local=731 files_hdfs=731 mismatches=0 replication_not_2=0
+download_s=144 put_s=67 readback_s=1136
+hdfs_du(bytes, bytes_with_replicas, path)=9611684528  19223369056  /corpus/raw/gdelt/v1_events_2015-2017/acq_2026-10-29
+OK: gdelt staged and verified -> /corpus/raw/_manifests/gdelt/v1_events_2015-2017/acq_2026-10-29
+######## gdelt end 2026-11-20T10:06:50Z rc=0 total_s=1356.700313156
+
+######## final check
+source         expected   hdfs  records mismatch  repl!=2  result
+prices                1      1        1        0        0  PASS
+sec_inventory         1      -        -        -        -  NOT STAGED
+sec_edgar           311      -        -        -        -  NOT STAGED
+wikinews              2      -        -        -        -  NOT STAGED
+gdelt               731    731      731        0        0  PASS
+total files in HDFS: 732 (expected 732)   overall: PASS
+listing saved: /mnt/g12/stage/hdfs_listing_2026-11-20.txt (749 lines)
+9.0 G  18.0 G  /corpus/raw
+######## ALL DONE

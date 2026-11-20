@@ -1,0 +1,30 @@
+RUN full_reference_rep3_20261120T120139Z -> OK
+stage                  engine        seconds   exit  ids
+gdelt_streaming        streaming       335.1      0  application_1795167376377_0059 job_1795167376377_0059
+hive_raw_tables        hive             10.4      0  
+hive_clean_prices      hive             37.4      0  application_1795167376377_0061
+hive_price_splits      hive             29.7      0  application_1795167376377_0062
+hive_clean_gdelt       hive            403.5      0  application_1795167376377_0063
+hive_reconcile         hive             79.3      0  
+spark_features         pyspark          54.8      0  application_1795167376377_0065
+spark_validate         pyspark          31.6      0  application_1795167376377_0066
+train                  pyspark          87.6      0  application_1795167376377_0067
+sum of stage seconds: 1069.4   wall clock first start to last end: 1101.0
+peak primary memory used (MB): 8424 | peak YARN allocated (MB): 24576
+  datanode 172.31.16.113:9866 {'peak_dfs_used_gb': 17.05, 'peak_non_dfs_used_gb': 9.4, 'min_dfs_remaining_gb': 67.89}
+  datanode 172.31.17.214:9866 {'peak_dfs_used_gb': 17.32, 'peak_non_dfs_used_gb': 9.53, 'min_dfs_remaining_gb': 67.81}
+run output on HDFS: 4.86 GiB (9.72 GiB with replicas)
+  gdelt_valid_eq_cleaned_plus_value_rejected         expected=29042290     actual=29042290     PASS
+  prices_raw_rows                                    expected=NULL         actual=619040       INFO
+  gdelt_structural_rejects_eq_audit                  expected=0            actual=0            PASS
+  prices_cleaned_rows                                expected=NULL         actual=605887       INFO
+  gdelt_cleaned_rows                                 expected=NULL         actual=29042043     INFO
+  gdelt_unreadable_archives                          expected=0            actual=0            PASS
+  gdelt_daily_feature_days                           expected=NULL         actual=150          INFO
+  prices_out_of_scope_rows                           expected=NULL         actual=13130        INFO
+  gdelt_archives_audited                             expected=150          actual=150          PASS
+  prices_raw_eq_cleaned_rejected_out_of_scope        expected=619040       actual=619040       PASS
+  prices_cleaned_eq_train_val_test                   expected=605887       actual=605887       PASS
+  gdelt_streaming_rows_eq_valid_plus_rejected        expected=29042290     actual=29042290     PASS
+  gdelt_rows_read                                    expected=NULL         actual=29042290     INFO
+  prices_rejected_rows                               expected=NULL         actual=23           INFO

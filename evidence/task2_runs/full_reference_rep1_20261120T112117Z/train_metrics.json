@@ -1,0 +1,52 @@
+{
+  "db": "g12_full_reference_r1_20261120t112117z",
+  "features": [
+    "daily_return",
+    "return_5d",
+    "volatility_20d",
+    "volume_change_1d",
+    "intraday_range",
+    "volume_ratio_20d",
+    "mkt_return_1d",
+    "mkt_volatility_20d"
+  ],
+  "seed": 42,
+  "tasks": {
+    "volatility": {
+      "volatility_threshold": 0.014276889599195665,
+      "cutoff_from_2016": 0.3,
+      "validation_auc": 0.72925,
+      "test_rows": 125913,
+      "test_auc": 0.7117,
+      "test_balanced_accuracy": 0.61579,
+      "test_accuracy": 0.79052,
+      "test_majority_accuracy": 0.81969,
+      "confusion": {
+        "tp": 7776,
+        "fp": 11448,
+        "tn": 91761,
+        "fn": 14928
+      },
+      "model_path": "/corpus/runs/full_reference_rep1_20261120T112117Z/task3/volatility/model",
+      "seconds": 48.4
+    },
+    "direction": {
+      "volatility_threshold": null,
+      "cutoff_from_2016": 0.57,
+      "validation_auc": 0.58688,
+      "test_rows": 125913,
+      "test_auc": 0.5343,
+      "test_balanced_accuracy": 0.50397,
+      "test_accuracy": 0.44348,
+      "test_majority_accuracy": 0.56344,
+      "confusion": {
+        "tp": 1934,
+        "fp": 1062,
+        "tn": 53906,
+        "fn": 69011
+      },
+      "model_path": "/corpus/runs/full_reference_rep1_20261120T112117Z/task3/direction/model",
+      "seconds": 23.3
+    }
+  }
+}

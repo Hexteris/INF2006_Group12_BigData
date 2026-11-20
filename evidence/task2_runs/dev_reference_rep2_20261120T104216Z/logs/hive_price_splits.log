@@ -1,0 +1,45 @@
+Hive Session ID = 79ca64ae-f043-403e-bdca-0d8b70f15168
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.528 seconds
+OK
+Time taken: 0.133 seconds
+OK
+Time taken: 0.035 seconds
+OK
+Time taken: 0.023 seconds
+Query ID = hadoop_20261120104622_5c747f92-1153-4544-940a-0580ce9653f6
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0024)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0/1	Reducer 2: 0/1	
+Map 1: 0(+1)/1	Reducer 2: 0/1	
+Map 1: 0(+1)/1	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+Loading data to table g12_dev_reference_r2_20261120t104216z.training_prices
+OK
+Time taken: 11.598 seconds
+Query ID = hadoop_20261120104633_c38f9680-21d6-4645-9346-1857658863ea
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0024)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+1)/1	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+Loading data to table g12_dev_reference_r2_20261120t104216z.validation_prices
+OK
+Time taken: 1.154 seconds
+Query ID = hadoop_20261120104634_3b8c5c3e-7377-4a76-b854-b59394a89c5e
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0024)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 1/1	Reducer 2: 1/1	
+Loading data to table g12_dev_reference_r2_20261120t104216z.testing_prices
+OK
+Time taken: 0.76 seconds

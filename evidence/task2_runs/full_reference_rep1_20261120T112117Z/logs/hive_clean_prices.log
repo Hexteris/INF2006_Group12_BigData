@@ -1,0 +1,58 @@
+Hive Session ID = 7d27d7b7-d769-4cba-84a5-a6a77eb64677
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.529 seconds
+OK
+Time taken: 1.189 seconds
+OK
+Time taken: 0.193 seconds
+OK
+Time taken: 0.04 seconds
+OK
+Time taken: 0.115 seconds
+OK
+Time taken: 0.023 seconds
+Query ID = hadoop_20261120112853_9c17b4c4-a7fe-470f-9026-05066878ac73
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0043)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0/2	Reducer 2: 0/1	
+Map 1: 0(+2)/2	Reducer 2: 0/1	
+Map 1: 1(+1)/2	Reducer 2: 0(+1)/1	
+Map 1: 2/2	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r1_20261120t112117z.out_of_scope_prices
+OK
+Time taken: 10.592 seconds
+Query ID = hadoop_20261120112903_f2fd2a9e-2f8d-4cda-b505-5da3b4bf0234
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0043)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+2)/2	Reducer 2: 0/1	
+Map 1: 2/2	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r1_20261120t112117z.rejected_prices
+OK
+Time taken: 3.94 seconds
+Query ID = hadoop_20261120112907_b6682386-463d-4c37-948a-372176851de2
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0043)
+
+Map 1: -/-	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 0(+2)/2	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 0(+2)/2	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 1(+1)/2	Reducer 2: 0(+1)/2	Reducer 3: 0/2	
+Map 1: 2/2	Reducer 2: 2/2	Reducer 3: 0(+2)/2	
+Map 1: 2/2	Reducer 2: 2/2	Reducer 3: 1(+1)/2	
+Map 1: 2/2	Reducer 2: 2/2	Reducer 3: 2/2	
+Loading data to table g12_full_reference_r1_20261120t112117z.cleaned_prices partition (year=null)
+
+
+	 Time taken to load dynamic partitions: 0.173 seconds
+	 Time taken for adding to write entity : 0.001 seconds
+OK
+Time taken: 8.047 seconds

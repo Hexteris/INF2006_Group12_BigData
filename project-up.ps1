@@ -16,6 +16,12 @@
         .\project-up.ps1 -Bucket inf2006-bigdata                  # launch + connect
         .\project-up.ps1 -Bucket inf2006-bigdata -Release emr-7.9.0   # fallback release (record as deviation)
         .\project-up.ps1 -ClusterId j-XXXX                             # reconnect / re-open SSH after IP change
+                                                                       # (also re-applies -IdleTimeout to that cluster)
+
+    The cluster also dies when the Learner Lab session ends (End Lab or the timer runs out):
+    AWS Academy stops the instances and EMR terminates the cluster. Click "Start Lab" again
+    before long steps to reset the session timer.
+
 
     -Bucket enables: EMR logs -> s3://<bucket>/emr-logs/ and JupyterHub notebook
     persistence -> s3://<bucket>/jupyter/ (notebooks survive cluster termination).
@@ -32,7 +38,9 @@ param(
     [string]$Name        = "G12-Reference",
     [string]$Bucket,
     [string]$Release     = "emr-7.10.0",
-    [int]   $IdleTimeout = 3600,
+    # EMR counts only YARN apps, steps and notebook connections as activity, not SSH work
+    # (staging, debugging). 3600 s killed clusters mid-setup; 14400 s = one Learner Lab session.
+    [int]   $IdleTimeout = 14400,
     [string]$KeyName     = "vockey2",
     [string]$PemFile     = "vockey2.pem",
     [string]$Region      = "us-east-1",
@@ -109,6 +117,12 @@ if (-not $ClusterId) {
         exit 1
     }
     Write-Host "  Cluster launched: $ClusterId" -ForegroundColor Green
+} else {
+    # Reconnecting: make sure an older cluster gets the current idle timeout too.
+    aws emr put-auto-termination-policy --cluster-id $ClusterId `
+        --auto-termination-policy IdleTimeout=$IdleTimeout --region $Region 2>$null
+    if ($LASTEXITCODE -eq 0) { Write-Host "  Idle timeout set to $IdleTimeout s on $ClusterId." -ForegroundColor Green }
+    else { Write-Host "  Could not update the idle timeout on $ClusterId." -ForegroundColor Yellow }
 }
 $ClusterId | Out-File -FilePath ".project-cluster-id" -Encoding ascii
 

@@ -1,0 +1,191 @@
+{
+  "run_name": "full_reference_rep2_20261120T114124Z",
+  "profile": "full",
+  "config": "reference",
+  "rep": 2,
+  "status": "OK",
+  "failed_stages": [],
+  "skipped_stages": [],
+  "failed_checks": [],
+  "failed_reconciliations": [],
+  "stage_seconds": {
+    "gdelt_streaming": 335.9,
+    "hive_raw_tables": 10.1,
+    "hive_clean_prices": 35.5,
+    "hive_price_splits": 27.9,
+    "hive_clean_gdelt": 405.4,
+    "hive_reconcile": 80.0,
+    "spark_features": 55.0,
+    "spark_validate": 32.6,
+    "train": 88.9
+  },
+  "sum_stage_seconds": 1071.3,
+  "wall_clock_seconds": 1102.0,
+  "inputs": {
+    "profile": "full",
+    "prices_input_dir": "/corpus/raw/prices/v1_2013-2017/acq_2026-10-28",
+    "prices_bytes": "29580549",
+    "gdelt_archives": "150",
+    "gdelt_zip_bytes": "1925290170"
+  },
+  "resource_settings": {
+    "spark": "2 executors x 2 cores x 6g heap + 2g overhead, driver 2g, dynamic allocation off",
+    "spark.sql.shuffle.partitions": 200,
+    "streaming_lines_per_map": 25,
+    "dev_tickers": 50,
+    "dev_gdelt_archives": 14,
+    "use_2018_labels": 1,
+    "sample_secs": 30
+  },
+  "reconciliation": {
+    "prices_raw_rows": {
+      "expected": "NULL",
+      "actual": "619040",
+      "status": "INFO"
+    },
+    "prices_out_of_scope_rows": {
+      "expected": "NULL",
+      "actual": "13130",
+      "status": "INFO"
+    },
+    "prices_raw_eq_cleaned_rejected_out_of_scope": {
+      "expected": "619040",
+      "actual": "619040",
+      "status": "PASS"
+    },
+    "prices_rejected_rows": {
+      "expected": "NULL",
+      "actual": "23",
+      "status": "INFO"
+    },
+    "gdelt_structural_rejects_eq_audit": {
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS"
+    },
+    "gdelt_rows_read": {
+      "expected": "NULL",
+      "actual": "29042290",
+      "status": "INFO"
+    },
+    "gdelt_archives_audited": {
+      "expected": "150",
+      "actual": "150",
+      "status": "PASS"
+    },
+    "gdelt_unreadable_archives": {
+      "expected": "0",
+      "actual": "0",
+      "status": "PASS"
+    },
+    "prices_cleaned_eq_train_val_test": {
+      "expected": "605887",
+      "actual": "605887",
+      "status": "PASS"
+    },
+    "gdelt_streaming_rows_eq_valid_plus_rejected": {
+      "expected": "29042290",
+      "actual": "29042290",
+      "status": "PASS"
+    },
+    "gdelt_daily_feature_days": {
+      "expected": "NULL",
+      "actual": "150",
+      "status": "INFO"
+    },
+    "gdelt_valid_eq_cleaned_plus_value_rejected": {
+      "expected": "29042290",
+      "actual": "29042290",
+      "status": "PASS"
+    },
+    "gdelt_cleaned_rows": {
+      "expected": "NULL",
+      "actual": "29042043",
+      "status": "INFO"
+    },
+    "prices_cleaned_rows": {
+      "expected": "NULL",
+      "actual": "605887",
+      "status": "INFO"
+    }
+  },
+  "split_report": {
+    "testing": {
+      "split": "testing",
+      "period_rows": 126031,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 0,
+      "kept": 126031
+    },
+    "training": {
+      "split": "training",
+      "period_rows": 354540,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 2475,
+      "kept": 352065
+    },
+    "validation": {
+      "split": "validation",
+      "period_rows": 125316,
+      "excluded_no_complete_target": 0,
+      "excluded_target_crosses_period_end": 2495,
+      "kept": 122821
+    }
+  },
+  "model_ready": {
+    "training": {
+      "rows": 342165,
+      "first_date": "2013-03-11",
+      "last_date": "2015-12-23",
+      "tickers": 495,
+      "label_1": 185726,
+      "rows_with_gdelt": 30444
+    },
+    "validation": {
+      "rows": 122746,
+      "first_date": "2016-01-04",
+      "last_date": "2016-12-22",
+      "tickers": 498,
+      "label_1": 67231,
+      "rows_with_gdelt": 9403
+    },
+    "testing": {
+      "rows": 125913,
+      "first_date": "2017-01-03",
+      "last_date": "2017-12-29",
+      "tickers": 504,
+      "label_1": 70945,
+      "rows_with_gdelt": 9980
+    }
+  },
+  "resources": {
+    "samples": 33,
+    "peak_primary_mem_used_mb": 8312,
+    "peak_yarn_allocated_mb": 24576,
+    "datanodes": {
+      "172.31.16.113:9866": {
+        "peak_dfs_used_gb": 16.84,
+        "peak_non_dfs_used_gb": 8.13,
+        "min_dfs_remaining_gb": 69.39
+      },
+      "172.31.17.214:9866": {
+        "peak_dfs_used_gb": 16.82,
+        "peak_non_dfs_used_gb": 8.27,
+        "min_dfs_remaining_gb": 69.26
+      }
+    }
+  },
+  "run_output_bytes": 5217182649,
+  "run_output_bytes_with_replicas": 10434365298,
+  "app_ids": {
+    "gdelt_streaming": "application_1795167376377_0050 job_1795167376377_0050",
+    "hive_raw_tables": "",
+    "hive_clean_prices": "application_1795167376377_0052",
+    "hive_price_splits": "application_1795167376377_0053",
+    "hive_clean_gdelt": "application_1795167376377_0054",
+    "hive_reconcile": "",
+    "spark_features": "application_1795167376377_0056",
+    "spark_validate": "application_1795167376377_0057",
+    "train": "application_1795167376377_0058"
+  }
+}

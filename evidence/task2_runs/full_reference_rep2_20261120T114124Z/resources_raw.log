@@ -1,0 +1,462 @@
+### epoch=1795174977
+MEM used_mb=7005 avail_mb=8296
+DFS Remaining: 163166777344 (151.96 GB)
+DFS Used: 24790109102 (23.09 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 12412092764 (11.56 GB)
+Non DFS Used: 7386980004 (6.88 GB)
+DFS Remaining: 81601351680 (76.00 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12378016338 (11.53 GB)
+Non DFS Used: 7456982446 (6.94 GB)
+DFS Remaining: 81565425664 (75.96 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:0, vCores:0>
+### epoch=1795175013
+MEM used_mb=7299 avail_mb=8002
+DFS Remaining: 161455813632 (150.37 GB)
+DFS Used: 24804085562 (23.10 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 12419080994 (11.57 GB)
+Non DFS Used: 7512304862 (7.00 GB)
+DFS Remaining: 80737985536 (75.19 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12385004568 (11.53 GB)
+Non DFS Used: 7563764712 (7.04 GB)
+DFS Remaining: 80717828096 (75.17 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175047
+MEM used_mb=7305 avail_mb=7996
+DFS Remaining: 161492395008 (150.40 GB)
+DFS Used: 24804085562 (23.10 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 12419080994 (11.57 GB)
+Non DFS Used: 7655115998 (7.13 GB)
+DFS Remaining: 80764389376 (75.22 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12385004568 (11.53 GB)
+Non DFS Used: 7723963368 (7.19 GB)
+DFS Remaining: 80728005632 (75.18 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175080
+MEM used_mb=7309 avail_mb=7992
+DFS Remaining: 161320341504 (150.24 GB)
+DFS Used: 25285745688 (23.55 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 12900741120 (12.01 GB)
+Non DFS Used: 7433175040 (6.92 GB)
+DFS Remaining: 80684723200 (75.14 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12385004568 (11.53 GB)
+Non DFS Used: 7995823080 (7.45 GB)
+DFS Remaining: 80635618304 (75.10 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175114
+MEM used_mb=7332 avail_mb=7969
+DFS Remaining: 160519871488 (149.50 GB)
+DFS Used: 25826810932 (24.05 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13171273742 (12.27 GB)
+Non DFS Used: 7471218674 (6.96 GB)
+DFS Remaining: 80282347520 (74.77 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12655537190 (11.79 GB)
+Non DFS Used: 8029262810 (7.48 GB)
+DFS Remaining: 80237523968 (74.73 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175148
+MEM used_mb=7343 avail_mb=7958
+DFS Remaining: 160674884608 (149.64 GB)
+DFS Used: 25826810932 (24.05 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13171273742 (12.27 GB)
+Non DFS Used: 7569272818 (7.05 GB)
+DFS Remaining: 80360862720 (74.84 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12655537190 (11.79 GB)
+Non DFS Used: 8128947162 (7.57 GB)
+DFS Remaining: 80314021888 (74.80 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175181
+MEM used_mb=7352 avail_mb=7949
+DFS Remaining: 160886349522 (149.84 GB)
+DFS Used: 26139137288 (24.34 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13327436920 (12.41 GB)
+Non DFS Used: 7434552200 (6.92 GB)
+DFS Remaining: 80464364393 (74.94 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 12811700368 (11.93 GB)
+Non DFS Used: 7992280944 (7.44 GB)
+DFS Remaining: 80421985129 (74.90 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175215
+MEM used_mb=7345 avail_mb=7956
+DFS Remaining: 159864186578 (148.89 GB)
+DFS Used: 27221267776 (25.35 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13868502164 (12.92 GB)
+Non DFS Used: 6960960364 (6.48 GB)
+DFS Remaining: 79953953641 (74.46 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13352765612 (12.44 GB)
+Non DFS Used: 7519643476 (7.00 GB)
+DFS Remaining: 79910232937 (74.42 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175249
+MEM used_mb=7377 avail_mb=7924
+DFS Remaining: 159695994578 (148.73 GB)
+DFS Used: 27389979796 (25.51 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13868502164 (12.92 GB)
+Non DFS Used: 7129809772 (6.64 GB)
+DFS Remaining: 79879356265 (74.39 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13521477632 (12.59 GB)
+Non DFS Used: 7553486848 (7.03 GB)
+DFS Remaining: 79816638313 (74.34 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175282
+MEM used_mb=7383 avail_mb=7918
+DFS Remaining: 159720911570 (148.75 GB)
+DFS Used: 27389979796 (25.51 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 13868502164 (12.92 GB)
+Non DFS Used: 7232394092 (6.74 GB)
+DFS Remaining: 79882055529 (74.40 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13521477632 (12.59 GB)
+Non DFS Used: 7621521408 (7.10 GB)
+DFS Remaining: 79838856041 (74.36 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175316
+MEM used_mb=7375 avail_mb=7926
+DFS Remaining: 160531456000 (149.51 GB)
+DFS Used: 28098812024 (26.17 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14222918278 (13.25 GB)
+Non DFS Used: 6889209210 (6.42 GB)
+DFS Remaining: 80288296960 (74.77 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13875893746 (12.92 GB)
+Non DFS Used: 7281371662 (6.78 GB)
+DFS Remaining: 80243159040 (74.73 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175351
+MEM used_mb=7636 avail_mb=7665
+DFS Remaining: 160080723968 (149.09 GB)
+DFS Used: 28205556192 (26.27 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14276290362 (13.30 GB)
+Non DFS Used: 6928095430 (6.45 GB)
+DFS Remaining: 80061949952 (74.56 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13929265830 (12.97 GB)
+Non DFS Used: 7318295898 (6.82 GB)
+DFS Remaining: 80018774016 (74.52 GB)
+	Allocated Resources : <memory:9216, vCores:2>
+	Allocated Resources : <memory:3072, vCores:1>
+### epoch=1795175384
+MEM used_mb=7584 avail_mb=7717
+DFS Remaining: 160224104448 (149.22 GB)
+DFS Used: 28257077170 (26.32 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14302050851 (13.32 GB)
+Non DFS Used: 6917244381 (6.44 GB)
+DFS Remaining: 80181129216 (74.67 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13955026319 (13.00 GB)
+Non DFS Used: 7402422897 (6.89 GB)
+DFS Remaining: 80042975232 (74.55 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175419
+MEM used_mb=7604 avail_mb=7697
+DFS Remaining: 159880564736 (148.90 GB)
+DFS Used: 28300699420 (26.36 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14323861976 (13.34 GB)
+Non DFS Used: 6911538728 (6.44 GB)
+DFS Remaining: 80030935040 (74.53 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13976837444 (13.02 GB)
+Non DFS Used: 7439868604 (6.93 GB)
+DFS Remaining: 79849629696 (74.37 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175454
+MEM used_mb=7612 avail_mb=7689
+DFS Remaining: 158490637626 (147.61 GB)
+DFS Used: 28307493560 (26.36 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14327259046 (13.34 GB)
+Non DFS Used: 6955851866 (6.48 GB)
+DFS Remaining: 79312753309 (73.87 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13980234514 (13.02 GB)
+Non DFS Used: 7437745390 (6.93 GB)
+DFS Remaining: 79177884317 (73.74 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175487
+MEM used_mb=7609 avail_mb=7692
+DFS Remaining: 158490273082 (147.61 GB)
+DFS Used: 28307492598 (26.36 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14327258565 (13.34 GB)
+Non DFS Used: 6956233275 (6.48 GB)
+DFS Remaining: 79312372381 (73.87 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13980234033 (13.02 GB)
+Non DFS Used: 7437729487 (6.93 GB)
+DFS Remaining: 79177900701 (73.74 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175521
+MEM used_mb=7606 avail_mb=7695
+DFS Remaining: 158489408856 (147.60 GB)
+DFS Used: 28308638852 (26.36 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14327831692 (13.34 GB)
+Non DFS Used: 6956770164 (6.48 GB)
+DFS Remaining: 79311284908 (73.86 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13980807160 (13.02 GB)
+Non DFS Used: 7436955656 (6.93 GB)
+DFS Remaining: 79178123948 (73.74 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:9216, vCores:2>
+### epoch=1795175554
+MEM used_mb=7622 avail_mb=7679
+DFS Remaining: 157947986912 (147.10 GB)
+DFS Used: 28312118498 (26.37 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14329571515 (13.35 GB)
+Non DFS Used: 6957238085 (6.48 GB)
+DFS Remaining: 79040772592 (73.61 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 13982546983 (13.02 GB)
+Non DFS Used: 7437820889 (6.93 GB)
+DFS Remaining: 78907214320 (73.49 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175588
+MEM used_mb=7616 avail_mb=7685
+DFS Remaining: 156860484576 (146.09 GB)
+DFS Used: 28853184182 (26.87 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14600104357 (13.60 GB)
+Non DFS Used: 6966126171 (6.49 GB)
+DFS Remaining: 78497433072 (73.11 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 14253079825 (13.27 GB)
+Non DFS Used: 7447532271 (6.94 GB)
+DFS Remaining: 78363051504 (72.98 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175621
+MEM used_mb=7633 avail_mb=7668
+DFS Remaining: 154154890208 (143.57 GB)
+DFS Used: 29919411295 (27.86 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 14854733824 (13.83 GB)
+Non DFS Used: 7537045504 (7.02 GB)
+DFS Remaining: 77144369648 (71.85 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 15064677471 (14.03 GB)
+Non DFS Used: 7460950945 (6.95 GB)
+DFS Remaining: 77010520560 (71.72 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175655
+MEM used_mb=7633 avail_mb=7668
+DFS Remaining: 152531368928 (142.06 GB)
+DFS Used: 31542607027 (29.38 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 15666331690 (14.59 GB)
+Non DFS Used: 7537119190 (7.02 GB)
+DFS Remaining: 76332891632 (71.09 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 15876275337 (14.79 GB)
+Non DFS Used: 7461589879 (6.95 GB)
+DFS Remaining: 76198477296 (70.97 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175689
+MEM used_mb=7640 avail_mb=7661
+DFS Remaining: 152066333668 (141.62 GB)
+DFS Used: 32278849443 (30.06 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 16034452898 (14.93 GB)
+Non DFS Used: 7533365854 (7.02 GB)
+DFS Remaining: 76100750834 (70.87 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 16244396545 (15.13 GB)
+Non DFS Used: 7458590207 (6.95 GB)
+DFS Remaining: 75965582834 (70.75 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175722
+MEM used_mb=7640 avail_mb=7661
+DFS Remaining: 151057443684 (140.68 GB)
+DFS Used: 33556042163 (31.25 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 16673049258 (15.53 GB)
+Non DFS Used: 7530730838 (7.01 GB)
+DFS Remaining: 75596117426 (70.40 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 16882992905 (15.72 GB)
+Non DFS Used: 7455578359 (6.94 GB)
+DFS Remaining: 75461326258 (70.28 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:9216, vCores:2>
+### epoch=1795175756
+MEM used_mb=7631 avail_mb=7670
+DFS Remaining: 149975405412 (139.68 GB)
+DFS Used: 34638172651 (32.26 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17214114502 (16.03 GB)
+Non DFS Used: 7531164986 (7.01 GB)
+DFS Remaining: 75054811570 (69.90 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17424058149 (16.23 GB)
+Non DFS Used: 7455439067 (6.94 GB)
+DFS Remaining: 74920593842 (69.78 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:9216, vCores:2>
+### epoch=1795175789
+MEM used_mb=7629 avail_mb=7672
+DFS Remaining: 150335438167 (140.01 GB)
+DFS Used: 35368632841 (32.94 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17579344597 (16.37 GB)
+Non DFS Used: 7513480491 (7.00 GB)
+DFS Remaining: 75234914847 (70.07 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17789288244 (16.57 GB)
+Non DFS Used: 7437799628 (6.93 GB)
+DFS Remaining: 75100523320 (69.94 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175823
+MEM used_mb=7493 avail_mb=7808
+DFS Remaining: 152430997504 (141.96 GB)
+DFS Used: 35392694399 (32.96 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17590125180 (16.38 GB)
+Non DFS Used: 7503883652 (6.99 GB)
+DFS Remaining: 76306415616 (71.07 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17802569219 (16.58 GB)
+Non DFS Used: 7473273341 (6.96 GB)
+DFS Remaining: 76124581888 (70.90 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:6144, vCores:1>
+### epoch=1795175860
+MEM used_mb=7702 avail_mb=7599
+DFS Remaining: 150759079676 (140.41 GB)
+DFS Used: 35172378567 (32.76 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17597323207 (16.39 GB)
+Non DFS Used: 7562156089 (7.04 GB)
+DFS Remaining: 75447490430 (70.27 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17575055360 (16.37 GB)
+Non DFS Used: 7720325120 (7.19 GB)
+DFS Remaining: 75311589246 (70.14 GB)
+	Allocated Resources : <memory:12288, vCores:4>
+	Allocated Resources : <memory:12288, vCores:3>
+### epoch=1795175893
+MEM used_mb=7699 avail_mb=7602
+DFS Remaining: 150757142978 (140.40 GB)
+DFS Used: 35172382505 (32.76 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17597325176 (16.39 GB)
+Non DFS Used: 7563534472 (7.04 GB)
+DFS Remaining: 75446546657 (70.27 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17575057329 (16.37 GB)
+Non DFS Used: 7721752655 (7.19 GB)
+DFS Remaining: 75310596321 (70.14 GB)
+	Allocated Resources : <memory:9216, vCores:3>
+	Allocated Resources : <memory:9216, vCores:2>
+### epoch=1795175928
+MEM used_mb=7854 avail_mb=7447
+DFS Remaining: 150658161348 (140.31 GB)
+DFS Used: 35871534169 (33.41 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17946901008 (16.71 GB)
+Non DFS Used: 7922742768 (7.38 GB)
+DFS Remaining: 75398303389 (70.22 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17924633161 (16.69 GB)
+Non DFS Used: 8083393975 (7.53 GB)
+DFS Remaining: 75259857959 (70.09 GB)
+	Allocated Resources : <memory:9088, vCores:2>
+	Allocated Resources : <memory:8192, vCores:1>
+### epoch=1795175963
+MEM used_mb=7470 avail_mb=7831
+DFS Remaining: 151470170112 (141.07 GB)
+DFS Used: 35346961033 (32.92 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17684614440 (16.47 GB)
+Non DFS Used: 7915102936 (7.37 GB)
+DFS Remaining: 75800707072 (70.59 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17662346593 (16.45 GB)
+Non DFS Used: 8068614815 (7.51 GB)
+DFS Remaining: 75669463040 (70.47 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:896, vCores:1>
+### epoch=1795175999
+MEM used_mb=7424 avail_mb=7877
+DFS Remaining: 150709047296 (140.36 GB)
+DFS Used: 35369902455 (32.94 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 17696085151 (16.48 GB)
+Non DFS Used: 8280410977 (7.71 GB)
+DFS Remaining: 75423928320 (70.24 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 17673817304 (16.46 GB)
+Non DFS Used: 8441488168 (7.86 GB)
+DFS Remaining: 75285118976 (70.11 GB)
+	Allocated Resources : <memory:0, vCores:0>
+	Allocated Resources : <memory:0, vCores:0>
+### epoch=1795176035
+MEM used_mb=8086 avail_mb=7215
+DFS Remaining: 148923306101 (138.70 GB)
+DFS Used: 36140083741 (33.66 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 18081175794 (16.84 GB)
+Non DFS Used: 8658970382 (8.06 GB)
+DFS Remaining: 74529422349 (69.41 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 18058907947 (16.82 GB)
+Non DFS Used: 8816570069 (8.21 GB)
+DFS Remaining: 74393883752 (69.28 GB)
+	Allocated Resources : <memory:9088, vCores:2>
+	Allocated Resources : <memory:8192, vCores:1>
+### epoch=1795176071
+MEM used_mb=8312 avail_mb=6989
+DFS Remaining: 148875915680 (138.65 GB)
+DFS Used: 36142212621 (33.66 GB)
+Name: 172.31.16.113:9866 (ip-172-31-16-113.ec2.internal)
+DFS Used: 18082240234 (16.84 GB)
+Non DFS Used: 8724277526 (8.13 GB)
+DFS Remaining: 74505099746 (69.39 GB)
+Name: 172.31.17.214:9866 (ip-172-31-17-214.ec2.internal)
+DFS Used: 18059972387 (16.82 GB)
+Non DFS Used: 8880341213 (8.27 GB)
+DFS Remaining: 74370815934 (69.26 GB)
+	Allocated Resources : <memory:9088, vCores:2>
+	Allocated Resources : <memory:8192, vCores:1>

@@ -1,0 +1,63 @@
+Hive Session ID = c36cfb62-496f-4fe2-aea6-2b27968e0697
+
+Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: true
+OK
+Time taken: 0.665 seconds
+OK
+Time taken: 1.943 seconds
+OK
+Time taken: 0.193 seconds
+OK
+Time taken: 0.031 seconds
+OK
+Time taken: 0.106 seconds
+OK
+Time taken: 0.03 seconds
+Query ID = hadoop_20261120120920_f8d3f204-c55a-4ee1-b0da-d8fbcfde7149
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0061)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0/2	Reducer 2: 0/1	
+Map 1: 0(+1)/2	Reducer 2: 0/1	
+Map 1: 0(+2)/2	Reducer 2: 0/1	
+Map 1: 1(+1)/2	Reducer 2: 0/1	
+Map 1: 2/2	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.out_of_scope_prices
+OK
+Time taken: 9.551 seconds
+Query ID = hadoop_20261120120929_1fbd8062-3953-4989-8b1d-007e597d71b4
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0061)
+
+Map 1: -/-	Reducer 2: 0/1	
+Map 1: 0(+2)/2	Reducer 2: 0/1	
+Map 1: 1(+1)/2	Reducer 2: 0(+1)/1	
+Map 1: 2/2	Reducer 2: 1/1	
+Loading data to table g12_full_reference_r3_20261120t120139z.rejected_prices
+OK
+Time taken: 3.46 seconds
+Query ID = hadoop_20261120120933_61df955c-5f97-470f-aa30-fafb559e4bd4
+Total jobs = 1
+Launching Job 1 out of 1
+Status: Running (Executing on YARN cluster with App id application_1795167376377_0061)
+
+Map 1: -/-	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 0(+2)/2	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 0(+2)/2	Reducer 2: 0/2	Reducer 3: 0/2	
+Map 1: 1(+1)/2	Reducer 2: 0/2	Reducer 3: 0(+1)/2	
+Map 1: 2/2	Reducer 2: 1(+0)/2	Reducer 3: 0(+1)/2	
+Map 1: 2/2	Reducer 2: 1(+0)/2	Reducer 3: 0(+2)/2	
+Map 1: 2/2	Reducer 2: 1(+0)/2	Reducer 3: 1(+1)/2	
+Map 1: 2/2	Reducer 2: 1(+1)/2	Reducer 3: 1(+1)/2	
+Map 1: 2/2	Reducer 2: 2/2	Reducer 3: 1(+1)/2	
+Map 1: 2/2	Reducer 2: 2/2	Reducer 3: 2/2	
+Loading data to table g12_full_reference_r3_20261120t120139z.cleaned_prices partition (year=null)
+
+
+	 Time taken to load dynamic partitions: 0.177 seconds
+	 Time taken for adding to write entity : 0.0 seconds
+OK
+Time taken: 11.291 seconds

@@ -1,0 +1,10 @@
+Hive Session ID = db5c1c3d-bf6b-4fee-9931-d93d378d555d
+Warning: Map Join MAPJOIN[191][bigTable=?] in task 'Reducer 4' is a cross product
+Warning: Map Join MAPJOIN[190][bigTable=?] in task 'Reducer 4' is a cross product
+Warning: Map Join MAPJOIN[234][bigTable=?] in task 'Reducer 14' is a cross product
+Warning: Map Join MAPJOIN[244][bigTable=?] in task 'Reducer 16' is a cross product
+Warning: Map Join MAPJOIN[243][bigTable=?] in task 'Reducer 16' is a cross product
+Warning: Map Join MAPJOIN[242][bigTable=?] in task 'Reducer 16' is a cross product
+Warning: Map Join MAPJOIN[196][bigTable=?] in task 'Reducer 30' is a cross product
+Warning: Map Join MAPJOIN[262][bigTable=?] in task 'Reducer 34' is a cross product
+Warning: Map Join MAPJOIN[269][bigTable=?] in task 'Reducer 36' is a cross product

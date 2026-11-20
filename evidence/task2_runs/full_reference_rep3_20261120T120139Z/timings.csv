@@ -1,0 +1,10 @@
+run_name,profile,config,rep,stage,engine,start_utc,end_utc,seconds,exit_code,app_ids
+full_reference_rep3_20261120T120139Z,full,reference,3,gdelt_streaming,streaming,2026-11-20T12:03:14Z,2026-11-20T12:08:49Z,335.1,0,application_1795167376377_0059 job_1795167376377_0059
+full_reference_rep3_20261120T120139Z,full,reference,3,hive_raw_tables,hive,2026-11-20T12:08:53Z,2026-11-20T12:09:04Z,10.4,0,
+full_reference_rep3_20261120T120139Z,full,reference,3,hive_clean_prices,hive,2026-11-20T12:09:07Z,2026-11-20T12:09:44Z,37.4,0,application_1795167376377_0061
+full_reference_rep3_20261120T120139Z,full,reference,3,hive_price_splits,hive,2026-11-20T12:09:48Z,2026-11-20T12:10:18Z,29.7,0,application_1795167376377_0062
+full_reference_rep3_20261120T120139Z,full,reference,3,hive_clean_gdelt,hive,2026-11-20T12:10:21Z,2026-11-20T12:17:05Z,403.5,0,application_1795167376377_0063
+full_reference_rep3_20261120T120139Z,full,reference,3,hive_reconcile,hive,2026-11-20T12:17:08Z,2026-11-20T12:18:28Z,79.3,0,
+full_reference_rep3_20261120T120139Z,full,reference,3,spark_features,pyspark,2026-11-20T12:18:32Z,2026-11-20T12:19:27Z,54.8,0,application_1795167376377_0065
+full_reference_rep3_20261120T120139Z,full,reference,3,spark_validate,pyspark,2026-11-20T12:19:32Z,2026-11-20T12:20:03Z,31.6,0,application_1795167376377_0066
+full_reference_rep3_20261120T120139Z,full,reference,3,train,pyspark,2026-11-20T12:20:07Z,2026-11-20T12:21:35Z,87.6,0,application_1795167376377_0067
