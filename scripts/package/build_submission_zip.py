@@ -32,6 +32,19 @@ INCLUDE = [
 ]
 # Run cell by cell over SSH, so it has no saved outputs; its evidence is staging_record.csv / staging_summary.txt.
 NO_OUTPUT_OK = {"notebooks/INF2006_G12_stage_corpus.ipynb"}
+DRIVER_TEMPLATE = "task2_driver/INF2006_G12_task2_driver.ipynb"
+EXECUTED_DIR = "evidence/task2_runs/executed_notebooks/"
+
+
+def executed_driver_copies(files):
+    """Executed driver notebooks that actually contain outputs."""
+    found = []
+    for f in files:
+        if f.startswith(EXECUTED_DIR) and f.endswith(".ipynb"):
+            nb = json.load(open(os.path.join(ROOT, f), encoding="utf-8-sig"))
+            if any(c.get("outputs") for c in nb.get("cells", []) if c.get("cell_type") == "code"):
+                found.append(f)
+    return found
 EXCLUDE_DIRS = {".git", "__pycache__", ".ipynb_checkpoints", "raw", ".idea", ".vscode"}
 EXCLUDE_FILES = {".DS_Store", ".project-cluster-id", "Thumbs.db"}
 EXCLUDE_SUFFIXES = (".pem", ".ppk", ".tar.gz", ".pyc")
@@ -114,6 +127,10 @@ def main():
             nb = json.load(open(os.path.join(ROOT, f), encoding="utf-8-sig"))
             code = [c for c in nb.get("cells", []) if c.get("cell_type") == "code"]
             if code and not any(c.get("outputs") for c in code):
+                # The driver is a clean template that run_matrix.sh executes with nbconvert;
+                # its executed copies (with outputs) live in evidence/task2_runs/executed_notebooks/.
+                if f == DRIVER_TEMPLATE and executed_driver_copies(files):
+                    continue
                 empty.append(f)
     check("exported notebooks have saved outputs", not empty,
           ", ".join(empty) + (" (driver: ship the executed copies from ~/task2_runs/executed_notebooks)" if empty else ""))

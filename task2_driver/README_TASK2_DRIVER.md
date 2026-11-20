@@ -61,6 +61,10 @@ you want a different alternative; keep hardware, release and replication fixed.
 Executed notebooks (with outputs) are in `~/task2_runs/executed_notebooks/`. Copy `~/task2_runs` to S3 before terminating
 the cluster (set `BUCKET` to do it automatically).
 
+`INF2006_G12_task2_driver.ipynb` in this folder is the clean template that `run_matrix.sh` executes, so it has no saved
+outputs. The executed EMR copies of the six assessed runs (20 Nov 2026) are in
+`evidence/task2_runs/executed_notebooks/`.
+
 ## Rules the driver follows (from the brief)
 * Timing starts at the first stage and covers Streaming, Hive, feature preparation, validation and, if set, training. Not timed: staging, set-up, writing helper files, building the dev inputs, summaries, clean-up.
 * Fresh Hive database, HDFS output folder and Spark/Hive processes every run; no `cache()`; prepared tables are never reused.
