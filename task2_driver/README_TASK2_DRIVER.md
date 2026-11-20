@@ -48,9 +48,8 @@ A single run: `PROFILE=full CONFIG=alt REP=2 jupyter nbconvert --to notebook --e
 | `TRAIN_CMD` | empty | Command that trains the Task 3 model; timed as stage `train` |
 | `BUCKET` | empty | Optional S3 bucket for evidence upload (use the instance role; no keys) |
 
-Both configurations use the brief's reference hardware and Spark allocation (2 executors × 2 cores × 6 GiB + 2 GiB
-overhead, driver 2 GiB, dynamic allocation off). Only the partitioning settings differ. Edit the `case` block in cell 1 if
-you want a different alternative; keep hardware, release and replication fixed.
+Runs use the brief's reference hardware and Spark allocation (2 executors × 2 cores × 6 GiB + 2 GiB overhead, driver
+2 GiB, dynamic allocation off).
 
 ## What each run leaves behind (`~/task2_runs/<run name>/`)
 `timings.csv` (per-stage times, exit codes, YARN/job IDs) · `run_summary.txt/json` · `reconcile.tsv` ·
