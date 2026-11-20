@@ -1,0 +1,8 @@
+pair,spearman_rho,p_value,n_days,p_method
+event_count vs next-day vol,-0.024,0.8099,100,scipy spearmanr (asymptotic)
+avg_tone vs next-day vol,-0.476,0.0,100,scipy spearmanr (asymptotic)
+event_count vs next-day vol | today vol,0.028,0.7811,100,scipy spearmanr (asymptotic)
+avg_tone vs next-day vol | today vol,-0.259,0.0092,100,scipy spearmanr (asymptotic)
+today vol vs next-day vol (volatility clustering),0.449,0.0,100,scipy spearmanr (asymptotic)
+WITHIN-BLOCK event_count vs next-day vol | today vol,0.046,0.6476,100,scipy spearmanr (asymptotic)
+WITHIN-BLOCK avg_tone vs next-day vol | today vol,-0.066,0.5143,100,scipy spearmanr (asymptotic)
