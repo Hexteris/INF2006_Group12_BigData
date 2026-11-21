@@ -1,7 +1,10 @@
 
-# Hive Queries (Owner: B)
+# Hive queries (Task 2)
 
-These scripts implement Role B's Hive SQL processing for Task 2.
+These scripts implement the Hive SQL processing for Task 2.
+
+They are the scripts run on EMR on 8–9 Nov 2026 (logs in `evidence/task2/run_20261108-09/hive_logs/`), with
+`CREATE ... IF NOT EXISTS` / `CREATE OR REPLACE VIEW` added so they can be rerun without errors.
 
 The scope covers:
 - Stock price data

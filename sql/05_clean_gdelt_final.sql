@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS rejected_gdelt (
     reject_reason STRING
 )
 STORED AS PARQUET
-LOCATION '/corpus/rejected/gdelt/';
+LOCATION '/corpus/cleaned/gdelt/rejected/';
 
 
 --  Store accepted and cleaned events.

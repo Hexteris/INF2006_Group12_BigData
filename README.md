@@ -10,7 +10,7 @@ End-to-end pipeline on AWS EMR: five raw sources staged in an HDFS corpus (Task 
 | 4. Analytics | **Done** (final EMR run `20261120T075457Z`; see "Task 4: how to run") | Damien |
 | Section 6 timed runs | **Done** (20 Nov: dev ×3, full ×3; `evidence/task2_runs/`) | Daniel |
 
-**Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, `docs/decisions.md`, and `docs/contracts.md` (agreed paths and table names).
+**Read first:** `docs/corpus_inventory.md`, `docs/data_dictionary.md`, and `docs/decisions.md`.
 
 ## Repo layout
 
@@ -20,26 +20,26 @@ End-to-end pipeline on AWS EMR: five raw sources staged in an HDFS corpus (Task 
 | `scripts/stage/stage_raw_to_hdfs.sh` | Copy a source into `/corpus/raw/...` and verify sha256 | Task 1 |
 | `scripts/profile/` | Read-only quality checks | Task 1 |
 | `scripts/cluster/verify_cluster.sh` | Check a running cluster matches the reference config | Task 1 |
-| `scripts/streaming/` | Hadoop Streaming mappers and reducers | B |
-| `sql/` | Hive `.sql` files, run in numeric order (cleaned-up copy of `task2/code/SQL/`) | Task 2 |
-| `task2/code/` | Code of the 8–9 Nov Task 2 run: Streaming, batch scripts, Hive SQL as executed, PySpark scripts | Task 2 |
+| `scripts/streaming/` | Hadoop Streaming price-audit mapper and reducer | Task 2 |
+| `sql/` | Hive `.sql` files as run on 8–9 Nov, run in numeric order (`IF NOT EXISTS` added for reruns) | Task 2 |
+| `task2/code/` | Code of the 8–9 Nov Task 2 run: Streaming, batch scripts and PySpark scripts (its Hive SQL is `sql/`) | Task 2 |
 | `task2_driver/` | Bash-kernel driver for the timed Task 2 runs (Section 6), `run_matrix.sh`, `train_task3.py` | Task 2 / Section 6 |
 | `runbooks/RUN_GUIDE_G12.ipynb` | Step-by-step rerun guide for Tasks 1–4 and the timed runs | everyone |
 | `docs/figures/` | Report figures (data-flow diagram and its Graphviz source) | everyone |
-| `scripts/package/` | `build_submission_zip.sh` and the submission checklist | everyone |
+| `scripts/package/build_submission_zip.py` | Checks the submission and builds the ZIP | everyone |
 | `notebooks/INF2006_G12_task1.ipynb` | Task 1 notebook exported from EMR (full evidence run) | Task 1 |
 | `notebooks/INF2006_G12_stage_corpus.ipynb` | Copy-paste SSH cells: stage all 5 sources S3 → HDFS `/corpus/raw` with sha256 checks | Task 1 |
 | `notebooks/INF2006_G12_task3_volatility_labels.ipynb`, `..._task3_direction.ipynb`, `..._task3_volatility.ipynb` | Task 3 notebooks exported from EMR (labels, direction model, volatility model) | Task 3 |
 | `notebooks/INF2006_G12_task4_analytics.ipynb` | Task 4 analytics notebook exported from EMR (Q1 volume, Q2 news, Q3 model reliability); outputs in `evidence/task4/` | Task 4 |
 | `task3_saved_models/<task>/<RUN_ID>/model` | Saved Spark ML `PipelineModel`s for the two final Task 3 models | Task 3 |
 | `config/` | EMR configuration used by `project-up.ps1` | Task 1 |
-| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task: `task1/`, `task2/` (job IDs and logs), `task2_screenshots/`, `task3/`, `task4/`, and `task2_runs/` once the timed runs are done | everyone |
+| `evidence/` | Dated outputs from EMR runs (manifests, job IDs, listings), one subfolder per task: `task1/`, `task2/` (job IDs and logs), `task2_screenshots/`, `task3/`, `task4/`, and `task2_runs/` (Section 6 timed runs) | everyone |
 | `project-up.ps1`, `project-down.ps1` (`.sh` on macOS/Linux) | Launch / terminate the reference cluster (adds the `install-numpy.sh` bootstrap) | everyone |
 
 ## Working rules
 
 - Code goes through GitHub `main`. Before every push: `git pull --rebase`. Small commits.
-- Only edit files in your own folders. Never edit a `.ipynb` together; write your part as `notebooks/sections/<task>_<topic>.py` with `# %%` cells (they are joined into one notebook for the final run).
+- Only edit files in your own folders, and never edit the same `.ipynb` at the same time.
 - **Never commit data, keys or credentials.** Put downloaded data under `raw/` (git-ignored). SEC filings are `.txt`, so outside `raw/` they *would* be committed.
 - Read raw data as strings. Never modify anything under `/corpus/raw` on HDFS.
 - Put every HDFS path and the acquisition date at the top of your script/section as a parameter.
@@ -71,16 +71,16 @@ Expected: price sha256 `6aea253c…`, 619,040 rows, 505 tickers (same bytes as t
 
 ## 3. Developing each part locally
 
-**Hadoop Streaming (B).** Test the mapper/reducer as a pipe in **Git Bash** (PowerShell's `sort` differs from Hadoop's):
+**Hadoop Streaming.** Test the mapper/reducer as a pipe in **Git Bash** (PowerShell's `sort` differs from Hadoop's):
 
 ```bash
 cat raw/prices/all_stocks_5yr.csv | python scripts/streaming/<name>_mapper.py \
   | LC_ALL=C sort | python scripts/streaming/<name>_reducer.py
 ```
 
-**Hive (B).** Write `sql/NN_<name>.sql`. Hive does not run easily on Windows; test on EMR with `hive -f`.
+**Hive.** Write `sql/NN_<name>.sql`. Hive does not run easily on Windows; test on EMR with `hive -f`.
 
-**PySpark (C, D, E).** Run your section in local mode on the laptop copy, then on EMR. Read Hive tables with `spark.table("g12.<table>")` on EMR; locally, read the CSV directly with every column as string.
+**PySpark.** Run your script in local mode on the laptop copy, then on EMR. Read Hive tables with `spark.table("g12.<table>")` on EMR; locally, read the CSV directly with every column as string.
 
 ## 4. Testing on your own EMR cluster
 
@@ -167,4 +167,4 @@ Our final run: `evidence/task4/run_manifest.json` (run `20261120T075457Z`, 64.5 
 
 ## 5. The assessed run
 
-The timed runs for Section 6 (`task2_driver/`, run guide Step 3) are produced once, in one account, from the merged `main` branch. Members join by screen share or SSH. Development runs in your own account are supporting evidence only.
+The Section 6 timed runs (`task2_driver/`, run guide Step 3) were produced once, in one account, from `main` on 20 Nov 2026: dev ×3 and full ×3 on the reference configuration. Results: `evidence/task2_runs/aggregate_report.md`. Development runs in members' own accounts are supporting evidence only.
