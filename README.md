@@ -22,7 +22,8 @@ End-to-end pipeline on AWS EMR: five raw sources staged in an HDFS corpus (Task 
 | `scripts/cluster/verify_cluster.sh` | Check a running cluster matches the reference config | Task 1 |
 | `scripts/streaming/` | Hadoop Streaming price-audit mapper and reducer | Task 2 |
 | `sql/` | Hive `.sql` files as run on 8–9 Nov, run in numeric order (`IF NOT EXISTS` added for reruns) | Task 2 |
-| `task2/code/` | Code of the 8–9 Nov Task 2 run: Streaming, batch scripts and PySpark scripts (its Hive SQL is `sql/`) | Task 2 |
+| `task2/code/` | Record of the 8–9 Nov Task 2 run: Streaming, batch scripts and PySpark scripts (its Hive SQL is `sql/`); rerun Task 2 with `task2_driver/` | Task 2 |
+| `task2/cleaned/`, `task2/model_ready_v1/` | Outputs of the 8–9 Nov Task 2 run that Tasks 3 and 4 read (upload to `s3://<bucket>/task2/`) | Task 2 |
 | `task2_driver/` | Bash-kernel driver for the timed Task 2 runs (Section 6), `run_matrix.sh`, `train_task3.py` | Task 2 / Section 6 |
 | `runbooks/RUN_GUIDE_G12.ipynb` | Step-by-step rerun guide for Tasks 1–4 and the timed runs | everyone |
 | `docs/figures/` | Report figures (data-flow diagram and its Graphviz source) | everyone |
@@ -132,7 +133,7 @@ Each member uses their own Learner Lab account. The data is reproducible, so you
 Full instructions and expected results are in report Appendix A (Part 4, Task 3 step; Part 5, reload check).
 
 1. Launch: `.\project-up.ps1 -Bucket <bucket>`. The script uploads `install-numpy.sh` to `s3://<bucket>/bootstrap/` and adds it as a bootstrap action (Spark ML needs NumPy on every node).
-2. Open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload the three Task 3 notebooks from `notebooks/`. Set `BUCKET` in the first code cell of each. Inputs are the Task 2 outputs `task2/model_ready_v1` and `task2/cleaned/prices` in that bucket.
+2. Open JupyterHub (`https://localhost:9443`, PySpark kernel) and upload the three Task 3 notebooks from `notebooks/`. Set `BUCKET` in the first code cell of each. Inputs are the Task 2 outputs `task2/model_ready_v1` and `task2/cleaned/prices` in that bucket (upload them from this repo's `task2/` folder). Also set `BUCKET` in each notebook's last cell (the reload check) if you use your own bucket.
 3. Run them **one at a time** (Kernel → Shutdown between notebooks, because each Spark session holds most of the cluster's YARN memory):
 
    | Order | Notebook | Expected result |

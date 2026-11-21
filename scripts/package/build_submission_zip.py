@@ -8,7 +8,7 @@ Copies the submission files into a ZIP whose root holds report.pdf and the repo 
   * required files exist (report, notebooks, saved models, driver, scripts, SQL, evidence)
   * every exported notebook has saved outputs
   * no credentials, private keys or machine-specific paths in any text file
-  * no file larger than --max-mb, and no data folders (task2/cleaned, task2/model_ready_v1, raw/)
+  * no file larger than --max-mb, and no raw data (raw/); the prepared Task 2 outputs that Tasks 3 and 4 read are included
   * if --report-text is given (or pdftotext is installed): every repo path the report cites exists in the ZIP
 
 Exit code 1 if any check fails. Standard library only; runs on Windows, macOS and Linux.
@@ -25,11 +25,13 @@ import zipfile
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 INCLUDE = [
-    "README.md", "README (Task 2).md", "install-numpy.sh",
+    "README.md", "install-numpy.sh",
     "project-up.ps1", "project-up.sh", "project-down.ps1", "project-down.sh",
     "config", "docs", "runbooks", "notebooks", "scripts", "sql",
-    "task2/code", "task2_driver", "task3_saved_models", "evidence",
+    "task2/code", "task2/cleaned", "task2/model_ready_v1", "task2_driver", "task3_saved_models", "evidence",
 ]
+# Small code-and-log archive that task2/code/README.md and the Task 2 evidence README cite (no data inside).
+KEEP_ARCHIVES = {"task2/code/task2_complete_code_backup_20261109.tar.gz"}
 # Run cell by cell over SSH, so it has no saved outputs; its evidence is staging_record.csv / staging_summary.txt.
 NO_OUTPUT_OK = {"notebooks/INF2006_G12_stage_corpus.ipynb"}
 DRIVER_TEMPLATE = "task2_driver/INF2006_G12_task2_driver.ipynb"
@@ -81,16 +83,17 @@ def walk(rel):
     for d, dirs, files in os.walk(full):
         dirs[:] = sorted(x for x in dirs if x not in EXCLUDE_DIRS)
         for f in sorted(files):
-            if f in EXCLUDE_FILES or f.endswith(EXCLUDE_SUFFIXES):
+            r = os.path.relpath(os.path.join(d, f), ROOT).replace(os.sep, "/")
+            if f in EXCLUDE_FILES or (f.endswith(EXCLUDE_SUFFIXES) and r not in KEEP_ARCHIVES):
                 continue
-            yield os.path.relpath(os.path.join(d, f), ROOT).replace(os.sep, "/")
+            yield r
 
 
 def report_text(args):
     if args.report_text:
         return open(args.report_text, encoding="utf-8", errors="replace").read()
     if shutil.which("pdftotext"):
-        out = subprocess.run(["pdftotext", "-layout", args.report, "-"], capture_output=True, text=True)
+        out = subprocess.run(["pdftotext", args.report, "-"], capture_output=True, text=True)
         if out.returncode == 0:
             return out.stdout
     return None
@@ -158,14 +161,19 @@ def main():
     if text is None:
         check("report cites only files that exist", True, "skipped: pass --report-text or install pdftotext")
     else:
-        cited = set(re.findall(r"\b((?:evidence|notebooks|task2_driver|task2|task3_saved_models|sql|scripts|docs|config|runbooks)/[A-Za-z0-9_./*<>{}-]+)", text))
+        # Skip S3/HDFS paths (preceded by "/" or a bucket), and accept a path cut short by a PDF line break
+        # when it is the start of a file that is in the ZIP.
+        cited = set(re.findall(r"(?<![/\w<>.-])((?:evidence|notebooks|task2_driver|task2|task3_saved_models|sql|scripts|docs|config|runbooks)/[A-Za-z0-9_./*<>{}-]+)", text))
         bad = []
         for c in sorted(cited):
             c = c.rstrip(".,;:)")
             if any(ch in c for ch in "<>{}*"):
                 c = re.split(r"[<>{}*]", c)[0].rstrip("/")
-            if c and not os.path.exists(os.path.join(ROOT, c)):
-                bad.append(c)
+            if not c or os.path.exists(os.path.join(ROOT, c)):
+                continue
+            if c.endswith(("_", "-")) or any(("/" + c.rstrip("/")) in ("/" + f) for f in files):
+                continue
+            bad.append(c)
         check("report cites only files that exist", not bad, ", ".join(bad))
 
     with zipfile.ZipFile(args.out, "w", zipfile.ZIP_DEFLATED) as z:
@@ -179,7 +187,7 @@ def main():
     for name, ok, detail in results:
         print("  %-4s %s%s" % ("PASS" if ok else "FAIL", name, (": " + detail) if detail and not ok else ""))
     print("\nWrote %s: %d files, %.1f MB" % (args.out, len(files) + 1, total))
-    print("Not included on purpose: task2/cleaned, task2/model_ready_v1 (data), raw/, .git, *.pem, *.tar.gz")
+    print("Not included on purpose: raw/ (raw data), .git, *.pem, other *.tar.gz, README (Task 2).md (old handover note)")
     sys.exit(0 if all(ok for _, ok, _ in results) else 1)
 
 

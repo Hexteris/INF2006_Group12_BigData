@@ -10,12 +10,14 @@ Every path is derived from `BUCKET` in code cell 3; each can be overridden with 
 |---|---|---|
 | Task 2 cleaned prices | `<BUCKET>/task2/cleaned/prices` | `G12_PRICES` |
 | Task 2 GDELT daily features | `<BUCKET>/task2/cleaned/gdelt/daily_features` | `G12_GDELT` |
-| Task 2 splits (Q3) | `<BUCKET>/task3/task2/model_ready_v1` | `G12_MODEL_READY` (or `G12_T3_BASE` for the `task3` prefix) |
-| Task 3 predictions (Q3) | `<BUCKET>/task3/task3final/direction/20261118T150036Z/predictions` and `.../volatility/20261118T151322Z/predictions` | `G12_PRED_DIR`, `G12_PRED_VOL` |
+| Task 2 splits (Q3) | `<BUCKET>/task2/model_ready_v1` | `G12_MODEL_READY` (or `G12_T3_BASE` for a different prefix) |
+| Task 3 predictions (Q3) | `<BUCKET>/task3final/direction/20261118T150036Z/predictions` and `.../volatility/20261118T151322Z/predictions` | `G12_PRED_DIR`, `G12_PRED_VOL` (set these to the new run IDs if you rerun Task 3) |
 | Evidence upload (last cell) | `<BUCKET>/evidence/task4_<RUN_ID>/` | |
 
-Task 3's notebooks read prices from the same `task2/cleaned/prices` prefix. The notebook cannot read another account's bucket (Access Denied), so copy
-the inputs into your own bucket first.
+These are the paths Task 3 writes and reads. The Task 2 inputs are in the ZIP: upload `task2/cleaned/` and
+`task2/model_ready_v1/` to `s3://<BUCKET>/task2/`. The notebook cannot read another account's bucket (Access Denied),
+so every input must be in your own bucket. Our 20 Nov run used `G12_T3_BASE=<BUCKET>/task3`, because our bucket held a
+copy of the Task 3 outputs under a `task3/` prefix; that is why the printed paths in the saved output include it.
 
 ## Steps
 

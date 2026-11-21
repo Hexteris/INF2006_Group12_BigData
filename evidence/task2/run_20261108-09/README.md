@@ -20,7 +20,7 @@ the scripts that wrote them are in `task2/code/`.
 
 `hive_logs/restore_hive_*` record the metadata restore and count checks run after a cluster restart.
 
-## Limits of this run (stated in report Sections 3 and 6)
+## Limits of this run (stated in report Section 3.5)
 
 - **Not the reference release.** The logs show `hadoop-streaming-3.4.2-amzn-2` and two cluster IDs
   (`1794125803062`, `1794204729986`), not emr-7.10.0 (Hadoop 3.4.1). The timed reruns in Section 6 use
