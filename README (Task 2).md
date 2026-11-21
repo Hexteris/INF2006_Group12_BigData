@@ -36,7 +36,7 @@ INF2006_Group12_BigData/
     │   └── gdelt/
     │       └── daily_features/
     ├── code/
-    │   ├── SQL/
+    │   ├── streaming/, batch/, pyspark/
     │   └── task2_complete_code_backup_20261109.tar.gz
     └── model_ready_v1/
         ├── training/
@@ -51,7 +51,7 @@ INF2006_Group12_BigData/
 | `task2/model_ready_v1/` | Final training, validation and testing datasets for stock direction modelling |
 | `task2/cleaned/prices/` | Cleaned historical stock price data |
 | `task2/cleaned/gdelt/daily_features/` | Daily aggregated GDELT news activity features |
-| `task2/code/SQL/` | Hive SQL scripts for data processing and validation |
+| `sql/` | Hive SQL scripts for data processing and validation |
 | `task2/code/task2_complete_code_backup_20261109.tar.gz` | Complete code archive containing Hadoop Streaming, Hive, PySpark and supporting scripts |
 
 The datasets are stored as Parquet files. The `_SUCCESS` files indicate successful Spark output operations.
@@ -367,7 +367,7 @@ tar -xzf task2_complete_code_backup_20261109.tar.gz -C ~/task2_handover_code
 
 Inspect the extracted folders before running scripts. Some scripts assume the original HDFS paths under `/corpus` and the original project directory layout.
 
-The individual Hive SQL scripts are also available directly in `task2/code/SQL/`.
+The individual Hive SQL scripts are also available directly in `sql/`.
 
 ## 11. Full Backup Information
 

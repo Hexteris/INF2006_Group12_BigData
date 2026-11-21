@@ -71,12 +71,12 @@ outputs. The executed EMR copies of the six assessed runs (20 Nov 2026) are in
 * Targets look 5 sessions ahead; a row is kept only if its target window ends inside its period; incomplete targets are excluded and counted, never filled; target and future-date columns are kept out of the model-ready tables; GDELT enters by `DATEADDED` + 1 day.
 * A failed stage skips the later stages and the run is marked `FAILED`; failures are reported, not hidden.
 
-## Design choices to confirm with your team / TA
-1. **GDELT handling** replaces the batch scripts (local extraction on the primary node) with a map-only Streaming job that reads the zips from HDFS. Your original scripts remain valid evidence of the first run.
-2. **Test boundary:** the last five trading days of 2017 are dropped by default. Use `USE_2018_LABELS=1` only if you justify using 2018 prices.
+## Design choices
+1. **GDELT handling** replaces the batch scripts (local extraction on the primary node) with a map-only Streaming job that reads the zips from HDFS. The original scripts in `task2/code/` remain the evidence of the 8–9 Nov run.
+2. **Test boundary:** the last five trading days of 2017 are dropped by default. Our timed runs used `USE_2018_LABELS=1` so the test set matches Sections 3 and 4 (126,001 rows).
 3. **Feature changes vs. the first version:** volatility needs 20 observations; added volatility target, volume ratio, market-wide features and lagged GDELT columns.
-4. **Dev profile:** first 50 tickers and first 14 archives; change `DEV_TICKERS` / `DEV_GDELT_ARCHIVES` and keep them frozen once you compare configurations.
-5. **Storage:** each full run writes tens of GB before clean-up (not measured yet). Clean-up deletes the Streaming output and the cleaned GDELT events with `-skipTrash`. Check HDFS free space before each full run.
+4. **Profiles:** dev is the first 50 tickers and first 14 archives (`DEV_TICKERS` / `DEV_GDELT_ARCHIVES`); full is all 505 tickers and the 150-archive sample (`RAW_GDELT_DIR=/corpus/raw/gdelt_task2_150`).
+5. **Storage:** peak HDFS use in our full runs was 16.6 GB per core node, with at least 70.7 GB free. Clean-up deletes the Streaming output and the cleaned GDELT events with `-skipTrash`. Check HDFS free space before each full run.
 
 ## Tested here, not tested on EMR
 The pipeline was executed end to end with `nbconvert` and the Bash kernel using local stand-ins (Hive via `spark-sql`,

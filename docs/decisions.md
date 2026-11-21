@@ -88,10 +88,8 @@ Each entry: what was decided, the evidence behind it, and where that evidence is
 
 ## D6. Scope for Tasks 2–4: prices + GDELT; SEC EDGAR not used after Task 1 (2026-11-11)
 
-**Decision.** Supersedes Step 0.2 in `docs/project_steps.md` ("Agree team scope: prices + SEC EDGAR. Skip GDELT and Wikinews."). The team's final scope for Tasks 2–4 is **prices + GDELT only**. SEC EDGAR filings remain in the Task 1 raw corpus and Hadoop Streaming audit, but are not used in Task 2 cleaning, Task 3 model features, or Task 4 analysis. Wikinews remains in the Task 1 corpus only.
+**Decision.** Supersedes the early plan (prices + SEC EDGAR, skipping GDELT and Wikinews). The team's final scope for Tasks 2–4 is **prices + GDELT only**. SEC EDGAR filings remain in the Task 1 raw corpus and Hadoop Streaming audit, but are not used in Task 2 cleaning, Task 3 model features, or Task 4 analysis. Wikinews remains in the Task 1 corpus only.
 
 **Reason.** D1 found only 11 of 311 SEC filings match a price ticker (10 inside the price date range), which is too sparse to support a sentiment or news-event question. GDELT's date-aligned daily event data was adopted instead for Task 4's news-vs-price-behaviour question.
-
-**Status.** `docs/project_steps.md` Step 0.2 should point to this entry.
 
 **Evidence.** D1 above; `README (Task 2).md`; `sql/README.md`; INF2006 Big Data Project_P2_Group12 (Google Doc), §1–3.
